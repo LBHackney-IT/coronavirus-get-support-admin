@@ -79,15 +79,13 @@ class HelpRequestModel {
 
             const headers = {
                 "Content-Type": "application/json",
+                "Content-Length": helpRequestdata.length,
                 "x-api-key": config.api_key
             };
 
-            console.log(helpRequestdata);
-
-            data = await axios.patch(config.api_url + id, {
-                headers: headers,
-                data: helpRequestdata
-            });
+            data = await axios.patch(config.api_url + id, helpRequestdata, {
+                headers: headers
+            })
 
             return data;
 
