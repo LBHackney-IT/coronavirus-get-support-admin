@@ -69,9 +69,6 @@ module.exports = {
      * @returns {Promise<*>}
      */
     help_request_get: async (req, res, next) => {
-        console.log('GETTING HELP REQUEST...');
-        console.log(req.query);
-
         try {
 
             if(req.query.Id) {
@@ -84,7 +81,21 @@ module.exports = {
                 
                 await helpRequestService.fetchHelpRequest(req.params.id)
                 .then(result => {
-                    data = result.data;
+                    let data = result.data;
+
+                    if (data.LastConfirmedFoodDelivery) {
+
+                        const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
+
+                        data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
+                        data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
+                        data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
+                        data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
+
+                        console.log(data);
+                    }
+
+                    console.log(data);
 
                     res.render('help-request.njk', {query: data});
                 })
@@ -133,13 +144,9 @@ module.exports = {
 
                 const Uprn = query.Uprn;
                 const Id = query.Id;
-
                 const day = query.last_confirmed_food_delivery_day;
                 const month = query.last_confirmed_food_delivery_month;
                 const year = query.last_confirmed_food_delivery_year;
-
-                console.log("Day: ", day, " Month: ", month, " Year: ", year);
-
                 const lastConfirmedDeliveryDate = new Date(Date.UTC(year, month - 1, day));
 
                 const updatedData = JSON.stringify({
@@ -148,14 +155,8 @@ module.exports = {
                     LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString()
                 });
 
-                // return res.render('help-requests-update.njk', {updatedData: updatedData, Uprn: Uprn, Id: Id});
-                
                 await helpRequestService.updateHelpRequest(Id, updatedData)
                 .then(result => {
-                    const data = result.data;
-
-                    //console.log(data);
-
                     return res.render('help-requests-update.njk', {updatedData: updatedData, Uprn: Uprn, Id: Id});
                 })                
 
@@ -165,7 +166,5 @@ module.exports = {
                 return next(error);
             }
         }
-
     }       
-        
 };
