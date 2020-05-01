@@ -13,13 +13,13 @@ const helpRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
     .trim().escape().notEmpty(),
   check("NumberOfPeopleInHouse", "Enter the number of people in the house")
-    .trim().escape().toInt().notEmpty().isLength({min: 1, max: undefined}),
+    .trim().escape().isInt({min: 1, max: 99}),
   check("last_confirmed_food_delivery_day", "Enter a day")
-    .trim().escape().toInt().notEmpty().isLength({min: 1, max: 2}),
+    .trim().escape().isInt({min: 1, max: 31}),
   check("last_confirmed_food_delivery_month", "Enter a month")
-    .trim().escape().toInt().notEmpty().isLength({min: 1, max: 2}),
+    .trim().escape().isInt({min: 1, max: 12}),
   check("last_confirmed_food_delivery_year", "Enter a year")
-    .trim().escape().toInt().notEmpty().isLength({min: 4, max: 4})
+    .trim().escape().isLength({min: 4, max: 4}).isInt()
 ]
 
 module.exports = {
