@@ -4,9 +4,10 @@ const helmet = require('helmet');
 const path = require('path');
 const nunjucks  = require('nunjucks');
 const morgan = require('morgan');
+const bodyParser = require("body-parser");
 
-const indexRouter = require('../routes/index');
-const helpRequestsRouter = require('../routes/help_requests');
+const indexRoutes = require('../routes/index');
+const helpRequestsRoutes = require('../routes/help_requests');
 
 const logger = require('../middleware/logger');
 const { handleError } = require('../helpers/error');
@@ -33,7 +34,7 @@ module.exports = {
             app.use(requireHTTPS);
         }
 
-        app.use(express.urlencoded());
+        app.use(bodyParser.urlencoded());
         app.use(helmet());
         app.use(compression());
 
@@ -71,14 +72,14 @@ module.exports = {
         // Route Handlers
         //-------------------------
 
-        app.use('/help-requests', helpRequestsRouter);
+        app.use('/help-requests', helpRequestsRoutes);
 
         app.get("/:page", function(req, res) {
             res.locals.query = req.query;
             res.render("views/" + req.params.page);
         });
 
-        app.use('/', indexRouter);
+        app.use('/', indexRoutes);
 
 
         //-------------------------
