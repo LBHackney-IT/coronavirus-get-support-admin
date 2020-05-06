@@ -84,7 +84,7 @@ class HelpRequestModel {
                 "x-api-key": config.api_key
             };
 
-            data = await axios.patch(config.api_url + id, helpRequestdata, {
+            data = await axios.patch(config.api_url + '/' + id, helpRequestdata, {
                 headers: headers
             })
 

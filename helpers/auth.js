@@ -4,8 +4,6 @@ const config = require('../config');
 
 const isAuthorised = (req, res, next) => {
 
-  return next();
-  
   const token = req.cookies[config.token_name];
 
   res.locals.returnURL = req.protocol + '://' + req.hostname;
