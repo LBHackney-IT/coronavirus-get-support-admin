@@ -2,6 +2,9 @@ const config = require('../config');
 
 const isAuthorised = (req, res, next) => {
 
+  console.log('Cookies: ', req.cookies);
+  console.log('Signed Cookies: ', req.signedCookies);
+
   const cookie = req.cookies[config.token_name];
 
   if (cookie) {
@@ -9,16 +12,11 @@ const isAuthorised = (req, res, next) => {
 
     const groups = cookie.groups;
 
-    if (cookie.includes(config.authorised_group)) {
+    if (groups && groups.includes(config.authorised_group)) {
       return next();
     }
-
-    // if (groups && groups.includes(config.authorised_group)) {
-    //   return next();
-    // }
   }
 
-  // req.session.returnTo = req.originalUrl;
   res.render("login.njk");
 }
 
