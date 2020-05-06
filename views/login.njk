@@ -1,0 +1,13 @@
+{% extends "./layouts/base.njk" %}
+{% from "lbh-button/macro.njk" import lbhButton %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Login</h1>
+    <p class="lbh-body-m">Please login with your Hackney account to use this site.</p>
+    
+    {{ lbhButton({
+        "text": "Log in",
+        "href": "https://auth.hackney.gov.uk/auth?redirect_uri=https://inh-admin-test.hackney.gov.uk/"
+    }) }}
+
+{% endblock %}
