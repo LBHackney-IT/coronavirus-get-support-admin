@@ -7,11 +7,11 @@ class HelpRequestsService {
      * @returns {Promise<*>}
      */
 
-    async fetchAllHelpRequests(uprn) {
+    async fetchAllHelpRequests(params) {
         try {
             let data = [];
 
-            await HelpRequestModel.fetchAllHelpRequests(uprn)
+            await HelpRequestModel.fetchAllHelpRequests(params)
             .then ( (result) => {
                 data = result;
             });
