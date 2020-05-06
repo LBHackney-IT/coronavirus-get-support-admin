@@ -35,7 +35,7 @@ module.exports = {
             app.use(requireHTTPS);
         }
 
-        app.use(cookieParser(config.hackney_jwt_secret));
+        app.use(cookieParser());
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(helmet());
         app.use(compression());

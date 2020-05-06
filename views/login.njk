@@ -3,6 +3,10 @@
 
 {% block content %}
     <h1 class="lbh-heading-h1">Login</h1>
+    {% if unauthorised %}
+    <h2 class="lbh-heading-h2">Unauthorised login</h2>
+    {% endif %}
+
     <p class="lbh-body-m">Please login with your Hackney account to use this site.</p>
     
     {{ lbhButton({
