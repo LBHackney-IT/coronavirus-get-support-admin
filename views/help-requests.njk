@@ -1,0 +1,49 @@
+{% from 'lbh-header/macro.njk' import lbhHeader %}
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Coronavirus Get Help Admin UI</h1>
+
+    {% if helpRequests | length %}
+        <h2 class="lbh-heading-h2">Choose the help request to update with UPRN {{query.uprn}}</h2>
+
+        <table class="govuk-table  lbh-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">ID</th>
+                <th scope="col" class="govuk-table__header">Address</th>
+                <th scope="col" class="govuk-table__header">Date</th>
+                <th scope="col" class="govuk-table__header">Status</th>
+                <th scope="col" class="govuk-table__header"></th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {% for item in helpRequests %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{item.Id}}</td>
+                        <td class="govuk-table__cell">
+                            {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.Postcode}}
+                        </td>
+                        <td class="govuk-table__cell">{{item.DateTimeRecorded}}</td>
+                        <td class="govuk-table__cell">{{item.RecordStatus}}</td>
+                        <td class="govuk-table__cell">
+                            <a href="help-requests/edit/{{item.Id}}">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="lbh-heading-h3">No records found for URPN: {{query.uprn}}</h3>
+    {% endif %}
+
+    {{ lbhButton({
+        text: "Search another postcode",
+        isSecondary: true,
+        href: "/"
+    })}}
+{% endblock %}
