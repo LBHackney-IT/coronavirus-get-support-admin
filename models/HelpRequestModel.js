@@ -12,7 +12,7 @@ class HelpRequestModel {
      * @description Fetch all help request records using UPRN
      * @returns {Promise<*>}
      */
-    async fetchAllHelpRequests(uprn) {
+    async fetchAllHelpRequests(params) {
 
         try {
             let data = [];
@@ -25,7 +25,8 @@ class HelpRequestModel {
             await axios.get(config.api_url, {
                 headers: headers,
                 params: {
-                    uprn: uprn
+                    master: params.master,
+                    uprn: params.uprn
                 }
             }).then ( result => {
                 data = result;
@@ -54,14 +55,14 @@ class HelpRequestModel {
                 "x-api-key": config.api_key
             };
 
-            data = await axios.get(config.api_url + id, {
+            data = await axios.get(config.api_url + '/' + id, {
                 headers: headers
             });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel updateHelpRequest ERR');
+            console.log('HelpRequestModel fetchHelpRequest ERR');
             console.log(err)
             return (err)
         }
@@ -83,7 +84,7 @@ class HelpRequestModel {
                 "x-api-key": config.api_key
             };
 
-            data = await axios.patch(config.api_url + id, helpRequestdata, {
+            data = await axios.patch(config.api_url + '/' + id, helpRequestdata, {
                 headers: headers
             })
 

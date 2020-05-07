@@ -2,13 +2,15 @@
 {% from "lbh-button/macro.njk" import lbhButton %}
 
 {% block content %}
-    <h1 class="lbh-heading-h1">Login</h1>
+    
     {% if unauthorised %}
-    <h2 class="lbh-heading-h2">Unauthorised login</h2>
+        <h1 class="lbh-heading-h2">Login unsuccessful</h2>
+        <p class="lbh-body-m">That account does not have access to this site.</p>
+    {% else %}
+        <h1 class="lbh-heading-h1">Login</h1>
+        <p class="lbh-body-m">Please login with your Hackney account to use this site.</p>
     {% endif %}
 
-    <p class="lbh-body-m">Please login with your Hackney account to use this site.</p>
-    
     {{ lbhButton({
         "text": "Log in",
         "href": "https://auth.hackney.gov.uk/auth?redirect_uri=" + returnURL
