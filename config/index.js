@@ -12,6 +12,10 @@ module.exports = {
     api_url: process.env.HELP_REQUESTS_API_URL,
     api_key: process.env.HELP_REQUESTS_API_KEY,
 
+    authorised_group: process.env.AUTHORISED_GROUP,
+    token_name: process.env.TOKEN_NAME,
+    hackney_jwt_secret: process.env.HACKNEY_JWT_SECRET,
+
     winston: {
         console: {
             file_level: process.env.WINSTON_CONSOLE_LEVEL,

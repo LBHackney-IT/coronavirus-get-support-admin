@@ -1,0 +1,19 @@
+{% extends "./layouts/base.njk" %}
+{% from "lbh-button/macro.njk" import lbhButton %}
+
+{% block content %}
+    
+    {% if unauthorised %}
+        <h1 class="lbh-heading-h2">Login unsuccessful</h2>
+        <p class="lbh-body-m">That account does not have access to this site.</p>
+    {% else %}
+        <h1 class="lbh-heading-h1">Login</h1>
+        <p class="lbh-body-m">Please login with your Hackney account to use this site.</p>
+    {% endif %}
+
+    {{ lbhButton({
+        "text": "Log in",
+        "href": "https://auth.hackney.gov.uk/auth?redirect_uri=" + returnURL
+    }) }}
+
+{% endblock %}

@@ -37,7 +37,11 @@ module.exports = {
             try {
                 let data = [];
 
-                await helpRequestService.fetchAllHelpRequests(uprn)
+                /**
+                 * uprn: string - UPRN number
+                 * master: boolean - specify whether to return only master records or all
+                 */
+                await helpRequestService.fetchAllHelpRequests({uprn: uprn, master: true})
                 .then(result => {
                     data = result.data;
 
