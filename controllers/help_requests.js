@@ -81,25 +81,20 @@ module.exports = {
                 return res.render('help-request.njk');
 
             } else {
-                let data = {};
                 
                 await helpRequestService.fetchHelpRequest(req.params.id)
                 .then(result => {
                     let data = result.data;
 
-                    if (data.LastConfirmedFoodDelivery) {
+                    data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
 
+                    if (data.LastConfirmedFoodDelivery) {
                         const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
 
-                        data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
                         data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
                         data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
                         data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
-
-                        console.log(data);
                     }
-
-                    console.log(data);
 
                     res.render('help-request.njk', {query: data});
                 })
