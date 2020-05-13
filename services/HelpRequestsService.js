@@ -63,6 +63,23 @@ class HelpRequestsService {
         }
     }
 
+
+    async fetchAllExceptions() {
+        try {
+            let data = [];
+
+            await HelpRequestModel.fetchAllExceptions()
+            .then ( (result) => {
+                data = result;
+            });
+
+            return data;
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 }
 
 module.exports = new HelpRequestsService;
