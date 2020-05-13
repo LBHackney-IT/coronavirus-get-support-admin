@@ -1,5 +1,7 @@
 @import "node_modules/lbh-frontend/lbh/core/all";
 @import "node_modules/lbh-frontend/lbh/objects/all";
+@import "node_modules/lbh-frontend/lbh/helpers/colour";
+@import "node_modules/lbh-frontend/lbh/components/lbh-accordion/accordion";
 @import "node_modules/lbh-frontend/lbh/components/lbh-button/button";
 @import "node_modules/lbh-frontend/lbh/components/lbh-checkboxes/checkboxes";
 @import "node_modules/lbh-frontend/lbh/components/lbh-date-input/date-input";
@@ -15,6 +17,7 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-skip-link/skip-link";
 @import "node_modules/lbh-frontend/lbh/components/lbh-summary-list/summary-list";
 @import "node_modules/lbh-frontend/lbh/components/lbh-table/table";
+@import "node_modules/lbh-frontend/lbh/components/lbh-tabs/tabs";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
 
 
@@ -36,4 +39,32 @@
 
 .govuk-fieldset {
   margin-top: 50px;
+}
+
+
+.govuk-accordion {
+  &__section-header {
+    background-color: #f8f8f8;
+    padding-left: 20px;
+
+    &.is-master {
+      background-color: lbh-colour("lbh-a03");
+    }
+    
+    &.is-duplicate {
+      background-color: lbh-colour("lbh-h04");
+    }
+    
+    &.is-exception {
+      background-color: lbh-colour("lbh-f04");
+    }
+  }
+
+  &__section {
+    margin-bottom: 15px;
+  }
+}
+
+.text-align-right {
+  text-align: right;
 }
