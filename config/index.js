@@ -8,6 +8,7 @@ module.exports = {
     host: process.env.HOST || "localhost",
     port: parseInt(process.env.PORT, 10) || 5000,
     protocol: process.env.PROTOCOL,
+    local: process.env.LOCAL,
 
     api_url: process.env.HELP_REQUESTS_API_URL,
     api_key: process.env.HELP_REQUESTS_API_KEY,
