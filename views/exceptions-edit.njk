@@ -3,7 +3,6 @@
 {% from "lbh-date-input/macro.njk" import lbhDateInput %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-select/macro.njk" import lbhSelect %}
-{% from "lbh-date-input/macro.njk" import lbhDateInput %}
 {% from 'lbh-button/macro.njk' import lbhButton %}
 
 {% extends "./layouts/base.njk" %}
@@ -12,8 +11,11 @@
     <h1 class="lbh-heading-h2">Help requests for UPRN {{uprn}}</h1>
     
     {% if helpRequestData | length %}
-    <form action="/help-requests/edit/{{query.Id}}" method="post">
+    <form action="/exceptions/{{uprn}}" method="post">
+        <input type="hidden" name="record_ids" value="{{query.recordIDs}}">
+
         <p class="lbh-body-m">
+            <strong>Address: (taken from first record)</strong><br />
             {{helpRequestData.AddressFirstLine}}<br />
             {{helpRequestData.AddressSecondLine}}<br />
             {{helpRequestData.Postcode}}
@@ -38,7 +40,7 @@
                         <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
                                 <th scope="col" class="govuk-table__header">&nbsp;</th>
-                                <th scope="col" class="govuk-table__header">Old Values</th>
+                                <th scope="col" class="govuk-table__header">Current Values</th>
                                 <th scope="col" class="govuk-table__header">New values</th>
                             </tr>
                         </thead>
@@ -78,16 +80,16 @@
                                 <td class="govuk-table__cell">
                                     {{ lbhRadios({
                                         "classes": "govuk-radios--inline",
-                                        "id": "isDuplicate_" + item.Id,
-                                        "name": "isDuplicate_" + item.Id,
+                                        "id": "IsDuplicate_" + item.Id,
+                                        "name": "IsDuplicate_" + item.Id,
                                         "items": [
                                             {
-                                            "value": "yes",
+                                            "value": "TRUE",
                                             "text": "Yes",
                                             "checked": true if item["IsDuplicate_" + item.Id] == 'TRUE' else false
                                             },
                                             {
-                                            "value": "no",
+                                            "value": "FALSE",
                                             "text": "No",
                                             "checked": true if item["IsDuplicate_" + item.Id] == 'FALSE'else false
                                             }
