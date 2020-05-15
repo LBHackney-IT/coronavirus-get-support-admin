@@ -10,4 +10,7 @@ router.get('/', exceptionsController.all_exceptions_get);
 // GET request to display all help requests by UPRN
 router.get('/:uprn', authCheck, exceptionsController.all_help_requests_get);
 
+// POST request to update help requests
+router.post('/:uprn', authCheck, exceptionsController.all_help_requests_post);
+
 module.exports = router;
