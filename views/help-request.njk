@@ -61,21 +61,46 @@
         }) }}
 
         <h3 class="lbh-heading-h3">Number Of People In House *</h3>
-        {{ lbhInput({
-        "label": {
-          "text": ""
-        },
-        "id": "NumberOfPeopleInHouse",
-        "name": "NumberOfPeopleInHouse",
-        "value": query.NumberOfPeopleInHouse,
-        "classes": "govuk-input--width-2",
-        "formGroup": {
-          "classes": "govuk-form-group--error lbh-form-group" if query.error_NumberOfPeopleInHouse else ''
-        },
-        "errorMessage": {
-          "text": query.error_NumberOfPeopleInHouse
-        } if query.error_NumberOfPeopleInHouse else null
-      }) }}
+        {{ lbhRadios({
+            "fieldset": {
+                "legend": {
+                "text": "How many people are there living in your household at the moment? *"
+                }
+            },
+            "idPrefix": "NumberOfPeopleInHouse",
+            "name": "NumberOfPeopleInHouse",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                "value": "1",
+                "text": "1",
+                "checked": true if query.NumberOfPeopleInHouse == "1" else false
+                },
+                {
+                "value": 2,
+                "text": "2",
+                "checked": true if query.NumberOfPeopleInHouse == "2" else false
+                },
+                {
+                "value": "3",
+                "text": "3",
+                "checked": true if query.NumberOfPeopleInHouse == "3" else false
+                },
+                {
+                "value": "4",
+                "text": "4",
+                "checked": true if query.NumberOfPeopleInHouse == "4" else false
+                },
+                {
+                "value": "5 or more",
+                "text": "5 or more",
+                "checked": true if query.NumberOfPeopleInHouse == "5 or more" else false
+                }
+            ],
+            "errorMessage": {
+                "text": query.error_NumberOfPeopleInHouse
+            } if query.error_NumberOfPeopleInHouse else null
+        }) }}
 
 
       {{ lbhDateInput({
