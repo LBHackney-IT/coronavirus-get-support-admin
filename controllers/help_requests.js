@@ -32,7 +32,7 @@ module.exports = {
                 "&" +
                 querystring.stringify(req.body)
             );
-          } else {
+        } else {
 
             try {
                 let data = [];
@@ -49,8 +49,6 @@ module.exports = {
                         const recDate = new Date(item.DateTimeRecorded);
                         item.DateTimeRecorded = recDate.toLocaleDateString();
                     });
-
-                    //console.log(data);
 
                     return res.render('help-requests.njk', {title: 'Home', uprn: uprn, helpRequests: data});
                 })                
