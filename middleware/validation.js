@@ -13,7 +13,7 @@ const helpRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
     .trim().escape().notEmpty(),
   check("NumberOfPeopleInHouse", "Enter the number of people in the house")
-    .trim().escape().isInt({min: 1, max: 99}),
+    .trim().escape().notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
     .trim().escape().isInt({min: 1, max: 31}),
   check("last_confirmed_food_delivery_month", "Enter a month")

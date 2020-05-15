@@ -79,7 +79,6 @@ module.exports = {
                 return res.render('help-request.njk');
 
             } else {
-                
                 await helpRequestService.fetchHelpRequest(req.params.id)
                 .then(result => {
                     let data = result.data;
@@ -115,9 +114,6 @@ module.exports = {
      * @returns {Promise<*>}
      */
     help_request_update_post: async (req, res, next) => {
-        console.log('POSTING HELP REQUEST...');
-        console.log(req.body);
-
         res.locals.query = req.body;
         const errors = validator.validationResult(req);
 
