@@ -67,7 +67,9 @@ module.exports = {
                         "NumberOfPeopleInHouse",
                         "DobDay",
                         "DobMonth",
-                        "DobYear"
+                        "DobYear",
+                        "DeliveryNotes",
+                        "CaseNotes"
                     ];
 
                     let formattedCreationDate = {};
@@ -134,7 +136,9 @@ module.exports = {
             "DobDay",
             "DobMonth",
             "DobYear",
-            "IsDuplicate"
+            "IsDuplicate",
+            "DeliveryNotes",
+            "CaseNotes"
         ];
 
         // const errors = validator.validationResult(req);
