@@ -3,6 +3,7 @@
 {% from "lbh-date-input/macro.njk" import lbhDateInput %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from 'lbh-button/macro.njk' import lbhButton %}
 
 {% extends "./layouts/base.njk" %}
@@ -19,6 +20,10 @@
             {{helpRequestData.AddressFirstLine}}<br />
             {{helpRequestData.AddressSecondLine}}<br />
             {{helpRequestData.Postcode}}
+        </p>
+
+        <p class="lbh-body-m">
+            <strong>Email:</strong> {{item.EmailAddress}}
         </p>
 
         <p class="lbh-body-m">Displaying {{helpRequestData | length}} records</p>
@@ -235,27 +240,6 @@
                                 </td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__header">Email address:</th>
-                                <td class="govuk-table__cell">{{item.EmailAddress}}</td>
-                                <td class="govuk-table__cell">
-                                    {{ lbhInput({
-                                        "label": {
-                                            "text": ""
-                                        },
-                                        "type": "email",
-                                        "id": "EmailAddress_" + item.Id,
-                                        "name": "EmailAddress_" + item.Id,
-                                        "value": item.EmailAddress,
-                                        "formGroup": {
-                                            "classes": "govuk-form-group--error lbh-form-group" if query.error_EmailAddress else ''
-                                        },
-                                        "errorMessage": {
-                                            "text": query.error_EmailAddress
-                                        } if query.error_EmailAddress else null
-                                    }) }}
-                                </td>
-                            </tr>
-                            <tr class="govuk-table__row">
                                 <th scope="row" class="govuk-table__header">People in house:</th>
                                 <td class="govuk-table__cell">{{item.NumberOfPeopleInHouse}}</td>
                                 <td class="govuk-table__cell">
@@ -298,6 +282,33 @@
                             </tr>                       
                         </tbody>
                     </table>
+
+                    <h3 class="lbh-heading-h3">Delivery Notes:</h3>
+                    {{ lbhTextarea({
+                        "label": {
+                            "text": ""
+                        },
+                        "id": "DeliveryNotes_" + item.Id,
+                        "name": "DeliveryNotes_" + item.Id,
+                        "hint" : {
+                            "text": ""
+                        },
+                        "value": item.DeliveryNotes
+                    }) }}
+
+                    <h3 class="lbh-heading-h3">Case Notes:</h3>
+                    {{ lbhTextarea({
+                        "label": {
+                            "text": ""
+                        },
+                        "id": "CaseNotes_" + item.Id,
+                        "name": "CaseNotes_" + item.Id,
+                        "hint" : {
+                            "text": ""
+                        },
+                        "value": item.CaseNotes
+                    }) }}
+
                 </div>
             </div>
             {% endfor %}
