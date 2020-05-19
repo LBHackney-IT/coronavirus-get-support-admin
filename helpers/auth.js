@@ -22,7 +22,7 @@ const isAuthorised = (req, res, next) => {
       }
 
       if (groups) {
-        if(groups.includes(config.authorised_group) || groups.includes(config.authorised_admin_group)) {
+        if(groups.includes(config.authorised_user_group) || groups.includes(config.authorised_admin_group)) {
           isAuthorised = true;
         };
         

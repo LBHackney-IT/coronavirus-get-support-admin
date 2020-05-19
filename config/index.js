@@ -13,7 +13,7 @@ module.exports = {
     api_url: process.env.HELP_REQUESTS_API_URL,
     api_key: process.env.HELP_REQUESTS_API_KEY,
 
-    authorised_group: process.env.AUTHORISED_GROUP,
+    authorised_user_group: process.env.AUTHORISED_USER_GROUP,
     authorised_admin_group: process.env.AUTHORISED_ADMIN_GROUP,
     token_name: process.env.TOKEN_NAME,
     hackney_jwt_secret: process.env.HACKNEY_JWT_SECRET,
