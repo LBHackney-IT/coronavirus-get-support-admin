@@ -11,7 +11,7 @@ const isAuthorised = (req, res, next) => {
     let payload = null;
 
     try {
-      const isAuthorised = false;
+      let isAuthorised = false;
 
       payload = jwt.verify(token, config.hackney_jwt_secret);
       const groups = payload.groups;
