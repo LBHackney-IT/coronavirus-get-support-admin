@@ -9,9 +9,9 @@
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
-    <h1 class="lbh-heading-h1">Coronavirus Get Help Admin</h1>
+    <h1 class="lbh-heading-h1">Manage Food Delivery</h1>
 
-    <h2 class="lbh-heading-h2">UPRN: {{query.Uprn}} Annex ID: {{query.Id}}</h2>
+    <h3 class="lbh-heading-h3">UPRN: {{query.Uprn}}, Annex ID: {{query.Id}}</h3>
 
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Uprn" value="{{query.Uprn}}">
