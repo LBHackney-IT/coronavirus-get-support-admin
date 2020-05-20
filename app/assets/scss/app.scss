@@ -1,5 +1,6 @@
 @import "node_modules/lbh-frontend/lbh/core/all";
 @import "node_modules/lbh-frontend/lbh/objects/all";
+@import "node_modules/lbh-frontend/lbh/helpers/colour";
 @import "node_modules/lbh-frontend/lbh/components/lbh-button/button";
 @import "node_modules/lbh-frontend/lbh/components/lbh-checkboxes/checkboxes";
 @import "node_modules/lbh-frontend/lbh/components/lbh-date-input/date-input";
@@ -36,4 +37,10 @@
 
 .govuk-fieldset {
   margin-top: 50px;
+}
+
+
+textarea[readonly] {
+  border-width: 1px;
+  background-color: lbh-colour("lbh-grey-4");
 }

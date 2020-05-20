@@ -4753,3 +4753,7 @@ x.\:-moz-any-link {
 
 .govuk-fieldset {
   margin-top: 50px; }
+
+textarea[readonly] {
+  border-width: 1px;
+  background-color: #f8f8f8; }
