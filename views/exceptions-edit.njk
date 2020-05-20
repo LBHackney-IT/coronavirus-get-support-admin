@@ -5,6 +5,7 @@
 {% from "lbh-select/macro.njk" import lbhSelect %}
 {% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-tag/macro.njk" import lbhTag %}
 
 {% extends "./layouts/base.njk" %}
 
@@ -30,13 +31,28 @@
         
         <div class="govuk-accordion lbh-accordion" data-module="govuk-accordion">
             {% for item in helpRequestData %}
+
+            {% if item.RecordStatus === 'MASTER' %}
+                {% set statusClass = 'is-master' %}
+            {% elif item.RecordStatus === 'EXCEPTION' %}
+                {% set statusClass = 'is-exception' %}
+            {% elif item.RecordStatus === 'DUPLICATE' %}
+                {% set statusClass = 'is-duplicate' %}
+            {% else %}
+                {% set statusClass = '' %}            
+            {% endif %}
+
             <input type="hidden" name="{{'id_' + item.Id}}" value="{{item.Id}}">
 
             <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header {{ 'is-master' if (item.RecordStatus === 'MASTER') else ''}} {{ 'is-duplicate' if (item.RecordStatus === 'DUPLICATE') else ''}} {{ 'is-exception' if (item.RecordStatus === 'EXCEPTION') else ''}}">
+                <div class="govuk-accordion__section-header">
                 <h5 class="govuk-accordion__section-heading">
                     <span class="govuk-accordion__section-button" id="default-example-heading-1">
-                    {{item.RecordStatus}} (ID: {{item.Id}}) - Created on {{item.creation_date}} using form {{item.FormVersion}}.
+                    {{ lbhTag({
+                        "html": "<span>" + item.RecordStatus + "</span>",
+                        "classes": statusClass
+                    }) }}
+                     (ID: {{item.Id}}) - Created on {{item.creation_date}} using form {{item.FormVersion}}.
                     </span>
                 </h5>
                 </div>

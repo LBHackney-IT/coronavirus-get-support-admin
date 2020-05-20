@@ -15,6 +15,7 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-select/select";
 @import "node_modules/lbh-frontend/lbh/components/lbh-skip-link/skip-link";
 @import "node_modules/lbh-frontend/lbh/components/lbh-table/table";
+@import "node_modules/lbh-frontend/lbh/components/lbh-tag/tag";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
 
 
@@ -62,10 +63,39 @@
   }
 }
 
+.lbh-tag {
+  padding: 4px 24px;
+  font-weight: 700;
+
+  &.is-master {
+    background: lbh-colour("lbh-a03");
+  }
+  
+  &.is-duplicate {
+    background: lbh-colour("lbh-h04");
+  }
+  
+  &.is-exception {
+    background: lbh-colour("lbh-f04");
+  }
+}
+
 .text-align-right {
   text-align: right;
 }
 textarea[readonly] {
   border-width: 1px;
   background-color: lbh-colour("lbh-grey-4");
+}
+
+.js-enabled {
+
+  .govuk-accordion {
+    border-bottom: none;
+
+    &__section-header {
+      border-top: none;
+      border-bottom: 1px solid lbh-colour("lbh-grey-2");
+    }
+  }
 }
