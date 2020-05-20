@@ -1,6 +1,7 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
+const notesHelper = require('../helpers/notes');
 const helpRequestService = require('../services/HelpRequestsService');
 
 // Show index page.
@@ -142,10 +143,14 @@ module.exports = {
                 const year = query.last_confirmed_food_delivery_year;
                 const lastConfirmedDeliveryDate = new Date(Date.UTC(year, month - 1, day));
 
+                const updatedCaseNotes = notesHelper.appendNote(req.auth.name, query.NewCaseNote, query.CaseNotes);
+
                 const updatedData = JSON.stringify({
                     OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
                     NumberOfPeopleInHouse: query.NumberOfPeopleInHouse || 0,
-                    LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString()
+                    LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
+                    DeliveryNotes: query.DeliveryNotes,
+                    CaseNotes: updatedCaseNotes
                 });
 
                 await helpRequestService.updateHelpRequest(Id, updatedData)

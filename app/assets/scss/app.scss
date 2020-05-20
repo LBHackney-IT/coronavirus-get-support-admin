@@ -10,14 +10,11 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-header/header";
 @import "node_modules/lbh-frontend/lbh/components/lbh-input/input";
 @import "node_modules/lbh-frontend/lbh/components/lbh-label/label";
-@import "node_modules/lbh-frontend/lbh/components/lbh-page-announcement/page-announcement";
 @import "node_modules/lbh-frontend/lbh/components/lbh-panel/panel";
 @import "node_modules/lbh-frontend/lbh/components/lbh-radios/radios";
 @import "node_modules/lbh-frontend/lbh/components/lbh-select/select";
 @import "node_modules/lbh-frontend/lbh/components/lbh-skip-link/skip-link";
-@import "node_modules/lbh-frontend/lbh/components/lbh-summary-list/summary-list";
 @import "node_modules/lbh-frontend/lbh/components/lbh-table/table";
-@import "node_modules/lbh-frontend/lbh/components/lbh-tabs/tabs";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
 
 
@@ -67,4 +64,8 @@
 
 .text-align-right {
   text-align: right;
+}
+textarea[readonly] {
+  border-width: 1px;
+  background-color: lbh-colour("lbh-grey-4");
 }
