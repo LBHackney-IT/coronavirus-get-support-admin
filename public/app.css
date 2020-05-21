@@ -4831,8 +4831,9 @@ x.\:-moz-any-link {
   margin-bottom: 15px; }
 
 .lbh-tag {
-  padding: 4px 24px;
-  font-weight: 700; }
+  padding: 8px 24px;
+  font-weight: 700;
+  color: #0b0c0c; }
   .lbh-tag.is-master {
     background: #84bd00; }
   .lbh-tag.is-duplicate {

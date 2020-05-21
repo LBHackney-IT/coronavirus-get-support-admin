@@ -64,8 +64,9 @@
 }
 
 .lbh-tag {
-  padding: 4px 24px;
+  padding: 8px 24px;
   font-weight: 700;
+  color: lbh-colour("lbh-text");
 
   &.is-master {
     background: lbh-colour("lbh-a03");
