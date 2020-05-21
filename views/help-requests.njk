@@ -1,10 +1,12 @@
 {% from 'lbh-header/macro.njk' import lbhHeader %}
 {% from 'lbh-button/macro.njk' import lbhButton %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
+<div id="top">
     <h1 class="lbh-heading-h1">Coronavirus - Manage food deliveries</h1>
 
     {% if helpRequests | length %}
@@ -49,9 +51,9 @@
         <h3 class="lbh-heading-h3">No records found with postcode: {{postcode}}</h3>
     {% endif %}
 
-    {{ lbhButton({
-        text: "Search another postcode",
-        isSecondary: true,
-        href: "/"
-    })}}
+    {{ lbhBackToTop({
+    "topLink": "#top"
+    }) }}
+
+</div>
 {% endblock %}
