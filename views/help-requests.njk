@@ -49,6 +49,12 @@
         </table>
     {% else %}
         <h3 class="lbh-heading-h3">No records found with postcode: {{postcode}}</h3>
+
+        {{ lbhButton({
+            text: "Search another postcode",
+            isSecondary: true,
+            href: "/"
+        })}}
     {% endif %}
 
     {{ lbhBackToTop({
