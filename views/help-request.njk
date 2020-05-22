@@ -35,7 +35,7 @@
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
-                "text": "On going food need?"
+                "text": "On going food need"
                 }
             },
             "classes": "govuk-radios--inline",
@@ -58,52 +58,25 @@
             } if query.error_OngoingFoodNeed
         }) }}
 
-        {{ lbhRadios({
-            "fieldset": {
-                "legend": {
-                "text": "How many people are there living in the household at the moment?"
-                }
+        <h3 class="lbh-heading-h3">Telephone number</h3>
+        {{ lbhInput({
+            "label": {
+                "text": ""
             },
-            "idPrefix": "NumberOfPeopleInHouse",
-            "name": "NumberOfPeopleInHouse",
-            "classes": "govuk-radios--inline",
-            "items": [
-                {
-                "value": "1",
-                "text": "1",
-                "checked": true if query.NumberOfPeopleInHouse == "1" else false
-                },
-                {
-                "value": 2,
-                "text": "2",
-                "checked": true if query.NumberOfPeopleInHouse == "2" else false
-                },
-                {
-                "value": "3",
-                "text": "3",
-                "checked": true if query.NumberOfPeopleInHouse == "3" else false
-                },
-                {
-                "value": "4",
-                "text": "4",
-                "checked": true if query.NumberOfPeopleInHouse == "4" else false
-                },
-                {
-                "value": "5 or more",
-                "text": "5 or more",
-                "checked": true if query.NumberOfPeopleInHouse == "5 or more" else false
-                }
-            ],
+            "type": "tel",
+            "id": "ContactTelephoneNumber",
+            "name": "ContactTelephoneNumber",
+            "value": query.ContactTelephoneNumber,
+            "classes": "govuk-input--width-10",
             "errorMessage": {
-                "text": query.error_NumberOfPeopleInHouse
-            } if query.error_NumberOfPeopleInHouse else null
+                "text": query.error_ContactTelephoneNumber
+            } if query.error_ContactTelephoneNumber else null
         }) }}
-
 
         {{ lbhDateInput({
             "fieldset": {
                 "legend": {
-                "text": "Last confirmed food delivery?",
+                "text": "Last confirmed food delivery",
                 "hint": "For example 29 4 2020"
                 }
             },
