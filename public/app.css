@@ -4881,3 +4881,46 @@ x.\:-moz-any-link {
 textarea[readonly] {
   border-width: 1px;
   background-color: #f8f8f8; }
+
+#loader_overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  opacity: 0;
+  z-index: -1; }
+  .is_loading #loader_overlay {
+    opacity: .75;
+    z-index: 100; }
+
+#loader_spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #025ea6;
+  border-bottom: 16px solid #025ea6;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: loader_spin 2s linear infinite;
+          animation: loader_spin 2s linear infinite; }
+
+@-webkit-keyframes loader_spin {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes loader_spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }

@@ -147,7 +147,8 @@ module.exports = {
 
                 const updatedData = JSON.stringify({
                     OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
-                    NumberOfPeopleInHouse: query.NumberOfPeopleInHouse || 0,
+                    ContactTelephoneNumber: query.ContactTelephoneNumber || '',
+                    ContactMobileNumber: query.ContactMobileNumber || '',
                     LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
                     DeliveryNotes: query.DeliveryNotes,
                     CaseNotes: updatedCaseNotes
