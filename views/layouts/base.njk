@@ -5,13 +5,19 @@
 {% endblock %}
 
 
-{% block pageTitle %}Coronavirus &mdash; Get Help Admin UI | Hackney Council{% endblock %}
+{% block pageTitle %}Coronavirus - I Need Help Admin | Hackney Council{% endblock %}
 
 {% block header %}
   {{lbhHeader({
     isHome: false,
-     serviceName: "Get Help Admin"
+     serviceName: "I Need Help Admin"
   })}}
+{% endblock %}
+
+{% block beforeContent %}
+<div id="loader_overlay" class="">
+  <div id="loader_spinner"></div>
+</div>
 {% endblock %}
 
 {% block bodyEnd %}

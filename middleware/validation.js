@@ -3,16 +3,16 @@ const { check } = require('express-validator');
 const config = require('../config');
 
 const addressValidation = [
-  check("lookup_postcode", "Enter a postcode")
+  check("postcode", "Enter a postcode")
     .trim().escape().notEmpty(),
-  check("lookup_postcode", "Enter a valid postcode")
-    .if(check("lookup_postcode").notEmpty()).isPostalCode("GB")
+  check("postcode", "Enter a valid postcode")
+    .if(check("postcode").notEmpty()).isPostalCode("GB")
 ]
 
 const helpRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
     .trim().escape().notEmpty(),
-  check("NumberOfPeopleInHouse", "Enter the number of people in the house")
+    check("ContactTelephoneNumber", "Enter a contact number")
     .trim().escape().notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
     .trim().escape().isInt({min: 1, max: 31}),

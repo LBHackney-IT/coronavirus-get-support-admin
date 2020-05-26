@@ -16,7 +16,7 @@ module.exports = {
      */
     all_help_requests_post: async (req, res, next) => {
         res.locals.query = req.body;
-        const uprn = req.body.uprn;
+        const postcode = req.body.postcode;
 
         const errors = validator.validationResult(req);
 
@@ -42,7 +42,7 @@ module.exports = {
                  * uprn: string - UPRN number
                  * master: boolean - specify whether to return only master records or all
                  */
-                await helpRequestService.fetchAllHelpRequests({uprn: uprn, master: true})
+                await helpRequestService.fetchAllHelpRequests({postcode: postcode, master: true})
                 .then(result => {
                     data = result.data;
 
@@ -51,7 +51,7 @@ module.exports = {
                         item.DateTimeRecorded = recDate.toLocaleDateString();
                     });
 
-                    return res.render('help-requests.njk', {title: 'Home', uprn: uprn, helpRequests: data});
+                    return res.render('help-requests.njk', {title: 'Home', postcode: postcode, helpRequests: data});
                 })                
 
             } catch (err) {
@@ -88,7 +88,7 @@ module.exports = {
 
                     if (data.LastConfirmedFoodDelivery) {
                         const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
-
+                        
                         data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
                         data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
                         data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
@@ -147,7 +147,8 @@ module.exports = {
 
                 const updatedData = JSON.stringify({
                     OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
-                    NumberOfPeopleInHouse: query.NumberOfPeopleInHouse || 0,
+                    ContactTelephoneNumber: query.ContactTelephoneNumber || '',
+                    ContactMobileNumber: query.ContactMobileNumber || '',
                     LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
                     DeliveryNotes: query.DeliveryNotes,
                     CaseNotes: updatedCaseNotes

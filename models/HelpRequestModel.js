@@ -24,10 +24,7 @@ class HelpRequestModel {
 
             await axios.get(config.api_url, {
                 headers: headers,
-                params: {
-                    master: params.master,
-                    uprn: params.uprn
-                }
+                params: params
             }).then ( result => {
                 data = result;
             });
