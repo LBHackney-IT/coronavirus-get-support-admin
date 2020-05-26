@@ -73,6 +73,21 @@
             } if query.error_ContactTelephoneNumber else null
         }) }}
 
+        <h3 class="lbh-heading-h3">Mobile number</h3>
+        {{ lbhInput({
+            "label": {
+                "text": ""
+            },
+            "type": "tel",
+            "id": "ContactMobileNumber",
+            "name": "ContactMobileNumber",
+            "value": query.ContactMobileNumber,
+            "classes": "govuk-input--width-10",
+            "errorMessage": {
+                "text": query.error_ContactMobileNumber
+            } if query.error_ContactMobileNumber else null
+        }) }}
+
         {{ lbhDateInput({
             "fieldset": {
                 "legend": {
