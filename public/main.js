@@ -96,6 +96,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/assets/js/loader.js":
+/*!*********************************!*\
+  !*** ./app/assets/js/loader.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\r\nfunction Loader() {\r\n    this.body = document.getElementsByClassName(\"govuk-template\");\r\n    this.loaderOverlay = document.getElementById(\"loader_overlay\");\r\n    this.ctaBtns = document.getElementsByClassName(\"js-cta-btn\");\r\n};\r\n\r\nLoader.prototype.init = function() {\r\n    const that = this;\r\n\r\n    if (this.loaderOverlay) {\r\n        Array.from(this.ctaBtns).forEach(function(element) {\r\n            element.addEventListener('click', that.enable.bind(that));\r\n          });\r\n    }\r\n};\r\n\r\nLoader.prototype.enable = function() {\r\n    this.body[0].classList.add(\"is_loading\");\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (Loader);\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/loader.js?");
+
+/***/ }),
+
 /***/ "./app/assets/js/main.js":
 /*!*******************************!*\
   !*** ./app/assets/js/main.js ***!
@@ -104,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lbh-frontend */ \"./node_modules/lbh-frontend/lbh/all.js\");\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__);\n\r\n\r\nObject(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__[\"initAll\"])();\r\n\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lbh-frontend */ \"./node_modules/lbh-frontend/lbh/all.js\");\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loader */ \"./app/assets/js/loader.js\");\n\r\n\r\n\r\nObject(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__[\"initAll\"])();\r\nnew _loader__WEBPACK_IMPORTED_MODULE_1__[\"default\"]().init();\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/main.js?");
 
 /***/ }),
 
