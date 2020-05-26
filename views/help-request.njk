@@ -32,101 +32,120 @@
         {{query.Postcode}}
         </p>
 
-        {{ lbhRadios({
-            "fieldset": {
-                "legend": {
-                "text": "On going food need"
-                }
-            },
-            "classes": "govuk-radios--inline",
-            "id": "OngoingFoodNeed",
-            "name": "OngoingFoodNeed",
-            "items": [
-                {
-                "value": "yes",
-                "text": "Yes",
-                "checked": true if query.OngoingFoodNeed == 'yes' else false
-                },
-                {
-                "value": "no",
-                "text": "No",
-                "checked": true if query.OngoingFoodNeed == 'no'else false
-                }
-            ],
-            "errorMessage": {
-                "text": query.error_OngoingFoodNeed
-            } if query.error_OngoingFoodNeed
-        }) }}
+        <table class="govuk-table  lbh-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">&nbsp;</th>
+                    <th scope="col" class="govuk-table__header">Current Value</th>
+                    <th scope="col" class="govuk-table__header">New value</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">On going food need</th>
+                    <td class="govuk-table__cell">{{item.OngoingFoodNeed}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhRadios({
+                            "classes": "govuk-radios--inline",
+                            "id": "OngoingFoodNeed",
+                            "name": "OngoingFoodNeed",
+                            "items": [
+                                {
+                                "value": "yes",
+                                "text": "Yes",
+                                "checked": true if query.OngoingFoodNeed == 'yes' else false
+                                },
+                                {
+                                "value": "no",
+                                "text": "No",
+                                "checked": true if query.OngoingFoodNeed == 'no'else false
+                                }
+                            ],
+                            "errorMessage": {
+                                "text": query.error_OngoingFoodNeed
+                            } if query.error_OngoingFoodNeed
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Contact tel:</th>
+                    <td class="govuk-table__cell">{{item.ContactTelephoneNumber}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                        "label": {
+                            "text": ""
+                        },
+                        "type": "tel",
+                        "id": "ContactTelephoneNumber",
+                        "name": "ContactTelephoneNumber",
+                        "value": query.ContactTelephoneNumber,
+                        "classes": "govuk-input--width-10",
+                        "errorMessage": {
+                            "text": query.error_ContactTelephoneNumber
+                        } if query.error_ContactTelephoneNumber else null
+                    }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Contact mobile</th>
+                    <td class="govuk-table__cell">{{item.ContactMobileNumber}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "label": {
+                                "text": ""
+                            },
+                            "type": "tel",
+                            "id": "ContactMobileNumber",
+                            "name": "ContactMobileNumber",
+                            "value": query.ContactMobileNumber,
+                            "classes": "govuk-input--width-10",
+                            "errorMessage": {
+                                "text": query.error_ContactMobileNumber
+                            } if query.error_ContactMobileNumber else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last confirmed delivery</th>
+                    <td class="govuk-table__cell">{{last_confirmed_food_delivery_date}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhDateInput({
+                            
+                            "items": [
+                                {
+                                "id": "last_confirmed_food_delivery_day",
+                                "name": "last_confirmed_food_delivery_day",
+                                "label": "Day",
+                                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_day else ''),
+                                "value": query.last_confirmed_food_delivery_day
+                                },
+                                {
+                                "id": "last_confirmed_food_delivery_month",
+                                "name": "last_confirmed_food_delivery_month",
+                                "label": "Month",
+                                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_month else ''),
+                                "value": query.last_confirmed_food_delivery_month
+                                },
+                                {
+                                "id": "last_confirmed_food_delivery_year",
+                                "name": "last_confirmed_food_delivery_year",
+                                "label": "Year",
+                                "classes": "govuk-input--width-4 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_year else ''),
+                                "value": query.last_confirmed_food_delivery_year
+                                }
+                            ],
+                            "formGroup": {
+                                "classes": "govuk-form-group--error lbh-form-group" if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else ''
+                            },
+                            "errorMessage": {
+                                "text": "Enter a valid date E.g 29 03 2020"
+                            } if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else null
+                        }) }}
+                    </td>
+                </tr>                  
+            </tbody>
+        </table>
 
-        <h3 class="lbh-heading-h3">Telephone number</h3>
-        {{ lbhInput({
-            "label": {
-                "text": ""
-            },
-            "type": "tel",
-            "id": "ContactTelephoneNumber",
-            "name": "ContactTelephoneNumber",
-            "value": query.ContactTelephoneNumber,
-            "classes": "govuk-input--width-10",
-            "errorMessage": {
-                "text": query.error_ContactTelephoneNumber
-            } if query.error_ContactTelephoneNumber else null
-        }) }}
-
-        <h3 class="lbh-heading-h3">Mobile number</h3>
-        {{ lbhInput({
-            "label": {
-                "text": ""
-            },
-            "type": "tel",
-            "id": "ContactMobileNumber",
-            "name": "ContactMobileNumber",
-            "value": query.ContactMobileNumber,
-            "classes": "govuk-input--width-10",
-            "errorMessage": {
-                "text": query.error_ContactMobileNumber
-            } if query.error_ContactMobileNumber else null
-        }) }}
-
-        {{ lbhDateInput({
-            "fieldset": {
-                "legend": {
-                "text": "Last confirmed food delivery",
-                "hint": "For example 29 4 2020"
-                }
-            },
-            "items": [
-                {
-                "id": "last_confirmed_food_delivery_day",
-                "name": "last_confirmed_food_delivery_day",
-                "label": "Day",
-                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_day else ''),
-                "value": query.last_confirmed_food_delivery_day
-                },
-                {
-                "id": "last_confirmed_food_delivery_month",
-                "name": "last_confirmed_food_delivery_month",
-                "label": "Month",
-                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_month else ''),
-                "value": query.last_confirmed_food_delivery_month
-                },
-                {
-                "id": "last_confirmed_food_delivery_year",
-                "name": "last_confirmed_food_delivery_year",
-                "label": "Year",
-                "classes": "govuk-input--width-4 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_year else ''),
-                "value": query.last_confirmed_food_delivery_year
-                }
-            ],
-            "formGroup": {
-                "classes": "govuk-form-group--error lbh-form-group" if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else ''
-            },
-            "errorMessage": {
-                "text": "Enter a valid date E.g 29 03 2020"
-            } if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else null
-        }) }}
-
-        
         <fieldset class="govuk-fieldset lbh-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                 <h2 class="govuk-fieldset__heading">Notes:</h2>
