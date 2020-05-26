@@ -33,17 +33,9 @@
         </p>
 
         <table class="govuk-table  lbh-table">
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">&nbsp;</th>
-                    <th scope="col" class="govuk-table__header">Current Value</th>
-                    <th scope="col" class="govuk-table__header">New value</th>
-                </tr>
-            </thead>
             <tbody class="govuk-table__body">
                 <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">On going food need</th>
-                    <td class="govuk-table__cell">{{item.OngoingFoodNeed}}</td>
                     <td class="govuk-table__cell">
                         {{ lbhRadios({
                             "classes": "govuk-radios--inline",
@@ -68,8 +60,7 @@
                     </td>
                 </tr>
                 <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Contact tel:</th>
-                    <td class="govuk-table__cell">{{item.ContactTelephoneNumber}}</td>
+                    <th scope="row" class="govuk-table__header">Contact telelephone</th>
                     <td class="govuk-table__cell">
                         {{ lbhInput({
                         "label": {
@@ -88,7 +79,6 @@
                 </tr>
                 <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">Contact mobile</th>
-                    <td class="govuk-table__cell">{{item.ContactMobileNumber}}</td>
                     <td class="govuk-table__cell">
                         {{ lbhInput({
                             "label": {
@@ -107,7 +97,6 @@
                 </tr>
                 <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">Last confirmed delivery</th>
-                    <td class="govuk-table__cell">{{last_confirmed_food_delivery_date}}</td>
                     <td class="govuk-table__cell">
                         {{ lbhDateInput({
                             
@@ -188,16 +177,14 @@
             </textarea>
         </fieldset>
         
-
         {{ lbhButton({
             text: "Cancel",
             "isSecondary": true,
             "href": "/"
         })}}
 
-        {{ lbhButton({
-            "text": "Update",
-            "preventDoubleClick": true
-        })}}
+        <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+        Update
+        </button>
     </form>
 {% endblock %}
