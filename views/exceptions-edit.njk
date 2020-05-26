@@ -344,10 +344,9 @@
 
             {% if helpRequestData | length %}
             <div class="govuk-grid-column-one-half text-align-right">
-                {{ lbhButton({
-                    text: "Update all records",
-                    preventDoubleClick: true
-                })}}
+                <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+                Update all records
+                </button>
             </div>
             {% endif %}
         </div>
