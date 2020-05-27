@@ -1,7 +1,5 @@
 const { check } = require('express-validator');
 
-const config = require('../config');
-
 const addressValidation = [
   check("postcode", "Enter a postcode")
     .trim().escape().notEmpty(),
