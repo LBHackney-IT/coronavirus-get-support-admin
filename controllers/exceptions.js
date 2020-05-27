@@ -2,6 +2,7 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 const dateHelper = require('../helpers/date');
+const notesHelper = require('../helpers/notes');
 const helpRequestService = require('../services/HelpRequestsService');
 
 // Show index page.
@@ -58,6 +59,8 @@ module.exports = {
 
                 if (data.length) {
                     const dynamicFields = [
+                        "FirstName",
+                        "LastName",
                         "RecordStatus",
                         "IsDuplicate",
                         "OngoingFoodNeed",
@@ -128,6 +131,8 @@ module.exports = {
         let recIds = req.body.record_ids.split(',');
 
         const dynamicFields = [
+            "FirstName",
+            "LastName",
             "RecordStatus",
             "ContactTelephoneNumber",
             "ContactMobileNumber",
@@ -142,10 +147,10 @@ module.exports = {
         ];
 
         // const errors = validator.validationResult(req);
-        const errors = {}
-
         //!errors.isEmpty()
-        if (1===2 ) {
+        const errors = false
+
+        if (errors) {
             var extractedErrors = {};
             errors
                 .array()
@@ -180,7 +185,10 @@ module.exports = {
 
                     const lastConfirmedFoodDelivery = new Date(Date.UTC(lcfdYear, lcfdMonth - 1, lcfdDay));
 
+                    const updatedCaseNotes = notesHelper.appendNote(req.auth.name, req.body["NewCaseNote_" + id], req.body["CaseNotes_" + id]);
+
                     recFields.LastConfirmedFoodDelivery = lastConfirmedFoodDelivery.toISOString();
+                    recFields.CaseNotes = updatedCaseNotes;
 
                     recordsData.push(recFields);
                 });
@@ -196,10 +204,6 @@ module.exports = {
     
                 return next(error);
             }
-
-        
-        
         }
-
     }
 };
