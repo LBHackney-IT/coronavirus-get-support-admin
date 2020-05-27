@@ -6,11 +6,16 @@
 {% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from 'lbh-button/macro.njk' import lbhButton %}
 {% from "lbh-tag/macro.njk" import lbhTag %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
     <h1 class="lbh-heading-h2">Help requests for UPRN {{uprn}}</h1>
+    {{ lbhBackLink({
+        "href": "/",
+        "text": "Back to home"
+    }) }}
     
     {% if helpRequestData | length %}
     <form action="/exceptions/{{uprn}}" method="post">
@@ -27,7 +32,7 @@
             <strong>Email:</strong> {{item.EmailAddress}}
         </p>
 
-        <p class="lbh-body-m">Displaying {{helpRequestData | length}} records</p>
+        <p class="lbh-body-m">Displaying {{helpRequestData | length}} record(s)</p>
         
         <div class="govuk-accordion lbh-accordion" data-module="govuk-accordion">
             {% for item in helpRequestData %}

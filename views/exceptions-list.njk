@@ -1,12 +1,19 @@
 {% from 'lbh-button/macro.njk' import lbhButton %}
 {% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
-    <h1 class="lbh-heading-h1">Manage exceptions ({{exceptionsData | length}} found)</h1>
+    <h1 class="lbh-heading-h1">Manage exceptions</h1>
+    {{ lbhBackLink({
+        "href": "/",
+        "text": "Back to home"
+    }) }}
 
     {% if exceptionsData | length %}
+        <p class="lbh-body-m">Displaying {{exceptionsData | length}} record(s)</p>
+
         <table class="govuk-table  lbh-table">
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
