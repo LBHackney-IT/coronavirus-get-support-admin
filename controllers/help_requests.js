@@ -7,7 +7,7 @@ const helpRequestService = require('../services/HelpRequestsService');
 // Show index page.
 module.exports = {
 
-    /**
+     /**
      * @description Display a list of help requests matching the UPRN.
      * @param req {object} Express req object 
      * @param res {object} Express res object
@@ -28,7 +28,7 @@ module.exports = {
               .map(err => (extractedErrors["error_" + err.param] = err.msg));
 
             return res.redirect(
-              "/?" +
+              "/help-requests?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -51,7 +51,7 @@ module.exports = {
                         item.DateTimeRecorded = recDate.toLocaleDateString();
                     });
 
-                    return res.render('help-requests.njk', {title: 'Home', postcode: postcode, helpRequests: data});
+                    return res.render('help-requests-list.njk', {title: 'Home', postcode: postcode, helpRequests: data});
                 })                
 
             } catch (err) {
@@ -77,7 +77,7 @@ module.exports = {
             if(req.query.Id) {
                 res.locals.query = req.query;
 
-                return res.render('help-request.njk');
+                return res.render('help-request-edit.njk');
 
             } else {
                 await helpRequestService.fetchHelpRequest(req.params.id)
@@ -94,7 +94,7 @@ module.exports = {
                         data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
                     }
 
-                    res.render('help-request.njk', {query: data});
+                    res.render('help-request-edit.njk', {query: data});
                 })
             }
 
