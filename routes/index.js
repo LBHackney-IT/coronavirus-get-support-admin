@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const authCheck = require('../helpers/auth');
+const {isAuthorised} = require('../middleware/auth');
 
 // GET request
-router.get('/', authCheck, function(req, res) {
-    res.locals.query = req.query;
-    res.locals.addresses_api_url = process.env.ADDRESSES_API_URL;
-    res.locals.addresses_api_key = process.env.ADDRESSES_API_KEY;
-    res.render("index.njk")
+router.get('/', isAuthorised, function(req, res) {
+    res.locals.isAdmin = req.auth.isAdmin;
+    res.render("index.njk");
 });
 
 module.exports = router;
