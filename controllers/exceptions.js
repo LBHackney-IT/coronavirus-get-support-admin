@@ -91,9 +91,6 @@ module.exports = {
                         if (item.LastConfirmedFoodDelivery) {
                             const formattedDeliveryDate = dateHelper.convertDate(item.LastConfirmedFoodDelivery);
 
-                            item["last_confirmed_food_delivery_day_" + item.Id] = formattedDeliveryDate.day;
-                            item["last_confirmed_food_delivery_month_" + item.Id] = formattedDeliveryDate.month;
-                            item["last_confirmed_food_delivery_year_" + item.Id] = formattedDeliveryDate.year;
                             item["last_confirmed_food_delivery_date_" + item.Id] = formattedDeliveryDate.concatenated;
                         }
 
@@ -146,12 +143,12 @@ module.exports = {
             "CaseNotes"
         ];
 
-        // const errors = validator.validationResult(req);
-        //!errors.isEmpty()
+
         const errors = false
 
         if (errors) {
             var extractedErrors = {};
+
             errors
                 .array()
                 .map(err => (extractedErrors["error_" + err.param] = err.msg));
@@ -163,8 +160,6 @@ module.exports = {
                 querystring.stringify(req.body)
             );
         } else {
-            var query = req.body;
-
             try {
                 let recordsData = [];
 
@@ -179,15 +174,8 @@ module.exports = {
 
                     recFields.OngoingFoodNeed = req.body["OngoingFoodNeed_" + id] === 'yes' ? true : false;
 
-                    const lcfdDay = req.body["last_confirmed_delivery_day_" + id];
-                    const lcfdMonth = req.body["last_confirmed_delivery_month_" + id];
-                    const lcfdYear = req.body["last_confirmed_delivery_year_" + id];
-
-                    const lastConfirmedFoodDelivery = new Date(Date.UTC(lcfdYear, lcfdMonth - 1, lcfdDay));
-
                     const updatedCaseNotes = notesHelper.appendNote(req.auth.name, req.body["NewCaseNote_" + id], req.body["CaseNotes_" + id]);
 
-                    recFields.LastConfirmedFoodDelivery = lastConfirmedFoodDelivery.toISOString();
                     recFields.CaseNotes = updatedCaseNotes;
 
                     recordsData.push(recFields);
