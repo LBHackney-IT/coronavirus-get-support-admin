@@ -87,7 +87,7 @@
   text-align: right;
 }
 textarea[readonly] {
-  border-width: 1px;
+  border-width: 0;
   background-color: lbh-colour("lbh-grey-4");
 }
 
@@ -115,8 +115,8 @@ textarea[readonly] {
   opacity: 0;
   z-index: -1;
 
-  .is_loading & {
-    opacity: .75;
+  .is-loading & {
+    opacity: .85;
     z-index: 100;
   }
 }
