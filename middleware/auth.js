@@ -47,6 +47,17 @@ const isAuthorised = (req, res, next) => {
   }
 
   return res.render("login.njk");
+};
+
+const isAdmin = (req, res, next) => {
+  if(req.auth && req.auth.isAdmin) {
+    return next();
+  }
+
+  return res.status(401).render("access-denied.njk");
 }
 
-module.exports = isAuthorised;
+module.exports = {
+  isAuthorised,
+  isAdmin
+};

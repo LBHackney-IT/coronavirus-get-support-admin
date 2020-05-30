@@ -16,7 +16,7 @@ Loader.prototype.init = function() {
 };
 
 Loader.prototype.enable = function() {
-    this.body[0].classList.add("is_loading");
+    this.body[0].classList.add("is-loading");
 }
 
 export default Loader;

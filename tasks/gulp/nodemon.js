@@ -9,7 +9,17 @@ const nodemon = require("nodemon");
 gulp.task("nodemon", () => {
   return nodemon({
     script: "app.js",
-    watch: ["views/", "app.js"],
+    watch: [
+      "app.js",
+      "app/",
+      "controllers/",
+      "helpers/",
+      "loaders/",
+      "middleware/",
+      "models",
+      "routes/",
+      "services/"
+    ],
     ext: "njk, js"
   });
 });
