@@ -3,25 +3,25 @@
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
-  <h1 class="lbh-heading-h1">Manage food deliveries</h1>
+  <h1 class="lbh-heading-h1">What would you like to do?</h1>
 
-  <form action="/help-requests" method="post">
-    <h3 class="lbh-heading-h3">Enter a postcode to search by:</h3>
-    {{ lbhInput({
-      "id": "postcode",
-      "name": "postcode",
-      "value": query.postcode,
-      "classes": "govuk-input--width-10",
-      "formGroup": {
-        "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
-      },
-      "errorMessage": {
-        "text": query.error_postcode
-      } if query.error_postcode else null
-    }) }}
+  <table class="govuk-table  lbh-table">
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">1. Manage food deliveries</td>
+          <td class="govuk-table__cell">
+            <a href="/help-requests" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
 
-    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
-      Search
-    </button>
-  </form>
+        {% if isAdmin %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">2. Manage exceptions</td>
+          <td class="govuk-table__cell">
+            <a href="/exceptions" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
+        {% endif %}
+    </tbody>
+  </table>
 {% endblock %}

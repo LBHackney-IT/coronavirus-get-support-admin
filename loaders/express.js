@@ -7,9 +7,9 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 
-const config = require('../config');
 const indexRoutes = require('../routes/index');
 const helpRequestsRoutes = require('../routes/help_requests');
+const exceptionsRoutes = require('../routes/exceptions');
 const logger = require('../middleware/logger');
 const { handleError } = require('../helpers/error');
 
@@ -75,6 +75,7 @@ module.exports = {
         //-------------------------
 
         app.use('/help-requests', helpRequestsRoutes);
+        app.use('/exceptions', exceptionsRoutes);
 
         app.get("/:page", function(req, res) {
             res.locals.query = req.query;

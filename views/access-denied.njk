@@ -1,0 +1,14 @@
+{% extends "./layouts/base.njk" %}
+{% from "lbh-button/macro.njk" import lbhButton %}
+
+{% block content %}
+    
+    <h1 class="lbh-heading-h1">Access denied</h2>
+    <p class="lbh-body-m">Sorry, but access to that page is for administrators only.</p>
+
+    {{ lbhButton({
+        "text": "Home",
+        "href": "/"
+    }) }}
+
+{% endblock %}

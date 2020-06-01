@@ -52,8 +52,10 @@ class HelpRequestModel {
                 "x-api-key": config.api_key
             };
 
-            data = await axios.get(config.api_url + '/' + id, {
+            await axios.get(config.api_url + '/' + id, {
                 headers: headers
+            }).then ( result => {
+                data = result;
             });
 
             return data;
@@ -67,7 +69,7 @@ class HelpRequestModel {
 
 
     /**
-     * @description Fetch a single help request using the Annex ID
+     * @description Update a single help request using the Annex ID
      * @returns {Promise<*>}
      */
     async updateHelpRequest(id, helpRequestdata) {
@@ -81,14 +83,86 @@ class HelpRequestModel {
                 "x-api-key": config.api_key
             };
 
-            data = await axios.patch(config.api_url + '/' + id, helpRequestdata, {
+            await axios.patch(config.api_url + '/' + id, helpRequestdata, {
                 headers: headers
-            })
+            }).then ( result => {
+                data = result;
+            });
 
-            return data;
+            return data;            
 
         } catch (err) {
             console.log('HelpRequestModel updateHelpRequest ERR');
+            console.log(err)
+            return (err)
+        }
+    }
+
+
+    /**
+     * @description Update multiple help requests
+     * @returns {Promise<*>}
+     */
+    async updateAllHelpRequests(helpRequestsdata) {
+
+        try {
+            let apiRequests = [],
+                data = [];
+
+            helpRequestsdata.forEach(item => {
+                const data = JSON.stringify(item);
+
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Content-Length": data.length,
+                    "x-api-key": config.api_key
+                };
+
+                const apiRequest = axios.patch(config.api_url + '/' + item.id, data, {
+                    headers: headers
+                });
+
+                apiRequests.push(apiRequest);
+            });
+
+            await axios.all(apiRequests)
+            .then ( axios.spread((result) => {
+                data = result;
+            }));
+            
+            return data;
+
+        } catch (err) {
+            console.log('HelpRequestModel updateAllHelpRequests ERR');
+            console.log(err)
+            return (err)
+        }
+    }
+
+
+    /**
+     * @description Fetch all exception records
+     * @returns {Promise<*>}
+     */
+    async fetchAllExceptions() {
+        let data = [];
+
+        try {          
+            const headers = {
+                "Content-Type": "application/json",
+                "x-api-key": config.api_key
+            };
+
+            await axios.get(config.api_url + '/exceptions', {
+                headers: headers
+            }).then ( (results) => {
+                data = results;
+            });
+
+            return data;            
+
+        } catch (err) {
+            console.log('ExceptionsModel fetchAllExceptions ERR');
             console.log(err)
             return (err)
         }
