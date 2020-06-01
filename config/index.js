@@ -12,6 +12,8 @@ module.exports = {
     api_url: process.env.HELP_REQUESTS_API_URL,
     api_key: process.env.HELP_REQUESTS_API_KEY,
 
+    delivery_api_url: process.env.DELIVERY_SCHEDULE_API_URL,
+
     authorised_user_group: process.env.AUTHORISED_USER_GROUP,
     authorised_admin_group: process.env.AUTHORISED_ADMIN_GROUP,
     token_name: process.env.TOKEN_NAME,
