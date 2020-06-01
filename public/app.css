@@ -5097,7 +5097,7 @@ x.\:-moz-any-link {
   text-align: right; }
 
 textarea[readonly] {
-  border-width: 1px;
+  border-width: 0;
   background-color: #f8f8f8; }
 
 .js-enabled .govuk-accordion {
@@ -5116,8 +5116,8 @@ textarea[readonly] {
   background-color: #fff;
   opacity: 0;
   z-index: -1; }
-  .is_loading #loader_overlay {
-    opacity: .75;
+  .is-loading #loader_overlay {
+    opacity: .85;
     z-index: 100; }
 
 #loader_spinner {

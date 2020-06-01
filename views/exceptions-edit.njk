@@ -162,39 +162,7 @@
                             <tr class="govuk-table__row">
                                 <th scope="row" class="govuk-table__header">Last confirmed delivery:</th>
                                 <td class="govuk-table__cell">{{item["last_confirmed_food_delivery_date_" + item.Id]}}</td>
-                                <td class="govuk-table__cell">
-                                    {{ lbhDateInput({
-                                        "items": [
-                                            {
-                                            "id": "last_confirmed_delivery_day_" + item.Id,
-                                            "name": "last_confirmed_delivery_day_" + item.Id,
-                                            "label": "Day",
-                                            "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_delivery_day else ''),
-                                            "value": item["last_confirmed_food_delivery_day_" + item.Id]
-                                            },
-                                            {
-                                            "id": "last_confirmed_delivery_month_" + item.Id,
-                                            "name": "last_confirmed_delivery_month_" + item.Id,
-                                            "label": "Month",
-                                            "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_delivery_month else ''),
-                                            "value": item["last_confirmed_food_delivery_month_" + item.Id]
-                                            },
-                                            {
-                                            "id": "last_confirmed_delivery_year_" + item.Id,
-                                            "name": "last_confirmed_delivery_year_" + item.Id,
-                                            "label": "Year",
-                                            "classes": "govuk-input--width-4 " + ("govuk-input--error" if query.error_last_confirmed_delivery_year else ''),
-                                            "value": item["last_confirmed_food_delivery_year_" + item.Id]
-                                            }
-                                        ],
-                                        "formGroup": {
-                                            "classes": "govuk-form-group--error lbh-form-group" if query.error_last_confirmed_delivery_day or query.error_last_confirmed_delivery_month or query.error_last_confirmed_delivery_year else ''
-                                        },
-                                        "errorMessage": {
-                                            "text": "Enter a valid date"
-                                        } if query.error_last_confirmed_delivery-day or query.error_last_confirmed_delivery-month or query.error_last_confirmed_delivery-year else null
-                                    }) }}
-                                </td>
+                                <td class="govuk-table__cell"></td>
                             </tr>
                             <tr class="govuk-table__row">
                                 <th scope="row" class="govuk-table__header">Ongoing food need:</th>
