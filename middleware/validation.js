@@ -10,7 +10,7 @@ const addressValidation = [
 const helpRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
     .trim().escape().notEmpty(),
-    check("ContactTelephoneNumber", "Enter a contact number")
+  check("ContactTelephoneNumber", "Enter a contact number")
     .trim().escape().notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
     .trim().escape().isInt({min: 1, max: 31}),
@@ -20,7 +20,13 @@ const helpRequestValidation = [
     .trim().escape().isLength({min: 4, max: 4}).isInt()
 ]
 
+const deliveryLimitValidation = [
+  check("delivery_limit", "Enter a delivery limit greater than 0")
+    .trim().escape().isInt({min: 1})
+]
+
 module.exports = {
   addressValidation,
-  helpRequestValidation
+  helpRequestValidation,
+  deliveryLimitValidation
 }
