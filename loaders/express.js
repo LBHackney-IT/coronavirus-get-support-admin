@@ -9,7 +9,9 @@ const cookieParser = require('cookie-parser');
 
 const indexRoutes = require('../routes/index');
 const helpRequestsRoutes = require('../routes/help_requests');
+const deliverySchedulesRoutes = require('../routes/delivery_schedules');
 const exceptionsRoutes = require('../routes/exceptions');
+
 const logger = require('../middleware/logger');
 const { handleError } = require('../helpers/error');
 
@@ -75,6 +77,7 @@ module.exports = {
         //-------------------------
 
         app.use('/help-requests', helpRequestsRoutes);
+        app.use('/delivery-schedules', deliverySchedulesRoutes);
         app.use('/exceptions', exceptionsRoutes);
 
         app.get("/:page", function(req, res) {
