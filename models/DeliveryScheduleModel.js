@@ -9,10 +9,10 @@ class DeliveryScheduleModel {
     }
     
     /**
-     * @description Fetch all food deliveries
+     * @description Fetch records for the next scheduled food delivery, or the CSV file URL
      * @returns {Promise<*>}
      */
-    async fetchDeliveryScheduleRecords(params) {
+    async fetchDeliveryScheduleData(params) {
         try {
             let data = [];
 
@@ -36,6 +36,7 @@ class DeliveryScheduleModel {
             return (err)
         }
     }
+
 }
 
 module.exports = new DeliveryScheduleModel;

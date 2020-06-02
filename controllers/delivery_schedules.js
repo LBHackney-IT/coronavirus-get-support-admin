@@ -40,10 +40,10 @@ module.exports = {
                 let data = [];
 
                 /**
-                 * capacity: string - Capacity
-                 * confirmed: boolean - specify whether to confirm the delivery or not
+                 * capacity: string - Capacity (number of records to include in this delivery)
+                 * confirmed: boolean - False to get the records only for viewing
                  */
-                await DeliverySchedulesService.fetchDeliveryScheduleRecords({limit: limit, confirmed: false})
+                await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit, confirmed: false})
                 .then(result => {
                     data = result.data;
 
@@ -52,7 +52,7 @@ module.exports = {
                         item.deliveryDate = formattedDeliveryDate.concatenated;
                     });
 
-                    return res.render('delivery-schedule-list.njk', {deliveryRecords: data});
+                    return res.render('delivery-schedule-list.njk', {deliveryData: data});
                 })                
 
             } catch (err) {
@@ -60,6 +60,32 @@ module.exports = {
 
                 return next(error);
             }
+        }
+    },
+
+    delivery_schedule_cofirmed_post: async (req, res, next) => {
+        res.locals.query = req.body;
+
+        const limit = req.body.delivery_limit;
+
+        try {
+            let data = [];
+
+            /**
+                 * capacity: string - Capacity (number of records to include in this delivery)
+                 * confirmed: boolean - True to generate the CSV file and get the file URL
+                 */
+            await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit, confirmed: true})
+            .then(result => {
+                data = result.data;
+
+                return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
+            })                
+
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
         }
     }
 }

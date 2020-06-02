@@ -3,15 +3,15 @@ const DeliveryScheduleModel = require('../models/DeliveryScheduleModel');
 class DeliverySchedulesService {
 
     /**
-     * @description Fetch all help request records using UPRN
+     * @description Fetch data for the next delivery schedule
      * @returns {Promise<*>}
      */
 
-    async fetchDeliveryScheduleRecords(params) {
+    async fetchDeliveryScheduleData(params) {
         try {
             let data = [];
 
-            await DeliveryScheduleModel.fetchDeliveryScheduleRecords(params)
+            await DeliveryScheduleModel.fetchDeliveryScheduleData(params)
             .then ( (result) => {
                 data = result;
             });

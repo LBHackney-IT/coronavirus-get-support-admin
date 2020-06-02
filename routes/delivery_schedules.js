@@ -11,6 +11,11 @@ router.get('/', [isAuthorised, isAdmin], function(req, res) {
     res.render("delivery-schedules.njk");
 });
 
-router.post('/list', [isAuthorised, isAdmin, deliveryLimitValidation], deliverySchedulesController.delivery_schedule_list_post);
+router.post('/list', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res, next) => {
+    deliverySchedulesController.delivery_schedule_list_post(req, res, next)
+});
 
+router.post('/confirmed', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res, next) => {
+    deliverySchedulesController.delivery_schedule_cofirmed_post(req, res, next)
+});
 module.exports = router;
