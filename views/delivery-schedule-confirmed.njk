@@ -1,0 +1,30 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Delivery schedule</h1>
+    {{ lbhBackLink({
+        "href": "/",
+        "text": "Back to home"
+    }) }}
+
+    {% if deliveryData and deliveryData.ReportFileId %}
+    <h2 class="lbh-heading-h2">The daily schedule file was successfully generated.</h2>
+    <p class="lbh-body-m">To access it <a href="{{deliveryData.ReportFileId}}">click on this link.</a></p>
+        
+    {% else %}
+        <h2 class="lbh-heading-h2">Sorry, the daily schedule file was not generated.</h3>
+        <p class="lbh-body-m">Please try again.</p>
+
+        {{ lbhButton({
+            text: "Try again",
+            isSecondary: true,
+            href: "/delivery-schedules"
+        })}}
+    {% endif %}
+    
+    
+{% endblock %}
