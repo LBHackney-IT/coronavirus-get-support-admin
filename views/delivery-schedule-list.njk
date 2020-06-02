@@ -11,8 +11,8 @@
         "text": "Back to home"
     }) }}
 
-    {% if deliveryRecords | length %}
-        <p class="lbh-body-m">Displaying {{deliveryRecords | length}} record(s)</p>
+    {% if deliveryData | length %}
+        <p class="lbh-body-m">Displaying {{deliveryData | length}} record(s)</p>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
@@ -23,11 +23,15 @@
                 })}}
             </div>
 
-            {% if deliveryRecords | length %}
+            {% if deliveryData | length %}
             <div class="govuk-grid-column-one-half text-align-right">
-                <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
-                Confirm delivery report
-                </button>
+                <form action="/delivery-schedules/confirmed" method="post">
+                    <input type="hidden" name="delivery_limit" value="{{query.delivery_limit}}">
+
+                    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+                    Confirm delivery report
+                    </button>
+                </form>
             </div>
             {% endif %}
         </div>
@@ -42,7 +46,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                {% for item in deliveryRecords %}
+                {% for item in deliveryData %}
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell">{{item.AnnexId}} - ({{item.Uprn}})</td>
                         <td class="govuk-table__cell">
