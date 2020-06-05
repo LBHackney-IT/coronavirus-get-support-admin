@@ -1,4 +1,5 @@
 const HelpRequestModel = require('../models/HelpRequestModel');
+const notesHelper = require('../helpers/notes');
 
 class HelpRequestsService {
 
@@ -34,7 +35,17 @@ class HelpRequestsService {
 
             await HelpRequestModel.fetchHelpRequest(id)
             .then ( (result) => {
-                data = result;
+                data = result.data;
+
+                data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
+
+                if (data.LastConfirmedFoodDelivery) {
+                    const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
+                    
+                    data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
+                    data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
+                    data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
+                }
             });
 
             return data;
@@ -49,11 +60,28 @@ class HelpRequestsService {
      * @description Update a single help request
      * @returns {Promise<*>}
      */
-    async updateHelpRequest(id, helpRequestData) {
+    async updateHelpRequest(query, userName) {
         try {
             let data = [];
 
-            await HelpRequestModel.updateHelpRequest(id, helpRequestData)
+            const id = query.Id;
+            const day = query.last_confirmed_food_delivery_day;
+            const month = query.last_confirmed_food_delivery_month;
+            const year = query.last_confirmed_food_delivery_year;
+            const lastConfirmedDeliveryDate = new Date(Date.UTC(year, month - 1, day));
+
+            const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
+
+            const updatedData = JSON.stringify({
+                OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
+                ContactTelephoneNumber: query.ContactTelephoneNumber || '',
+                ContactMobileNumber: query.ContactMobileNumber || '',
+                LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
+                DeliveryNotes: query.DeliveryNotes,
+                CaseNotes: updatedCaseNotes
+            });
+
+            await HelpRequestModel.updateHelpRequest(id, updatedData)
             .then ( (result) => {
                 data = result;
             });

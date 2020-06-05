@@ -1,14 +1,14 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
-const notesHelper = require('../helpers/notes');
-const helpRequestService = require('../services/HelpRequestsService');
 
-// Show index page.
+const helpRequestService = require('../services/HelpRequestsService');
+const { mapFieldErrors } = require('../helpers/fieldErrors');
+
 module.exports = {
 
      /**
-     * @description Display a list of help requests matching the UPRN.
+     * @description Display a list of help requests
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
@@ -21,11 +21,7 @@ module.exports = {
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
-            var extractedErrors = {};
-
-            errors
-              .array()
-              .map(err => (extractedErrors["error_" + err.param] = err.msg));
+            var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
               "/help-requests?" +
@@ -39,7 +35,7 @@ module.exports = {
                 let data = [];
 
                 /**
-                 * uprn: string - UPRN number
+                 * postcode: string - matching full or partial postcode
                  * master: boolean - specify whether to return only master records or all
                  */
                 await helpRequestService.fetchAllHelpRequests({postcode: postcode, master: true})
@@ -82,19 +78,7 @@ module.exports = {
             } else {
                 await helpRequestService.fetchHelpRequest(req.params.id)
                 .then(result => {
-                    let data = result.data;
-
-                    data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
-
-                    if (data.LastConfirmedFoodDelivery) {
-                        const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
-                        
-                        data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
-                        data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
-                        data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
-                    }
-
-                    res.render('help-request-edit.njk', {query: data});
+                    res.render('help-request-edit.njk', {query: result});
                 })
             }
 
@@ -119,11 +103,7 @@ module.exports = {
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
-            var extractedErrors = {};
-
-            errors
-              .array()
-              .map(err => (extractedErrors["error_" + err.param] = err.msg));
+            var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
               "/help-requests/edit/" + req.body.Id + "?" +
@@ -135,28 +115,13 @@ module.exports = {
 
             try {
                 const query = req.body;
-
+                const userName = req.auth.name
                 const Uprn = query.Uprn;
                 const Id = query.Id;
-                const day = query.last_confirmed_food_delivery_day;
-                const month = query.last_confirmed_food_delivery_month;
-                const year = query.last_confirmed_food_delivery_year;
-                const lastConfirmedDeliveryDate = new Date(Date.UTC(year, month - 1, day));
 
-                const updatedCaseNotes = notesHelper.appendNote(req.auth.name, query.NewCaseNote, query.CaseNotes);
-
-                const updatedData = JSON.stringify({
-                    OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
-                    ContactTelephoneNumber: query.ContactTelephoneNumber || '',
-                    ContactMobileNumber: query.ContactMobileNumber || '',
-                    LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
-                    DeliveryNotes: query.DeliveryNotes,
-                    CaseNotes: updatedCaseNotes
-                });
-
-                await helpRequestService.updateHelpRequest(Id, updatedData)
+                await helpRequestService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.render('help-requests-update.njk', {updatedData: updatedData, Uprn: Uprn, Id: Id});
+                    return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
                 })                
 
             } catch (err) {
