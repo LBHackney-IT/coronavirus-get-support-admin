@@ -25,7 +25,7 @@ class ErrorHandler extends Error {
     });
   };
 
-  const handleAPIErrorResponse = (error) => {
+  const handleAPIErrors = (error) => {
     let errorResponse;
 
     if(error.response && error.response.data) {
@@ -45,5 +45,5 @@ class ErrorHandler extends Error {
   module.exports = {
     ErrorHandler,
     handleError,
-    handleAPIErrorResponse
+    handleAPIErrors
   }
