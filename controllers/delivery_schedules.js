@@ -3,6 +3,7 @@ const querystring = require('querystring');
 
 const dateHelper = require('../helpers/date');
 const DeliverySchedulesService = require('../services/DeliverySchedulesService');
+const mapFieldErrors = require('../helpers/fieldErrors');
 
 // Show index page.
 module.exports = {
@@ -22,11 +23,7 @@ module.exports = {
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
-            var extractedErrors = {};
-
-            errors
-              .array()
-              .map(err => (extractedErrors["error_" + err.param] = err.msg));
+            var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
               "/delivery-schedules?" +
@@ -43,7 +40,7 @@ module.exports = {
                  * capacity: string - Capacity (number of records to include in this delivery)
                  * confirmed: boolean - False to get the records only for viewing
                  */
-                await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit, confirmed: false})
+                await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit})
                 .then(result => {
                     data = result.data;
 
@@ -63,7 +60,7 @@ module.exports = {
         }
     },
 
-    delivery_schedule_cofirmed_post: async (req, res, next) => {
+    delivery_schedule_confirmed_post: async (req, res, next) => {
         res.locals.query = req.body;
 
         const limit = req.body.delivery_limit;
@@ -75,7 +72,7 @@ module.exports = {
                  * capacity: string - Capacity (number of records to include in this delivery)
                  * confirmed: boolean - True to generate the CSV file and get the file URL
                  */
-            await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit, confirmed: true})
+            await DeliverySchedulesService.confirmDeliverySchedule({limit: limit})
             .then(result => {
                 data = result.data;
 
