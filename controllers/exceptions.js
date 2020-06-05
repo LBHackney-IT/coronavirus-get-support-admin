@@ -4,8 +4,8 @@ const querystring = require('querystring');
 const dateHelper = require('../helpers/date');
 const notesHelper = require('../helpers/notes');
 const helpRequestService = require('../services/HelpRequestsService');
+const mapFieldErrors = require('../helpers/fieldErrors');
 
-// Show index page.
 module.exports = {
 
     /**
@@ -146,10 +146,7 @@ module.exports = {
         const errors = false
 
         if (errors) {
-            var extractedErrors = {};
-            errors
-                .array()
-                .map(err => (extractedErrors["error_" + err.param] = err.msg));
+            var extractedErrors = mapFieldErrors(errors);
            
             return res.redirect(
                 "exceptions/" + req.body.uprn + "?" +
