@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const config = require('../config');
+const { handleAPIErrors } = require('../helpers/error');
 
 class HelpRequestModel {
 
@@ -27,7 +28,7 @@ class HelpRequestModel {
                 params: params
             }).then ( result => {
                 data = result;
-            });
+            }).catch(err => handleAPIErrors(err));
 
             return data;
 
@@ -56,7 +57,7 @@ class HelpRequestModel {
                 headers: headers
             }).then ( result => {
                 data = result;
-            });
+            }).catch(err => handleAPIErrors(err));
 
             return data;
 
@@ -87,7 +88,7 @@ class HelpRequestModel {
                 headers: headers
             }).then ( result => {
                 data = result;
-            });
+            }).catch(err => handleAPIErrors(err));
 
             return data;            
 
@@ -128,7 +129,7 @@ class HelpRequestModel {
             await axios.all(apiRequests)
             .then ( axios.spread((result) => {
                 data = result;
-            }));
+            })).catch(err => handleAPIErrors(err));
             
             return data;
 
@@ -157,7 +158,7 @@ class HelpRequestModel {
                 headers: headers
             }).then ( (results) => {
                 data = results;
-            });
+            }).catch(err => handleAPIErrors(err));
 
             return data;            
 
