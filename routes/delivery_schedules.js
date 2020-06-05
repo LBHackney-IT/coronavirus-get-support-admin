@@ -16,6 +16,6 @@ router.post('/list', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res
 });
 
 router.post('/confirmed', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res, next) => {
-    deliverySchedulesController.delivery_schedule_cofirmed_post(req, res, next)
+    deliverySchedulesController.delivery_schedule_confirmed_post(req, res, next)
 });
 module.exports = router;
