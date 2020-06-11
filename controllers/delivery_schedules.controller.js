@@ -2,7 +2,7 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 const dateHelper = require('../helpers/date');
-const DeliverySchedulesService = require('../services/DeliverySchedulesService');
+const DeliverySchedulesService = require('../services/delivery_schedules.service');
 const mapFieldErrors = require('../helpers/fieldErrors');
 
 // Show index page.

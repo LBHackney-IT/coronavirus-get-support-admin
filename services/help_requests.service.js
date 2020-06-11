@@ -1,4 +1,4 @@
-const HelpRequestModel = require('../models/HelpRequestModel');
+const HelpRequestModel = require('../models/help_request.model');
 const notesHelper = require('../helpers/notes');
 
 class HelpRequestsService {

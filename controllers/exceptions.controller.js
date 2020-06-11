@@ -3,7 +3,7 @@ const querystring = require('querystring');
 
 const dateHelper = require('../helpers/date');
 const notesHelper = require('../helpers/notes');
-const helpRequestService = require('../services/HelpRequestsService');
+const helpRequestService = require('../services/help_requests.service');
 const mapFieldErrors = require('../helpers/fieldErrors');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_exceptions_get: async (req, res, next) => {
+    all_exceptions_list: async (req, res, next) => {
         try {
             let data = [];
 

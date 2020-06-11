@@ -2,7 +2,7 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 
-const helpRequestService = require('../services/HelpRequestsService');
+const helpRequestService = require('../services/help_requests.service');
 const { mapFieldErrors } = require('../helpers/fieldErrors');
 
 module.exports = {

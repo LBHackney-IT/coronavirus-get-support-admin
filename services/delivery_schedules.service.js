@@ -1,4 +1,4 @@
-const DeliveryScheduleModel = require('../models/DeliveryScheduleModel');
+const DeliveryScheduleModel = require('../models/delivery_schedule.model');
 
 class DeliverySchedulesService {
 
