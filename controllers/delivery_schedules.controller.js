@@ -1,12 +1,42 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
-const dateHelper = require('../helpers/date');
+
 const DeliverySchedulesService = require('../services/delivery_schedules.service');
 const mapFieldErrors = require('../helpers/fieldErrors');
 
-// Show index page.
 module.exports = {
+
+    /**
+     * @description Check if a delivery schedule report has already generated for the next day
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    delivery_schedule_get: async (req, res, next) => {
+        res.locals.query = req.query;
+
+        try {
+            let data = [];
+
+            await DeliverySchedulesService.checkDeliverySchedule()
+            .then(result => {
+                data = result;
+                
+                if(data && data.ReportFileId) {
+                    return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
+                } else {
+                    return res.render('delivery-schedule.njk');
+                }                
+            })                
+
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
+        }
+    },
 
     /**
      * @description Display a list of records to include in the delivery schedule.
@@ -37,17 +67,11 @@ module.exports = {
                 let data = [];
 
                 /**
-                 * capacity: string - Capacity (number of records to include in this delivery)
-                 * confirmed: boolean - False to get the records only for viewing
+                 * limit: string - Number of records to include in this delivery
                  */
-                await DeliverySchedulesService.fetchDeliveryScheduleData({limit: limit})
+                await DeliverySchedulesService.getDeliveryScheduleData({limit: limit})
                 .then(result => {
-                    data = result.data;
-
-                    data.forEach(item => {
-                        const formattedDeliveryDate = dateHelper.convertDate(item.DeliveryDate);
-                        item.deliveryDate = formattedDeliveryDate.concatenated;
-                    });
+                    data = result;
 
                     return res.render('delivery-schedule-list.njk', {deliveryData: data});
                 })                
@@ -60,6 +84,13 @@ module.exports = {
         }
     },
 
+    /**
+     * @description Confirm the delivery schedule and expect a link to the generated CSV file
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
     delivery_schedule_confirmed_post: async (req, res, next) => {
         res.locals.query = req.body;
 
@@ -69,14 +100,44 @@ module.exports = {
             let data = [];
 
             /**
-                 * capacity: string - Capacity (number of records to include in this delivery)
-                 * confirmed: boolean - True to generate the CSV file and get the file URL
-                 */
+             * @param limit: string - Number of records to include in this delivery
+             */
             await DeliverySchedulesService.confirmDeliverySchedule({limit: limit})
             .then(result => {
                 data = result.data;
 
                 return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
+            })                
+
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
+        }
+    },
+
+
+    /**
+     * @description Delete the current delivery schedule
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    delivery_schedule_delete: async (req, res, next) => {
+
+        try {
+            let data = [];
+
+            await DeliverySchedulesService.deleteDeliverySchedule()
+            .then(result => {
+                data = result.data;
+
+                if(data.ReportFileId) {
+                    return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
+                } else {
+                    return res.render('delivery-schedule.njk');
+                }                
             })                
 
         } catch (err) {
