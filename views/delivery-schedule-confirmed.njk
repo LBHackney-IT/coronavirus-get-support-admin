@@ -12,11 +12,16 @@
     }) }}
 
     {% if deliveryData and deliveryData.ReportFileId %}
+        {% if removeOption %}
+        <h2 class="lbh-heading-h2">The next daily schedule file has already been generated.</h2>
+        {% else %}
         <h2 class="lbh-heading-h2">The daily schedule file was successfully generated.</h2>
+        {% endif %}
+        
         <p class="lbh-body-m">To access it <a href="{{deliveryData.ReportFileId}}" target="_blank">click on this link.</a></p>
 
         {% if removeOption %}
-            <p class="lbh-body-m">Click this link to <a href="/delivery-schedules/delete/{{deliveryData.Id}}">delete this schedule and generate a new one.</a></p>
+            <p class="lbh-body-m">Or, click this link to <a href="/delivery-schedules/delete/{{deliveryData.Id}}">delete it</a> and generate a new one.</p>
         {% endif %}
         
     {% else %}
