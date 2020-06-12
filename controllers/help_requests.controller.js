@@ -2,7 +2,7 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 
-const helpRequestService = require('../services/help_requests.service');
+const HelpRequestsService = require('../services/help_requests.service');
 const { mapFieldErrors } = require('../helpers/fieldErrors');
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
                  * postcode: string - matching full or partial postcode
                  * master: boolean - specify whether to return only master records or all
                  */
-                await helpRequestService.fetchAllHelpRequests({postcode: postcode, master: true})
+                await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: true})
                 .then(result => {
                     data = result.data;
 
@@ -76,7 +76,7 @@ module.exports = {
                 return res.render('help-request-edit.njk');
 
             } else {
-                await helpRequestService.fetchHelpRequest(req.params.id)
+                await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
                     res.render('help-request-edit.njk', {query: result});
                 })
@@ -119,7 +119,7 @@ module.exports = {
                 const Uprn = query.Uprn;
                 const Id = query.Id;
 
-                await helpRequestService.updateHelpRequest(query, userName)
+                await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
                     return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
                 })                
