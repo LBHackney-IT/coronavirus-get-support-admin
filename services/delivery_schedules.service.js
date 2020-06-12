@@ -1,32 +1,71 @@
 const DeliveryScheduleModel = require('../models/delivery_schedule.model');
 
+const dateHelper = require('../helpers/date');
+
 class DeliverySchedulesService {
 
+    constructor() {
+        
+    }
+
     /**
-     * @description Fetch data for the next delivery schedule
+     * @description Check if the next delivery schedule has already been generated
      * @returns {Promise<*>}
      */
 
-    async fetchDeliveryScheduleData(params) {
+    async checkDeliverySchedule() {
         try {
             let data = [];
 
-            params.confirmed = false;
-
-            await DeliveryScheduleModel.fetchDeliveryScheduleData(params)
+            await DeliveryScheduleModel.getDeliverySchedule()
             .then ( (result) => {
-                data = result;
+                data = result.data;
             });
 
             return data;
             
         } catch (err) {
             console.log(err);
+            return err;
         }
     }
 
+
+    /**
+     * @description Fetch data for the next delivery schedule
+     * @param params {object}  
+     * @returns {Promise<*>}
+     */
+
+    async getDeliveryScheduleData(params) {
+        try {
+            let data = [];
+
+            params.confirmed = false;
+
+            await DeliveryScheduleModel.getDeliveryScheduleData(params)
+            .then ( (result) => {
+                data = result.data || [];
+
+                data.forEach(item => {
+                    const formattedDeliveryDate = dateHelper.convertDate(item.DeliveryDate);
+                    item.deliveryDate = formattedDeliveryDate.concatenated;
+                });
+            });
+
+            return data;
+            
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
+        }
+    }
+
+
     /**
      * @description Confirm the next delivery schedule
+     * @param params [object}  
      * @returns {Promise<*>}
      */
 
@@ -36,7 +75,7 @@ class DeliverySchedulesService {
 
             params.confirmed = true;
 
-            await DeliveryScheduleModel.fetchDeliveryScheduleData(params)
+            await DeliveryScheduleModel.getDeliveryScheduleData(params)
             .then ( (result) => {
                 data = result;
             });
@@ -44,7 +83,34 @@ class DeliverySchedulesService {
             return data;
             
         } catch (err) {
-            console.log(err);
+            const error = new Error(err);
+
+            return next(error);
+        }
+    }
+
+
+    /**
+     * @description Delete the next delivery schedule
+     * @param params [object}  
+     * @returns {Promise<*>}
+     */
+
+    async deleteDeliverySchedule(params) {
+        try {
+            let data = [];
+
+            await DeliveryScheduleModel.deleteDeliverySchedule(params)
+            .then ( (result) => {
+                data = result;
+            });
+
+            return data;
+            
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
         }
     }
 }
