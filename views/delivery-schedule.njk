@@ -4,14 +4,14 @@
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
-  <h1 class="lbh-heading-h1">Generate deliveries schedule</h1>
+  <h1 class="lbh-heading-h1">Generate a new delivery schedule</h1>
   {{ lbhBackLink({
     "href": "/",
     "text": "Back to home"
   }) }}
 
   <form action="/delivery-schedules/list" method="post">
-    <h3 class="lbh-heading-h3">Limit</h3>
+    <h3 class="lbh-heading-h3">How many deliveries do you want to include?</h3>
     
     {{ lbhInput({
       "id": "delivery_limit",
@@ -20,9 +20,6 @@
       "classes": "govuk-input--width-10",
       "formGroup": {
         "classes": "govuk-form-group--error lbh-form-group" if query.error_delivery_limit else ''
-      },
-      "hint": {
-        "text": "Enter a number greater than 0"
       },
       "errorMessage": {
         "text": query.error_delivery_limit
