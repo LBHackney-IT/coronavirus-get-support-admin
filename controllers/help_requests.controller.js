@@ -40,7 +40,7 @@ module.exports = {
                  */
                 await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: true})
                 .then(result => {
-                    data = result.data;
+                    data = result;
 
                     data.forEach(item => {
                         const recDate = new Date(item.DateTimeRecorded);

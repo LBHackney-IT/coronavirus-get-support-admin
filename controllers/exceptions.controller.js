@@ -20,7 +20,7 @@ module.exports = {
 
             await ExceptionsService.getAllExceptions()
             .then(result => {
-                data = result.data;
+                data = result;
 
                 return res.render('exceptions-list.njk', {exceptionsData: data});
             })                
@@ -46,7 +46,7 @@ module.exports = {
 
             await ExceptionsService.getAllMatchingHelpRequests({uprn: req.params.uprn, master: false})
             .then(result => {
-                data = result;                
+                data = result;             
 
                 return res.render('exceptions-edit.njk', {helpRequestData: data, uprn:  req.params.uprn});
             })                

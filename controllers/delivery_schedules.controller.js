@@ -104,7 +104,7 @@ module.exports = {
              */
             await DeliverySchedulesService.confirmDeliverySchedule({limit: limit})
             .then(result => {
-                data = result.data;
+                data = result;
 
                 return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
             })                
@@ -131,7 +131,7 @@ module.exports = {
 
             await DeliverySchedulesService.deleteDeliverySchedule()
             .then(result => {
-                data = result.data;
+                data = result;
 
                 if(data.ReportFileId) {
                     return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
