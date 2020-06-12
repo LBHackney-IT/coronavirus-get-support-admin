@@ -10,7 +10,7 @@ class HelpRequestModel {
     }
     
     /**
-     * @description Fetch all help request records using UPRN
+     * @description Fetch all help request records matching the params
      * @returns {Promise<*>}
      */
     async getAllHelpRequests(params) {
