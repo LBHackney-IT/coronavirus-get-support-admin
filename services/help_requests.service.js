@@ -1,5 +1,6 @@
 const HelpRequestModel = require('../models/help_request.model');
 const notesHelper = require('../helpers/notes');
+const dateHelper = require('../helpers/date');
 
 class HelpRequestsService {
 
@@ -8,11 +9,11 @@ class HelpRequestsService {
      * @returns {Promise<*>}
      */
 
-    async fetchAllHelpRequests(params) {
+    async getAllHelpRequests(params) {
         try {
             let data = [];
 
-            await HelpRequestModel.fetchAllHelpRequests(params)
+            await HelpRequestModel.getAllHelpRequests(params)
             .then ( (result) => {
                 data = result;
             });
@@ -29,11 +30,11 @@ class HelpRequestsService {
      * @description Fetch a single help request using the Annex ID
      * @returns {Promise<*>}
      */
-    async fetchHelpRequest(id) {
+    async getHelpRequest(id) {
         try {
             let data = [];
 
-            await HelpRequestModel.fetchHelpRequest(id)
+            await HelpRequestModel.getHelpRequest(id)
             .then ( (result) => {
                 data = result.data;
 
@@ -114,25 +115,7 @@ class HelpRequestsService {
         }
     }
 
-    /**
-     * @description Get all Exception help requests
-     * @returns {Promise<*>}
-     */
-    async fetchAllExceptions() {
-        try {
-            let data = [];
-
-            await HelpRequestModel.fetchAllExceptions()
-            .then ( (result) => {                
-                data = result;
-            });
-
-            return data;
-            
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    
 
 }
 
