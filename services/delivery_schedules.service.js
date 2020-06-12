@@ -19,7 +19,7 @@ class DeliverySchedulesService {
 
             await DeliveryScheduleModel.getDeliverySchedule()
             .then ( (result) => {
-                data = result.data;
+                data = result.data || [];
             });
 
             return data;
@@ -77,7 +77,7 @@ class DeliverySchedulesService {
 
             await DeliveryScheduleModel.getDeliveryScheduleData(params)
             .then ( (result) => {
-                data = result;
+                data = result.data || [];
             });
 
             return data;
@@ -102,7 +102,7 @@ class DeliverySchedulesService {
 
             await DeliveryScheduleModel.deleteDeliverySchedule(params)
             .then ( (result) => {
-                data = result;
+                data = result.data || [];
             });
 
             return data;

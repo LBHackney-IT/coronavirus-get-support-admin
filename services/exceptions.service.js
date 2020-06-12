@@ -14,7 +14,7 @@ class ExceptionsService {
 
             await HelpRequestModel.getAllExceptions()
             .then ( (result) => {
-                data = result.data;
+                data = result.data || [];
 
                 data.forEach(item => {
                     const formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
@@ -44,8 +44,8 @@ class ExceptionsService {
             .then ( (result) => {
                 let recordIDs = [];
 
-                data = result.data;
-
+                data = result.data || [];
+                
                 if (data.length) {
                     const dynamicFields = [
                         "FirstName",
