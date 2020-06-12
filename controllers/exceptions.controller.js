@@ -1,10 +1,9 @@
-const validator = require('express-validator');
 const querystring = require('querystring');
 
-const dateHelper = require('../helpers/date');
 const notesHelper = require('../helpers/notes');
-const helpRequestService = require('../services/help_requests.service');
 const mapFieldErrors = require('../helpers/fieldErrors');
+const HelpRequestsService = require('../services/help_requests.service');
+const ExceptionsService = require('../services/exceptions.service');
 
 module.exports = {
 
@@ -19,15 +18,9 @@ module.exports = {
         try {
             let data = [];
 
-            await helpRequestService.fetchAllExceptions()
+            await ExceptionsService.getAllExceptions()
             .then(result => {
                 data = result.data;
-
-                data.forEach(item => {
-                    const formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
-
-                    item.creation_date = formattedCreationDate.concatenated;
-                });
 
                 return res.render('exceptions-list.njk', {exceptionsData: data});
             })                
@@ -51,58 +44,9 @@ module.exports = {
         try {
             let data = [];
 
-            await helpRequestService.fetchAllHelpRequests({uprn: req.params.uprn, master: false})
+            await ExceptionsService.getAllMatchingHelpRequests({uprn: req.params.uprn, master: false})
             .then(result => {
-                let recordIDs = [];
-
-                data = result.data;
-
-                if (data.length) {
-                    const dynamicFields = [
-                        "FirstName",
-                        "LastName",
-                        "RecordStatus",
-                        "IsDuplicate",
-                        "OngoingFoodNeed",
-                        "ContactTelephoneNumber",
-                        "ContactMobileNumber",
-                        "EmailAddress",
-                        "NumberOfPeopleInHouse",
-                        "DobDay",
-                        "DobMonth",
-                        "DobYear",
-                        "DeliveryNotes",
-                        "CaseNotes"
-                    ];
-
-                    let formattedCreationDate = {};
-
-                    data.forEach(item => {
-                        recordIDs.push(item.Id);
-
-                        dynamicFields.forEach((fieldName) => {
-                            item[fieldName + "_" + item.Id] = item[fieldName];
-                        });
-
-                        formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
-
-                        item.creation_date = formattedCreationDate.concatenated;
-
-                        if (item.LastConfirmedFoodDelivery) {
-                            const formattedDeliveryDate = dateHelper.convertDate(item.LastConfirmedFoodDelivery);
-
-                            item["last_confirmed_food_delivery_date_" + item.Id] = formattedDeliveryDate.concatenated;
-                        }
-
-                        data.AddressFirstLine = data[0].AddressFirstLine;
-                        data.AddressSecondLine = data[0].AddressSecondLine;
-                        data.Postcode = data[0].Postcode;
-                    });
-
-                    data.recordIDs = recordIDs.join(',');
-
-                    res.locals.query = data;
-                };
+                data = result;                
 
                 return res.render('exceptions-edit.njk', {helpRequestData: data, uprn:  req.params.uprn});
             })                
@@ -177,7 +121,7 @@ module.exports = {
                 });
 
                 // Update all the Help Request records
-                await helpRequestService.updateAllHelpRequests(recordsData)
+                await HelpRequestsService.updateAllHelpRequests(recordsData)
                 .then(result => {
                     return res.redirect("/exceptions");
                 })  
