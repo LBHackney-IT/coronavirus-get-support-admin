@@ -13,7 +13,7 @@ class HelpRequestModel {
      * @description Fetch all help request records using UPRN
      * @returns {Promise<*>}
      */
-    async fetchAllHelpRequests(params) {
+    async getAllHelpRequests(params) {
 
         try {
             let data = [];
@@ -43,7 +43,7 @@ class HelpRequestModel {
      * @description Fetch a single help request using the Annex ID
      * @returns {Promise<*>}
      */
-    async fetchHelpRequest(id) {
+    async getHelpRequest(id) {
 
         try {
             let data = [];
@@ -145,7 +145,7 @@ class HelpRequestModel {
      * @description Fetch all exception records
      * @returns {Promise<*>}
      */
-    async fetchAllExceptions() {
+    async getAllExceptions() {
         let data = [];
 
         try {          
