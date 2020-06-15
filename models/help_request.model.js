@@ -28,14 +28,17 @@ class HelpRequestModel {
                 params: params
             }).then ( result => {
                 data = result;
-            }).catch(err => handleAPIErrors(err));
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: fetchAllHelpRequests())');
+                data.isError = true;
+            });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel fetchAllHelpRequests ERR');
-            console.log(err)
-            return (err)
+            console.log('HelpRequestModel: fetchAllHelpRequests() ERR');
+            console.log(err);
+            return (err);
         }
     }
 
@@ -57,14 +60,17 @@ class HelpRequestModel {
                 headers: headers
             }).then ( result => {
                 data = result;
-            }).catch(err => handleAPIErrors(err));
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getHelpRequest())');
+                data.isError = true;
+            });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel fetchHelpRequest ERR');
-            console.log(err)
-            return (err)
+            console.log('HelpRequestModel: getHelpRequest ERR');
+            console.log(err);
+            return (err);
         }
     }
 
@@ -88,14 +94,17 @@ class HelpRequestModel {
                 headers: headers
             }).then ( result => {
                 data = result;
-            }).catch(err => handleAPIErrors(err));
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: updateHelpRequest())');
+                data.isError = true;
+            });
 
             return data;            
 
         } catch (err) {
-            console.log('HelpRequestModel updateHelpRequest ERR');
-            console.log(err)
-            return (err)
+            console.log('HelpRequestModel: updateHelpRequest ERR');
+            console.log(err);
+            return (err);
         }
     }
 
@@ -129,14 +138,17 @@ class HelpRequestModel {
             await axios.all(apiRequests)
             .then ( axios.spread((result) => {
                 data = result;
-            })).catch(err => handleAPIErrors(err));
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Errorat HelpRequestModel: updateAllHelpRequests()');
+                data.isError = true;
+            }));
             
             return data;
 
         } catch (err) {
             console.log('HelpRequestModel updateAllHelpRequests ERR');
-            console.log(err)
-            return (err)
+            console.log(err);
+            return (err);
         }
     }
 
@@ -158,7 +170,10 @@ class HelpRequestModel {
                 headers: headers
             }).then ( (results) => {
                 data = results;
-            }).catch(err => handleAPIErrors(err));
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getAllExceptions()');
+                data.isError = true;
+            });
 
             return data;            
 

@@ -10,7 +10,7 @@ class DeliveryScheduleModel {
     }
 
     /**
-     * @description Check if there is a delivry report has already been generated
+     * @description Check if a delivery report has already been generated
      * @returns {Promise<*>}
      */
     async getDeliverySchedule() {
@@ -25,17 +25,15 @@ class DeliveryScheduleModel {
             await axios.get(config.delivery_batch_api_url, {
                 headers: headers
             }).then ( result => {
-                data = result;
+                data = result.data;
             }).catch(err => {
-                console.log('CATCH AXIOS Error at fetchCurrentDeliverySchedule MODEL');
-                console.log(err);
-                // handleAPIErrors(err);
+                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliverySchedule()');
             });
 
             return data;
 
         } catch (err) {
-            console.log('CATCH fetchCurrentDeliverySchedule MODEL ERR');
+            console.log('Catch DeliveryScheduleModel: getDeliverySchedule() ERR');
             console.log(err);
             return (err);
         }
@@ -43,7 +41,7 @@ class DeliveryScheduleModel {
 
     
     /**
-     * @description Fetch records for the next scheduled food delivery, or the CSV file URL
+     * @description Fetch records for the next scheduled food delivery, or return the generated CSV file URL
      * @param params [object}  
      * @returns {Promise<*>}
      */
@@ -60,13 +58,16 @@ class DeliveryScheduleModel {
                 headers: headers,
                 params: params
             }).then ( result => {
-                data = result;
-            }).catch(err => handleAPIErrors(err));
+                data = result.data;
+            }).catch(err => {
+                console.log();
+                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliveryScheduleData()');
+            });
 
             return data;
 
         } catch (err) {
-            console.log('DeliveryScheduleModel fetchDeliveryScheduleRecords ERR');
+            console.log('Catch DeliveryScheduleModel: getDeliveryScheduleData() ERR');
             console.log(err)
             return (err)
         }
@@ -74,11 +75,11 @@ class DeliveryScheduleModel {
 
 
     /**
-     * @description Delete the current delivery shedule repoprt
+     * @description Delete the current delivery shedule report
      * @param params [object}  
      * @returns {Promise<*>}
      */
-    async deleteDeliverySchedule(params) {
+    async deleteDeliverySchedule(id) {
         try {
             let data = [];
 
@@ -87,17 +88,18 @@ class DeliveryScheduleModel {
                 "x-api-key": config.api_key
             };
 
-            await axios.delete(config.delivery_api_url, {
-                headers: headers,
-                params: params
+            await axios.delete(config.delivery_api_url + '/' + id, {
+                headers: headers
             }).then ( result => {
-                data = result;
-            }).catch(err => handleAPIErrors(err));
+                data = result.data;
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: deleteDeliverySchedule()');
+            });
 
             return data;
 
         } catch (err) {
-            console.log('DeliveryScheduleModel fetchDeliveryScheduleRecords ERR');
+            console.log('Catch DeliveryScheduleModel: deleteDeliverySchedule ERR');
             console.log(err)
             return (err)
         }
