@@ -1,0 +1,5 @@
+{% macro ServerErrorContent(error) %}
+<h1 class="lbh-heading-h1">Sorry, there is a problem with the service.</h1>
+<h3 class="lbh-heading-h3">Error: {{error.status}} - {{error.message}}</h3>
+<p class="lbh-body-m">Please try again.</p>
+{% endmacro %}
