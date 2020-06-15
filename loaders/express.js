@@ -80,11 +80,6 @@ module.exports = {
         app.use('/delivery-schedules', deliverySchedulesRoutes);
         app.use('/exceptions', exceptionsRoutes);
 
-        app.get("/:page", function(req, res) {
-            res.locals.query = req.query;
-            res.render(req.params.page);
-        });
-
         app.use('/', indexRoutes);
 
 
