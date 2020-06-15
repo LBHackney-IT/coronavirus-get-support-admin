@@ -1,3 +1,5 @@
+"use strict";
+
 const querystring = require('querystring');
 
 const notesHelper = require('../helpers/notes');
@@ -46,7 +48,9 @@ module.exports = {
 
             await ExceptionsService.getAllMatchingHelpRequests({uprn: req.params.uprn, master: false})
             .then(result => {
-                data = result;             
+                data = result;
+
+                res.locals.query = data;
 
                 return res.render('exceptions-edit.njk', {helpRequestData: data, uprn:  req.params.uprn});
             })                
