@@ -19,7 +19,7 @@ class DeliverySchedulesService {
 
             await DeliveryScheduleModel.getDeliverySchedule()
             .then ( (result) => {
-                data = result.data || [];
+                data = result;
             });
 
             return data;
@@ -39,18 +39,20 @@ class DeliverySchedulesService {
 
     async getDeliveryScheduleData(params) {
         try {
-            let data = [];
+            let data = {};
 
             params.confirmed = false;
 
             await DeliveryScheduleModel.getDeliveryScheduleData(params)
             .then ( (result) => {
-                data = result.data || [];
+                data = result;
 
-                data.forEach(item => {
-                    const formattedDeliveryDate = dateHelper.convertDate(item.DeliveryDate);
-                    item.deliveryDate = formattedDeliveryDate.concatenated;
-                });
+                if(!data.isError) {
+                    data.forEach(item => {
+                        const formattedDeliveryDate = dateHelper.convertDate(item.DeliveryDate);
+                        item.deliveryDate = formattedDeliveryDate.concatenated;
+                    });
+                };
             });
 
             return data;
@@ -77,7 +79,7 @@ class DeliverySchedulesService {
 
             await DeliveryScheduleModel.getDeliveryScheduleData(params)
             .then ( (result) => {
-                data = result.data || [];
+                data = result;
             });
 
             return data;
@@ -96,13 +98,13 @@ class DeliverySchedulesService {
      * @returns {Promise<*>}
      */
 
-    async deleteDeliverySchedule(params) {
+    async deleteDeliverySchedule(id) {
         try {
-            let data = [];
+            let data = {};
 
-            await DeliveryScheduleModel.deleteDeliverySchedule(params)
+            await DeliveryScheduleModel.deleteDeliverySchedule(id)
             .then ( (result) => {
-                data = result.data || [];
+                data = result;
             });
 
             return data;
