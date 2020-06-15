@@ -1,3 +1,5 @@
+"use strict";
+
 const validator = require('express-validator');
 const querystring = require('querystring');
 
@@ -18,18 +20,23 @@ module.exports = {
         res.locals.query = req.query;
 
         try {
-            let data = [];
 
             await DeliverySchedulesService.checkDeliverySchedule()
             .then(result => {
-                data = result;
-                
+                const data = result;
+
+                if(data.isError) {
+                    return res.render('error.njk', {error: data} );
+                } else {
+                    data = response.data;
+                }
+
                 if(data && data.ReportFileId) {
                     return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
                 } else {
                     return res.render('delivery-schedule.njk');
-                }                
-            })                
+                }
+            });
 
         } catch (err) {
             const error = new Error(err);
@@ -64,17 +71,21 @@ module.exports = {
         } else {
 
             try {
-                let data = [];
-
                 /**
                  * limit: string - Number of records to include in this delivery
                  */
                 await DeliverySchedulesService.getDeliveryScheduleData({limit: limit})
                 .then(result => {
-                    data = result;
+                    const data = result;
+
+                    if(data.isError) {
+                        return res.render('error.njk', {error: data} );
+                    } else {
+                        data = response.data;
+                    }
 
                     return res.render('delivery-schedule-list.njk', {deliveryData: data});
-                })                
+                });
 
             } catch (err) {
                 const error = new Error(err);
@@ -97,17 +108,22 @@ module.exports = {
         const limit = req.body.delivery_limit;
 
         try {
-            let data = [];
-
+            
             /**
              * @param limit: string - Number of records to include in this delivery
              */
             await DeliverySchedulesService.confirmDeliverySchedule({limit: limit})
             .then(result => {
-                data = result;
+                const data = result;
+
+                if(data.isError) {
+                    return res.render('error.njk', {error: data} );
+                } else {
+                    data = response.data;
+                }
 
                 return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
-            })                
+            });
 
         } catch (err) {
             const error = new Error(err);
@@ -127,18 +143,19 @@ module.exports = {
     delivery_schedule_delete: async (req, res, next) => {
 
         try {
-            let data = [];
-
-            await DeliverySchedulesService.deleteDeliverySchedule()
+            await DeliverySchedulesService.deleteDeliverySchedule(req.params.id)
             .then(result => {
-                data = result;
 
-                if(data.ReportFileId) {
-                    return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
+                const data = result;
+
+                if(data.isError) {
+                    return res.render('error.njk', {error: data} );
                 } else {
-                    return res.render('delivery-schedule.njk');
-                }                
-            })                
+                    data = response.data;
+                }
+
+                return res.redirect('/delivery-schedules');
+            });           
 
         } catch (err) {
             const error = new Error(err);
