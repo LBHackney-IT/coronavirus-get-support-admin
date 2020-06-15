@@ -22,12 +22,12 @@ class DeliveryScheduleModel {
                 "x-api-key": config.api_key
             };
 
-            await axios.get(config.delivery_batch_api_url, {
+            await axios.get(`${config.delivery_batch_api_url}`, {
                 headers: headers
             }).then ( result => {
                 data = result.data;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliverySchedule()');
+                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliverySchedule()');              
             });
 
             return data;
@@ -54,13 +54,12 @@ class DeliveryScheduleModel {
                 "x-api-key": config.api_key
             };
 
-            await axios.get(config.delivery_api_url, {
+            await axios.get(`${config.delivery_api_url}`, {
                 headers: headers,
                 params: params
             }).then ( result => {
                 data = result.data;
             }).catch(err => {
-                console.log();
                 data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliveryScheduleData()');
             });
 
@@ -84,12 +83,12 @@ class DeliveryScheduleModel {
             let data = [];
 
             const headers = {
-                "Content-Type": "application/json",
                 "x-api-key": config.api_key
             };
 
-            await axios.delete(config.delivery_api_url + '/' + id, {
-                headers: headers
+            await axios.delete(`${config.delivery_batch_api_url}/${id}`, {
+                headers: headers,
+                withCredentials: true
             }).then ( result => {
                 data = result.data;
             }).catch(err => {
