@@ -1,3 +1,5 @@
+"use strict";
+
 const validator = require('express-validator');
 const querystring = require('querystring');
 
