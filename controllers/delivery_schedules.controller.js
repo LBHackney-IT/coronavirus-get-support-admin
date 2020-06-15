@@ -5,7 +5,7 @@ const querystring = require('querystring');
 
 
 const DeliverySchedulesService = require('../services/delivery_schedules.service');
-const mapFieldErrors = require('../helpers/fieldErrors');
+const { mapFieldErrors } = require('../helpers/fieldErrors');
 
 module.exports = {
 
@@ -23,13 +23,11 @@ module.exports = {
 
             await DeliverySchedulesService.checkDeliverySchedule()
             .then(result => {
-                const data = result;
+                let data = result;
 
                 if(data.isError) {
                     return res.render('error.njk', {error: data} );
-                } else {
-                    data = response.data;
-                }
+                };
 
                 if(data && data.ReportFileId) {
                     return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
@@ -54,7 +52,6 @@ module.exports = {
      */
     delivery_schedule_list_post: async (req, res, next) => {
         res.locals.query = req.body;
-
         const limit = req.body.delivery_limit;
 
         const errors = validator.validationResult(req);
@@ -76,13 +73,11 @@ module.exports = {
                  */
                 await DeliverySchedulesService.getDeliveryScheduleData({limit: limit})
                 .then(result => {
-                    const data = result;
+                    let data = result;
 
                     if(data.isError) {
                         return res.render('error.njk', {error: data} );
-                    } else {
-                        data = response.data;
-                    }
+                    };
 
                     return res.render('delivery-schedule-list.njk', {deliveryData: data});
                 });
@@ -114,13 +109,11 @@ module.exports = {
              */
             await DeliverySchedulesService.confirmDeliverySchedule({limit: limit})
             .then(result => {
-                const data = result;
+                let data = result;
 
                 if(data.isError) {
                     return res.render('error.njk', {error: data} );
-                } else {
-                    data = response.data;
-                }
+                };
 
                 return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
             });
@@ -146,12 +139,12 @@ module.exports = {
             await DeliverySchedulesService.deleteDeliverySchedule(req.params.id)
             .then(result => {
 
-                const data = result;
+                let data = result;
 
                 if(data.isError) {
                     return res.render('error.njk', {error: data} );
                 } else {
-                    data = response.data;
+                    data = result.data;
                 }
 
                 return res.redirect('/delivery-schedules');
