@@ -13,17 +13,24 @@
 
     {% if deliveryData and deliveryData.ReportFileId %}
         {% if removeOption %}
-        <h2 class="lbh-heading-h2">The next daily schedule file has already been generated.</h2>
+        <h2 class="lbh-heading-h2">The delivery schedule file has already been generated.</h2>
         {% else %}
         <h2 class="lbh-heading-h2">The daily schedule file was successfully generated.</h2>
         {% endif %}
-        
-        <p class="lbh-body-m">To access it <a href="{{deliveryData.ReportFileId}}" target="_blank">click on this link.</a></p>
 
-        {% if removeOption %}
-            <p class="lbh-body-m">Or, click this link to <a href="/delivery-schedules/delete/{{deliveryData.Id}}">delete it</a> and generate a new one.</p>
-        {% endif %}
-        
+        <div class="govuk-grid-row">
+            {% if removeOption %}
+            <div class="govuk-grid-column-one-half">
+                <a href="/delivery-schedules/delete/{{deliveryData.Id}}" class="govuk-button  lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn">Generate a new report</a>
+            </div>
+            {% endif %}
+
+            <div class="govuk-grid-column-one-half {{ 'text-align-right' if removeOption else '' }}">
+                <a href="{{deliveryData.ReportFileId}}" class="govuk-button  lbh-button" target="_blank">View current report</a>
+            </div>
+            
+        </div>
+
     {% else %}
         <h2 class="lbh-heading-h2">Sorry, the daily schedule file was not generated.</h3>
         <p class="lbh-body-m">Please try again.</p>
