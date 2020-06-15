@@ -20,7 +20,7 @@ const helpRequestValidation = [
 
 const deliveryLimitValidation = [
   check("delivery_limit", "Enter a delivery limit greater than 0")
-    .trim().escape().isInt({min: 1})
+    .trim().escape().notEmpty().isInt({min: 1})
 ]
 
 module.exports = {
