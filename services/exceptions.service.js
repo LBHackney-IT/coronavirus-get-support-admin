@@ -88,9 +88,7 @@ class ExceptionsService {
                         data.Postcode = data[0].Postcode;
                     });
 
-                    data.recordIDs = recordIDs.join(',');
-
-                    res.locals.query = data;
+                    data.recordIDs = recordIDs.join(',');                    
                 };
             });
 
@@ -101,7 +99,7 @@ class ExceptionsService {
         }
     }
 
-
+    
 }
 
 module.exports = new ExceptionsService;
