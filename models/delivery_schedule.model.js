@@ -27,7 +27,9 @@ class DeliveryScheduleModel {
             }).then ( result => {
                 data = result.data;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliverySchedule()');              
+                if(err.response.status !=404) {
+                    data = handleAPIErrors(err, 'Axios catch Error at DeliveryScheduleModel: getDeliverySchedule()');              
+                };
             });
 
             return data;
