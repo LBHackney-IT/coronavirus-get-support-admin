@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const exceptionsController = require('../controllers/exceptions');
+const exceptionsController = require('../controllers/exceptions.controller');
 const {isAuthorised, isAdmin} = require('../middleware/auth');
 
 // GET request to get all exceptions
-router.get('/', [isAuthorised, isAdmin], exceptionsController.all_exceptions_get);
+router.get('/', [isAuthorised, isAdmin], exceptionsController.all_exceptions_list);
 
 // GET request to display all help requests by UPRN
 router.get('/:uprn', [isAuthorised, isAdmin], exceptionsController.all_help_requests_get);

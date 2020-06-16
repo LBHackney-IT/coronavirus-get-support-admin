@@ -18,7 +18,13 @@ const helpRequestValidation = [
     .trim().escape().isLength({min: 4, max: 4}).isInt()
 ]
 
+const deliveryLimitValidation = [
+  check("delivery_limit", "Enter a delivery limit greater than 0")
+    .trim().escape().notEmpty().isInt({min: 1})
+]
+
 module.exports = {
   addressValidation,
-  helpRequestValidation
+  helpRequestValidation,
+  deliveryLimitValidation
 }

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { addressValidation, helpRequestValidation } = require('../middleware/validation');
-const helpRequestsController = require('../controllers/help_requests');
+const helpRequestsController = require('../controllers/help_requests.controller');
 const {isAuthorised}= require('../middleware/auth');
 
 router.get('/', isAuthorised, function(req, res) {

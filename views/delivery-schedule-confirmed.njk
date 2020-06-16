@@ -1,0 +1,46 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Delivery schedule</h1>
+    {{ lbhBackLink({
+        "href": "/",
+        "text": "Back to home"
+    }) }}
+
+    {% if deliveryData and deliveryData.ReportFileId %}
+        {% if removeOption %}
+        <h2 class="lbh-heading-h2">The delivery schedule file has already been generated.</h2>
+        {% else %}
+        <h2 class="lbh-heading-h2">The daily schedule file was successfully generated.</h2>
+        {% endif %}
+
+        <div class="govuk-grid-row">
+            {% if removeOption %}
+            <div class="govuk-grid-column-one-half">
+                <a href="/delivery-schedules/delete/{{deliveryData.Id}}" class="govuk-button  lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn">Generate a new report</a>
+            </div>
+            {% endif %}
+
+            <div class="govuk-grid-column-one-half {{ 'text-align-right' if removeOption else '' }}">
+                <a href="{{deliveryData.ReportFileId}}" class="govuk-button  lbh-button" target="_blank">View current report</a>
+            </div>
+            
+        </div>
+
+    {% else %}
+        <h2 class="lbh-heading-h2">Sorry, the daily schedule file was not generated.</h3>
+        <p class="lbh-body-m">Please try again.</p>
+
+        {{ lbhButton({
+            text: "Try again",
+            isSecondary: true,
+            href: "/delivery-schedules"
+        })}}
+    {% endif %}
+    
+    
+{% endblock %}
