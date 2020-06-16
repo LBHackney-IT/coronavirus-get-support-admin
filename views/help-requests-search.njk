@@ -10,23 +10,48 @@
     "text": "Back to home"
   }) }}
 
-  <form action="/help-requests" method="post">
-    <h3 class="lbh-heading-h3">Enter a postcode to search by:</h3>
-    {{ lbhInput({
-      "id": "postcode",
-      "name": "postcode",
-      "value": query.postcode,
-      "classes": "govuk-input--width-10",
-      "formGroup": {
-        "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
-      },
-      "errorMessage": {
-        "text": query.error_postcode
-      } if query.error_postcode else null
-    }) }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+      <form action="/help-requests" method="post">
+        <h3 class="lbh-heading-h3">Search by postcode:</h3>
+        {{ lbhInput({
+          "id": "postcode",
+          "name": "postcode",
+          "value": query.postcode,
+          "classes": "govuk-input--width-10",
+          "formGroup": {
+            "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+          },
+          "errorMessage": {
+            "text": query.error_postcode
+          } if query.error_postcode else null
+        }) }}
 
-    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
-      Search
-    </button>
-  </form>
+        <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+          Search
+        </button>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-half">
+      <form action="/help-requests" method="post">
+        <h3 class="lbh-heading-h3">Search by Annex ID:</h3>
+        {{ lbhInput({
+          "id": "id",
+          "name": "",
+          "value": query.id,
+          "classes": "govuk-input--width-10",
+          "formGroup": {
+            "classes": "govuk-form-group--error lbh-form-group" if query.error_id else ''
+          },
+          "errorMessage": {
+            "text": query.error_id
+          } if query.error_id else null
+        }) }}
+
+        <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+          Search
+        </button>
+      </form>
+    </div>
+  </div>
 {% endblock %}
