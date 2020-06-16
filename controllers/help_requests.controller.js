@@ -71,6 +71,7 @@ module.exports = {
      */
     help_request_get: async (req, res, next) => {
         try {
+            res.locals.isAdmin = req.auth.isAdmin;
 
             if(req.query.Id) {
                 res.locals.query = req.query;
