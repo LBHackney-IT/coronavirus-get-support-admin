@@ -3,27 +3,32 @@
 {% extends "./layouts/base.njk" %}
 
 {% block content %}
-  <h1 class="lbh-heading-h1">What would you like to do?</h1>
+
+  <h1 class="lbh-heading-h1">I Need Help Admin Dashboard</h1>
+
+  {% if annexSummary.ActiveCases %}
+  <p class="lbh-body-m">Active Annex Cases: ({{ annexSummary.ActiveCases }})</p>
+  {% endif %}
 
   <table class="govuk-table  lbh-table">
     <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Manage food deliveries</td>
-          <td class="govuk-table__cell">
+          <th scope="row" class="govuk-table__header">Manage food deliveries</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
             <a href="/help-requests" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
           </td>
         </tr>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Generate a daily delivery schedule</td>
-          <td class="govuk-table__cell">
+          <th scope="row" class="govuk-table__header">Generate a daily delivery schedule</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
             <a href="/delivery-schedules" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
           </td>
         </tr>
 
         {% if isAdmin %}
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">Manage exceptions</td>
-          <td class="govuk-table__cell">
+          <th scope="row" class="govuk-table__header">Manage exceptions</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
             <a href="/exceptions" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
           </td>
         </tr>
