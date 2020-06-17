@@ -115,8 +115,6 @@ class HelpRequestsService {
         }
     }
 
-    
-
 }
 
 module.exports = new HelpRequestsService;

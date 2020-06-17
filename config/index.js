@@ -12,6 +12,8 @@ module.exports = {
     api_url: process.env.HELP_REQUESTS_API_URL,
     api_key: process.env.HELP_REQUESTS_API_KEY,
 
+    annex_summary_api_url: process.env.ANNEX_SUMMARY_API_URL,
+
     delivery_api_url: process.env.DELIVERY_SCHEDULE_API_URL,
     delivery_batch_api_url: process.env.DELIVERY_BATCH_API_URL,
 

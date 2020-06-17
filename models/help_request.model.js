@@ -95,7 +95,7 @@ class HelpRequestModel {
             }).then ( result => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: updateHelpRequest())');
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: updateHelpRequest()');
                 data.isError = true;
             });
 
@@ -181,6 +181,39 @@ class HelpRequestModel {
             console.log('ExceptionsModel fetchAllExceptions ERR');
             console.log(err)
             return (err)
+        }
+    }
+
+
+    /**
+     * @description Fetch the Annex table summary stats
+     * @returns {Promise<*>}
+     */
+    async getAnnexSummary() {
+
+        try {
+            let data = [];
+
+            const headers = {
+                "Content-Type": "application/json",
+                "x-api-key": config.api_key
+            };
+
+            await axios.get(config.annex_summary_api_url, {
+                headers: headers
+            }).then ( result => {
+                data = result;
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getAnnexSummary()');
+                data.isError = true;
+            });
+
+            return data;
+
+        } catch (err) {
+            console.log('HelpRequestModel: fetchAllHelpRequests() ERR');
+            console.log(err);
+            return (err);
         }
     }
 }
