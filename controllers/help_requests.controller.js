@@ -19,6 +19,7 @@ module.exports = {
     all_help_requests_post: async (req, res, next) => {
         res.locals.query = req.body;
         const postcode = req.body.postcode;
+        const masterOnly = req.body.masterOnly && req.body.masterOnly == 'YES' ? true: false;
 
         const errors = validator.validationResult(req);
 
@@ -40,7 +41,7 @@ module.exports = {
                  * postcode: string - matching full or partial postcode
                  * master: boolean - specify whether to return only master records or all
                  */
-                await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: true})
+                await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: masterOnly})
                 .then(result => {
                     data = result;
 
