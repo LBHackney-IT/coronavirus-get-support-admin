@@ -7,9 +7,11 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 
-const indexRoutes = require('../routes/index');
-const helpRequestsRoutes = require('../routes/help_requests');
-const exceptionsRoutes = require('../routes/exceptions');
+const indexRoutes = require('../routes/index.route');
+const helpRequestsRoutes = require('../routes/help_requests.route');
+const deliverySchedulesRoutes = require('../routes/delivery_schedules.route');
+const exceptionsRoutes = require('../routes/exceptions.route');
+
 const logger = require('../middleware/logger');
 const { handleError } = require('../helpers/error');
 
@@ -75,12 +77,8 @@ module.exports = {
         //-------------------------
 
         app.use('/help-requests', helpRequestsRoutes);
+        app.use('/delivery-schedules', deliverySchedulesRoutes);
         app.use('/exceptions', exceptionsRoutes);
-
-        app.get("/:page", function(req, res) {
-            res.locals.query = req.query;
-            res.render(req.params.page);
-        });
 
         app.use('/', indexRoutes);
 
@@ -101,6 +99,6 @@ module.exports = {
 
         app.use((err, req, res, next) => {
             handleError(err, req, res);
-          });
+        });
     }
 }

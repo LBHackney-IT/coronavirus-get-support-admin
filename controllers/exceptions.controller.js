@@ -1,11 +1,12 @@
-const validator = require('express-validator');
+"use strict";
+
 const querystring = require('querystring');
 
-const dateHelper = require('../helpers/date');
 const notesHelper = require('../helpers/notes');
-const helpRequestService = require('../services/HelpRequestsService');
+const mapFieldErrors = require('../helpers/fieldErrors');
+const HelpRequestsService = require('../services/help_requests.service');
+const ExceptionsService = require('../services/exceptions.service');
 
-// Show index page.
 module.exports = {
 
     /**
@@ -15,19 +16,13 @@ module.exports = {
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_exceptions_get: async (req, res, next) => {
+    all_exceptions_list: async (req, res, next) => {
         try {
             let data = [];
 
-            await helpRequestService.fetchAllExceptions()
+            await ExceptionsService.getAllExceptions()
             .then(result => {
-                data = result.data;
-
-                data.forEach(item => {
-                    const formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
-
-                    item.creation_date = formattedCreationDate.concatenated;
-                });
+                data = result;
 
                 return res.render('exceptions-list.njk', {exceptionsData: data});
             })                
@@ -51,58 +46,11 @@ module.exports = {
         try {
             let data = [];
 
-            await helpRequestService.fetchAllHelpRequests({uprn: req.params.uprn, master: false})
+            await ExceptionsService.getAllMatchingHelpRequests({uprn: req.params.uprn, master: false})
             .then(result => {
-                let recordIDs = [];
+                data = result;
 
-                data = result.data;
-
-                if (data.length) {
-                    const dynamicFields = [
-                        "FirstName",
-                        "LastName",
-                        "RecordStatus",
-                        "IsDuplicate",
-                        "OngoingFoodNeed",
-                        "ContactTelephoneNumber",
-                        "ContactMobileNumber",
-                        "EmailAddress",
-                        "NumberOfPeopleInHouse",
-                        "DobDay",
-                        "DobMonth",
-                        "DobYear",
-                        "DeliveryNotes",
-                        "CaseNotes"
-                    ];
-
-                    let formattedCreationDate = {};
-
-                    data.forEach(item => {
-                        recordIDs.push(item.Id);
-
-                        dynamicFields.forEach((fieldName) => {
-                            item[fieldName + "_" + item.Id] = item[fieldName];
-                        });
-
-                        formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
-
-                        item.creation_date = formattedCreationDate.concatenated;
-
-                        if (item.LastConfirmedFoodDelivery) {
-                            const formattedDeliveryDate = dateHelper.convertDate(item.LastConfirmedFoodDelivery);
-
-                            item["last_confirmed_food_delivery_date_" + item.Id] = formattedDeliveryDate.concatenated;
-                        }
-
-                        data.AddressFirstLine = data[0].AddressFirstLine;
-                        data.AddressSecondLine = data[0].AddressSecondLine;
-                        data.Postcode = data[0].Postcode;
-                    });
-
-                    data.recordIDs = recordIDs.join(',');
-
-                    res.locals.query = data;
-                };
+                res.locals.query = data;
 
                 return res.render('exceptions-edit.njk', {helpRequestData: data, uprn:  req.params.uprn});
             })                
@@ -143,15 +91,10 @@ module.exports = {
             "CaseNotes"
         ];
 
-
         const errors = false
 
         if (errors) {
-            var extractedErrors = {};
-
-            errors
-                .array()
-                .map(err => (extractedErrors["error_" + err.param] = err.msg));
+            var extractedErrors = mapFieldErrors(errors);
            
             return res.redirect(
                 "exceptions/" + req.body.uprn + "?" +
@@ -182,7 +125,7 @@ module.exports = {
                 });
 
                 // Update all the Help Request records
-                await helpRequestService.updateAllHelpRequests(recordsData)
+                await HelpRequestsService.updateAllHelpRequests(recordsData)
                 .then(result => {
                     return res.redirect("/exceptions");
                 })  

@@ -1,0 +1,33 @@
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "./layouts/base.njk" %}
+
+{% block content %}
+  <h1 class="lbh-heading-h1">Generate a new delivery schedule</h1>
+  {{ lbhBackLink({
+    "href": "/",
+    "text": "Back to home"
+  }) }}
+
+  <form action="/delivery-schedules/list" method="post">
+    <h3 class="lbh-heading-h3">How many deliveries do you want to include?</h3>
+    
+    {{ lbhInput({
+      "id": "delivery_limit",
+      "name": "delivery_limit",
+      "value": "",
+      "classes": "govuk-input--width-10",
+      "formGroup": {
+        "classes": "govuk-form-group--error lbh-form-group" if query.error_delivery_limit else ''
+      },
+      "errorMessage": {
+        "text": query.error_delivery_limit
+      } if query.error_delivery_limit else null
+    }) }}
+
+    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+      View
+    </button>
+  </form>
+{% endblock %}
