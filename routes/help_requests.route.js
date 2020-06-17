@@ -7,6 +7,7 @@ const {isAuthorised}= require('../middleware/auth');
 
 router.get('/', isAuthorised, function(req, res) {
     res.locals.query = req.query;
+    res.locals.isAdmin = req.auth.isAdmin;
 
     res.render("help-requests-search.njk");
 });
