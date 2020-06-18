@@ -1,5 +1,20 @@
 const { check } = require('express-validator');
 
+const searchValidation = [
+  check("postcode", "Enter a postcode")
+    .if(
+      check("searchby").contains('postcode'))
+    .trim().escape().notEmpty(),
+  check("postcode", "Enter a valid postcode")
+    .if(
+      check("searchby").contains('postcode'))
+    .notEmpty().isPostalCode("GB"),
+  check("id", "Enter a numeric ID")
+    .if(
+      check("searchby").contains('id'))
+    .notEmpty().isInt()
+]
+
 const addressValidation = [
   check("postcode", "Enter a postcode")
     .trim().escape().notEmpty(),
@@ -16,6 +31,10 @@ const helpRequestValidation = [
     .trim().escape().isInt({min: 1, max: 12}),
   check("last_confirmed_food_delivery_year", "Enter a year")
     .trim().escape().isLength({min: 4, max: 4}).isInt(),
+  check("FirstName", "Enter the first name")
+    .trim().escape().notEmpty(),
+  check("LastName", "Enter the last name")
+    .trim().escape().notEmpty(),
   check("AddressFirstLine", "Enter the first line of the address")
     .trim().escape().notEmpty(),
   check("Postcode", "Enter the postode")
@@ -30,6 +49,7 @@ const deliveryLimitValidation = [
 ]
 
 module.exports = {
+  searchValidation,
   addressValidation,
   helpRequestValidation,
   deliveryLimitValidation
