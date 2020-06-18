@@ -11,71 +11,93 @@
     "text": "Back to home"
   }) }}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-half">
-      <form action="/help-requests" method="post">
-        <h3 class="lbh-heading-h3">Search by postcode:</h3>
-        {{ lbhInput({
-          "id": "postcode",
-          "name": "postcode",
-          "value": query.postcode,
-          "classes": "govuk-input--width-10",
-          "formGroup": {
-            "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+  <form action="/help-requests" method="post">
+    <h3 class="lbh-heading-h3">What do you want to search by?</h3>
+    {{ lbhRadios({
+      "id": "searchby",
+      "name": "searchby",
+      "classes": "govuk-radios--inline",
+      "items": [
+          {
+          "value": "postcode",
+          "text": "Postcode",
+          "checked": true if query.searchby != "id" else false
           },
-          "errorMessage": {
-            "text": query.error_postcode
-          } if query.error_postcode else null
-        }) }}
+          {
+          "value": "id",
+          "text": "ID",
+          "checked": true if query.searchby == "id" else false
+          }
+        ],
+        "formGroup": {
+          "classes": "govuk-form-group--error lbh-form-group" if query.error_searchby else ''
+        },
+        "errorMessage": {
+          "text": query.error_searchby
+        } if query.error_searchby else null
+    }) }}
 
-        {% if isAdmin %}
-        <h3 class="lbh-heading-h3">Show Master only?</h3>
-        {{ lbhRadios({
-          "id": "masterOnly",
-          "name": "masterOnly",
-          "classes": "govuk-radios--inline",
-          "items": [
-              {
-              "value": "YES",
-              "text": "YES",
-              "checked": true if query.masterOnly != "NO" else false
-              },
-              {
-              "value": "NO",
-              "text": "NO",
-              "checked": true if query.masterOnly == "NO" else false
-              }
-          ]
-        }) }}
-        {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        
+          <h3 class="lbh-heading-h3">Search by postcode:</h3>
+          {{ lbhInput({
+            "id": "postcode",
+            "name": "postcode",
+            "value": query.postcode,
+            "classes": "govuk-input--width-10",
+            "formGroup": {
+              "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+            },
+            "errorMessage": {
+              "text": query.error_postcode
+            } if query.error_postcode else null
+          }) }}
 
-        <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
-          Search
-        </button>
-      </form>
+          {% if isAdmin %}
+          <h3 class="lbh-heading-h3">Show Master only?</h3>
+          {{ lbhRadios({
+            "id": "masterOnly",
+            "name": "masterOnly",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                "value": "YES",
+                "text": "YES",
+                "checked": true if query.masterOnly != "NO" else false
+                },
+                {
+                "value": "NO",
+                "text": "NO",
+                "checked": true if query.masterOnly == "NO" else false
+                }
+            ]
+          }) }}
+          {% endif %}
+      </div>
+      
+      <div class="govuk-grid-column-one-half">
+          <h3 class="lbh-heading-h3">Search by Annex ID:</h3>
+          {{ lbhInput({
+            "id": "id",
+            "name": "id",
+            "value": query.id,
+            "classes": "govuk-input--width-10",
+            "formGroup": {
+              "classes": "govuk-form-group--error lbh-form-group" if query.error_id else ''
+            },
+            "errorMessage": {
+              "text": query.error_id
+            } if query.error_id else null
+          }) }}
+
+          
+      </div>
+      
     </div>
-    {% if isAdmin %}
-    <div class="govuk-grid-column-one-half">
-      <form action="/help-requests" method="post">
-        <h3 class="lbh-heading-h3">Search by Annex ID:</h3>
-        {{ lbhInput({
-          "id": "id",
-          "name": "",
-          "value": query.id,
-          "classes": "govuk-input--width-10",
-          "formGroup": {
-            "classes": "govuk-form-group--error lbh-form-group" if query.error_id else ''
-          },
-          "errorMessage": {
-            "text": query.error_id
-          } if query.error_id else null
-        }) }}
 
-        <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
-          Search
-        </button>
-      </form>
-    </div>
-    {% endif %}
-  </div>
+    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+      Search
+    </button>
+  </form>
 {% endblock %}
