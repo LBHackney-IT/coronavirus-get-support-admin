@@ -18,7 +18,8 @@ gulp.task("nodemon", () => {
       "middleware/",
       "models",
       "routes/",
-      "services/"
+      "services/",
+      "views"
     ],
     ext: "njk, js"
   });

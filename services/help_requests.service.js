@@ -1,6 +1,7 @@
 const HelpRequestModel = require('../models/help_request.model');
 const notesHelper = require('../helpers/notes');
 const dateHelper = require('../helpers/date');
+const { param } = require('express-validator');
 
 class HelpRequestsService {
 
@@ -10,6 +11,7 @@ class HelpRequestsService {
      */
 
     async getAllHelpRequests(params) {
+
         try {
             let data = [];
 
@@ -39,9 +41,12 @@ class HelpRequestsService {
                 data = result.data;
 
                 data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
-
+                
                 if (data.LastConfirmedFoodDelivery) {
                     const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
+                    const formattedDeliveryDate = dateHelper.convertDate(data.LastConfirmedFoodDelivery);
+
+                    data.last_confirmed_food_delivery_date = formattedDeliveryDate.concatenated;
                     
                     data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
                     data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
@@ -61,7 +66,7 @@ class HelpRequestsService {
      * @description Update a single help request
      * @returns {Promise<*>}
      */
-    async updateHelpRequest(query, userName) {
+    async updateHelpRequest(query, userName, isAdmin) {
         try {
             let data = [];
 
@@ -73,14 +78,36 @@ class HelpRequestsService {
 
             const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
 
-            const updatedData = JSON.stringify({
+            const updatedFields = {
                 OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
                 ContactTelephoneNumber: query.ContactTelephoneNumber || '',
                 ContactMobileNumber: query.ContactMobileNumber || '',
                 LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
                 DeliveryNotes: query.DeliveryNotes,
                 CaseNotes: updatedCaseNotes
-            });
+            };
+
+            let updatedAdminFields = {};
+
+            if(isAdmin) {
+                updatedAdminFields = {
+                    FirstName: query.FirstName,
+                    LastName: query.LastName,
+                    AddressFirstLine: query.AddressFirstLine,
+                    AddressSecondLine: query.AddressSecondLine,
+                    AddressThirdLine: query.AddressThirdLine,
+                    Postcode: query.Postcode,
+                    Uprn: query.Uprn,
+                    DobDay: query.DobDay,
+                    DobMonth: query.DobMonth,
+                    DobYear: query.DobYear,
+                    EmailAddress: query.EmailAddress,
+                    RecordStatus: query.RecordStatus,
+                    IsDuplicate: query.IsDuplicate
+                }
+            }
+
+            const updatedData = JSON.stringify(Object.assign({}, updatedFields, updatedAdminFields));
 
             await HelpRequestModel.updateHelpRequest(id, updatedData)
             .then ( (result) => {

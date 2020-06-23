@@ -3,7 +3,6 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
-
 const HelpRequestsService = require('../services/help_requests.service');
 const { mapFieldErrors } = require('../helpers/fieldErrors');
 
@@ -18,7 +17,12 @@ module.exports = {
      */
     all_help_requests_post: async (req, res, next) => {
         res.locals.query = req.body;
+        res.locals.isAdmin = req.auth.isAdmin;
+
+        const searchBy = req.body.searchby;
         const postcode = req.body.postcode;
+        const id = req.body.id;
+        const masterOnly = req.body.masterOnly && req.body.masterOnly == 'NO' ? false : true;
 
         const errors = validator.validationResult(req);
 
@@ -36,21 +40,30 @@ module.exports = {
             try {
                 let data = [];
 
-                /**
-                 * postcode: string - matching full or partial postcode
-                 * master: boolean - specify whether to return only master records or all
-                 */
-                await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: true})
-                .then(result => {
-                    data = result;
+                if(searchBy === 'postcode') {
 
-                    data.forEach(item => {
-                        const recDate = new Date(item.DateTimeRecorded);
-                        item.DateTimeRecorded = recDate.toLocaleDateString();
-                    });
+                    /**
+                     * @param postcode: string - matching full or partial postcode
+                     * @param master: boolean - specify whether to return only master records or all
+                     */
+                    await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: masterOnly})
+                    .then(result => {
+                        data = result;
 
-                    return res.render('help-requests-list.njk', {title: 'Home', postcode: postcode, helpRequests: data});
-                })                
+                        data.forEach(item => {
+                            const recDate = new Date(item.DateTimeRecorded);
+                            item.DateTimeRecorded = recDate.toLocaleDateString();
+                        });
+
+                        return res.render('help-requests-list.njk', {title: 'Home', searchBy: searchBy, postcode: postcode, id: id, helpRequests: data});
+                    })  
+                
+                } else {
+                    await HelpRequestsService.getHelpRequest(id)
+                    .then(result => {
+                        res.render('help-request-edit.njk', {query: result});
+                    })
+                }
 
             } catch (err) {
                 const error = new Error(err);
@@ -58,7 +71,6 @@ module.exports = {
                 return next(error);
             }
         }
-
     },    
 
 
@@ -71,6 +83,7 @@ module.exports = {
      */
     help_request_get: async (req, res, next) => {
         try {
+            res.locals.isAdmin = req.auth.isAdmin;
 
             if(req.query.Id) {
                 res.locals.query = req.query;
@@ -85,6 +98,7 @@ module.exports = {
             }
 
         } catch (err) {
+            
             const error = new Error(err);
 
             return next(error);
@@ -102,6 +116,8 @@ module.exports = {
      */
     help_request_update_post: async (req, res, next) => {
         res.locals.query = req.body;
+        res.locals.isAdmin = req.auth.isAdmin;
+
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -121,7 +137,7 @@ module.exports = {
                 const Uprn = query.Uprn;
                 const Id = query.Id;
 
-                await HelpRequestsService.updateHelpRequest(query, userName)
+                await HelpRequestsService.updateHelpRequest(query, userName, req.auth.isAdmin)
                 .then(result => {
                     return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
                 })                

@@ -1,5 +1,4 @@
-{% from 'lbh-button/macro.njk' import lbhButton %}
-{% from 'lbh-panel/macro.njk' import lbhPanel %}
+{% from 'lbh-button/macro.njk' import lbhButton %}{% from 'lbh-panel/macro.njk' import lbhPanel %}
 
 {% extends "./layouts/base.njk" %}
 
@@ -12,8 +11,5 @@
     "text": "Update successful"
     }) }}
 
-    {{ lbhButton({
-        "text": "Home",
-        href: "/"
-    })}}
+    <a href="/" class="govuk-button lbh-button js-cta-btn">Home</a>
 {% endblock %}

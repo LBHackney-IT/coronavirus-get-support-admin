@@ -21,7 +21,7 @@ router.post('/confirmed', [isAuthorised, deliveryLimitValidation], (req, res, ne
 });
 
 // DELETE request to remove the current delivery schedule report
-router.get('/delete/:id', [isAuthorised], (req, res, next) => {
+router.get('/delete/:id', [isAuthorised, isAdmin], (req, res, next) => {
     deliverySchedulesController.delivery_schedule_delete(req, res, next)
 });
 
