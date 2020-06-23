@@ -18,6 +18,7 @@ module.exports = {
      */
     delivery_schedule_get: async (req, res, next) => {
         res.locals.query = req.query;
+        res.locals.isAdmin = req.auth.isAdmin;
 
         try {
 

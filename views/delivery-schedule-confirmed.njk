@@ -19,15 +19,15 @@
         {% endif %}
 
         <div class="govuk-grid-row">
-            {% if removeOption %}
             <div class="govuk-grid-column-one-half">
-                <a href="/delivery-schedules/delete/{{deliveryData.Id}}" class="govuk-button  lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn">Generate a new report</a>
-            </div>
-            {% endif %}
-
-            <div class="govuk-grid-column-one-half {{ 'text-align-right' if removeOption else '' }}">
                 <a href="{{deliveryData.ReportFileId}}" class="govuk-button  lbh-button" target="_blank">View current report</a>
             </div>
+
+            {% if isAdmin and removeOption %}
+            <div class="govuk-grid-column-one-half text-align-right">
+                <a href="/delivery-schedules/delete/{{deliveryData.Id}}" class="govuk-button  lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn">Delete this report</a>
+            </div>
+            {% endif %}
             
         </div>
 
