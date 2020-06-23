@@ -9,7 +9,7 @@ const searchValidation = [
     .if(
       check("searchby").contains('postcode'))
     .notEmpty().isPostalCode("GB"),
-  check("id", "Enter a numeric ID")
+  check("id", "Enter a valid Annex ID")
     .if(
       check("searchby").contains('id'))
     .notEmpty().isInt()
