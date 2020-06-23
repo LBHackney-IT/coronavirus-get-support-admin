@@ -1,5 +1,4 @@
 {% from 'lbh-button/macro.njk' import lbhButton %}
-{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
 {% extends "./layouts/base.njk" %}
@@ -44,8 +43,4 @@
     {% else %}
         <h3 class="lbh-heading-h3">No exceptions to display</h3>
     {% endif %}
-    
-    {{ lbhBackToTop({
-    "topLink": "#top"
-    }) }}
 {% endblock %}

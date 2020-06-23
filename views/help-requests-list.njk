@@ -1,6 +1,5 @@
 {% from 'lbh-button/macro.njk' import lbhButton %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
-{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
 {% extends "./layouts/base.njk" %}
@@ -19,7 +18,7 @@
         <p class="lbh-body-m">Displaying {{helpRequests | length}} record(s)</p>
 
         {{ lbhButton({
-            text: "Search another postcode",
+            text: "New search",
             isSecondary: true,
             href: "/help-requests"
         })}}
@@ -60,10 +59,5 @@
             href: "/help-requests"
         })}}
     {% endif %}
-
-    {{ lbhBackToTop({
-    "topLink": "#top"
-    }) }}
-
 </div>
 {% endblock %}

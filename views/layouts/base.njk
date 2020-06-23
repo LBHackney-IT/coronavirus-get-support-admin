@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 
 {% block head %}
    <link rel="stylesheet" type="text/css" href="/app.css">
@@ -21,5 +22,9 @@
 {% endblock %}
 
 {% block bodyEnd %}
+  {{ lbhBackToTop({
+    "topLink": "#top"
+  }) }}
+
   <script src="/main.js"></script>
 {% endblock %}
