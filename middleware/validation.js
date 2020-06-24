@@ -32,16 +32,16 @@ const helpRequestValidation = [
   check("last_confirmed_food_delivery_year", "Enter a year")
     .trim().escape().isLength({min: 4, max: 4}).isInt(),
   check("FirstName", "Enter the first name")
-    .trim().escape().notEmpty(),
+    .if(check("FirstName").exists()).trim().escape().notEmpty(),
   check("LastName", "Enter the last name")
-    .trim().escape().notEmpty(),
+    .if(check("LastName").exists()).trim().escape().notEmpty(),
   check("AddressFirstLine", "Enter the first line of the address")
-    .trim().escape().notEmpty(),
+    .if(check("AddressFirstLine").exists()).trim().escape().notEmpty(),
   check("Postcode", "Enter the postode")
-    .trim().escape().notEmpty(),
+    .if(check("Postcode").exists()).trim().escape().notEmpty(),
   check("Uprn", "Enter the UPRN")
-    .trim().escape().notEmpty()
-  ]
+    .if(check("Uprn").exists()).trim().escape().notEmpty()
+]
 
 const deliveryLimitValidation = [
   check("delivery_limit", "Enter a delivery limit greater than 0")
