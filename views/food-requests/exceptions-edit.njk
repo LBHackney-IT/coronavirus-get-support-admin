@@ -8,34 +8,34 @@
 {% from "lbh-tag/macro.njk" import lbhTag %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
     <h1 class="lbh-heading-h2">Help requests for UPRN {{uprn}}</h1>
     {{ lbhBackLink({
-        "href": "/",
-        "text": "Back to home"
+        "href": "/food-requests",
+        "text": "Back to food requests"
     }) }}
     
-    {% if helpRequestData | length %}
-    <form action="/exceptions/{{uprn}}" method="post">
+    {% if foodRequestData | length %}
+    <form action="/food-requests/exceptions/{{uprn}}" method="post">
         <input type="hidden" name="record_ids" value="{{query.recordIDs}}">
 
         <p class="lbh-body-m">
             <strong>Address: (taken from first record)</strong><br />
-            {{helpRequestData.AddressFirstLine}}<br />
-            {{helpRequestData.AddressSecondLine}}<br />
-            {{helpRequestData.Postcode}}
+            {{foodRequestData.AddressFirstLine}}<br />
+            {{foodRequestData.AddressSecondLine}}<br />
+            {{foodRequestData.Postcode}}
         </p>
 
         <p class="lbh-body-m">
             <strong>Email:</strong> {{item.EmailAddress}}
         </p>
 
-        <p class="lbh-body-m">Displaying {{helpRequestData | length}} record(s)</p>
+        <p class="lbh-body-m">Displaying {{foodRequestData | length}} record(s)</p>
         
         <div class="govuk-accordion lbh-accordion" data-module="govuk-accordion">
-            {% for item in helpRequestData %}
+            {% for item in foodRequestData %}
 
             {% if item.RecordStatus === 'MASTER' %}
                 {% set statusClass = 'is-master' %}
@@ -360,10 +360,10 @@
     {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <a href="/exceptions" class="govuk-button lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn" data-module="govuk-button">Back to exceptions list</a>
+                <a href="/food-requests/exceptions" class="govuk-button lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn" data-module="govuk-button">Back to exceptions list</a>
             </div>
 
-            {% if helpRequestData | length %}
+            {% if foodRequestData | length %}
             <div class="govuk-grid-column-one-half text-align-right">
                 <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
                 Update all records

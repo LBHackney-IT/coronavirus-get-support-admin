@@ -4,8 +4,8 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 
-const DeliverySchedulesService = require('../services/delivery_schedules.service');
-const { mapFieldErrors } = require('../helpers/fieldErrors');
+const DeliverySchedulesService = require('../../services/food-requests/delivery_schedules.service');
+const { mapFieldErrors } = require('../../helpers/fieldErrors');
 
 module.exports = {
 
@@ -31,9 +31,9 @@ module.exports = {
                 };
 
                 if(data && data.ReportFileId) {
-                    return res.render('delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
+                    return res.render('food-requests/delivery-schedule-confirmed.njk', {deliveryData: data, removeOption: true});
                 } else {
-                    return res.render('delivery-schedule.njk');
+                    return res.render('food-requests/delivery-schedule.njk');
                 }
             });
 
@@ -61,7 +61,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/delivery-schedules?" +
+              "/food-requests/delivery-schedules?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -80,7 +80,7 @@ module.exports = {
                         return res.render('error.njk', {error: data} );
                     };
 
-                    return res.render('delivery-schedule-list.njk', {deliveryData: data});
+                    return res.render('food-requests/delivery-schedule-list.njk', {deliveryData: data});
                 });
 
             } catch (err) {
@@ -116,7 +116,7 @@ module.exports = {
                     return res.render('error.njk', {error: data} );
                 };
 
-                return res.render('delivery-schedule-confirmed.njk', {deliveryData: data});
+                return res.render('food-requests/delivery-schedule-confirmed.njk', {deliveryData: data});
             });
 
         } catch (err) {
@@ -148,7 +148,7 @@ module.exports = {
                     data = result.data;
                 }
 
-                return res.redirect('/delivery-schedules');
+                return res.redirect('/food-requests/delivery-schedules');
             });           
 
         } catch (err) {

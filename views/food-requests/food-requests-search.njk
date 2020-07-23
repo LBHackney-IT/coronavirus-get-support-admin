@@ -2,16 +2,16 @@
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
-  <h1 class="lbh-heading-h1">Manage food deliveries</h1>
+  <h1 class="lbh-heading-h1">Search food requests</h1>
   {{ lbhBackLink({
-    "href": "/",
-    "text": "Back to home"
+    "href": "/food-requests",
+    "text": "Back"
   }) }}
 
-  <form action="/help-requests" method="post">
+  <form action="/food-requests/search" method="post">
     <h3 class="lbh-heading-h3">What do you want to search by?</h3>
     {{ lbhRadios({
       "id": "searchby",

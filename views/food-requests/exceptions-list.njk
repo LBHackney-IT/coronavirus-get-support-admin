@@ -1,13 +1,13 @@
 {% from 'lbh-button/macro.njk' import lbhButton %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
     <h1 class="lbh-heading-h1">Manage exceptions</h1>
     {{ lbhBackLink({
-        "href": "/",
-        "text": "Back to home"
+        "href": "/food-requests",
+        "text": "Back to food requests"
     }) }}
 
     {% if exceptionsData | length %}
@@ -32,7 +32,7 @@
                         <td class="govuk-table__cell">{{item.Uprn}}</td>                        
                         <td class="govuk-table__cell">
                         {% if item.Uprn | length %}
-                            <a href="/exceptions/{{item.Uprn}}" class="js-cta-btn">Edit</a>
+                            <a href="/food-requests/exceptions/{{item.Uprn}}" class="js-cta-btn">Edit</a>
                         {% endif %}
                         </td>
                     </tr>

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { deliveryLimitValidation } = require('../middleware/validation');
-const deliverySchedulesController = require('../controllers/delivery_schedules.controller');
-const {isAuthorised, isAdmin} = require('../middleware/auth');
+const { deliveryLimitValidation } = require('../../middleware/validation');
+const deliverySchedulesController = require('../../controllers/food-requests/delivery_schedules.controller');
+const {isAuthorised, isAdmin} = require('../../middleware/auth');
 
 // GET request to search delivey schedule
 router.get('/', [isAuthorised], (req, res, next) => {

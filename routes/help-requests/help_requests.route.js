@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { addressValidation, helpRequestValidation, searchValidation } = require('../middleware/validation');
-const helpRequestsController = require('../controllers/help_requests.controller');
-const {isAuthorised}= require('../middleware/auth');
+const { addressValidation, helpRequestValidation, searchValidation } = require('/middleware/validation');
+const helpRequestsController = require('../../controllers/help-requests/help_requests.controller');
+const {isAuthorised}= require('../../middleware/auth');
 
 router.get('/', isAuthorised, function(req, res) {
     res.locals.query = req.query;

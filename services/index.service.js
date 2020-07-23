@@ -1,4 +1,4 @@
-const HelpRequestModel = require('../models/help_request.model');
+const FoodRequestModel = require('../models/food-requests/food_request.model');
 
 class IndexService {
 
@@ -6,7 +6,7 @@ class IndexService {
         try {
             let data = [];
 
-            await HelpRequestModel.getAnnexSummary()
+            await FoodRequestModel.getAnnexSummary()
             .then ( (result) => {
                 data = result.data || [];
             });

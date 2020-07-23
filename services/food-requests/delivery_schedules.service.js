@@ -1,6 +1,6 @@
-const DeliveryScheduleModel = require('../models/delivery_schedule.model');
+const DeliveryScheduleModel = require('../../models/food-requests/delivery_schedule.model');
 
-const dateHelper = require('../helpers/date');
+const dateHelper = require('../../helpers/date');
 
 class DeliverySchedulesService {
 

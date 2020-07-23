@@ -4,35 +4,24 @@
 
 {% block content %}
 
-  <h1 class="lbh-heading-h1">I Need Help Admin Dashboard</h1>
+  <h1 class="lbh-heading-h1">Dashboard</h1>
 
-  {% if annexSummary.ActiveCases %}
-  <p class="lbh-body-m">Total households in need of food: ({{ annexSummary.ActiveCases }})</p>
-  {% endif %}
+  <h3 class="lbh-heading-h3">What do you want to manage?</h3>
 
-  <table class="govuk-table  lbh-table">
+  <table class="govuk-table lbh-table">
     <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Manage food deliveries</th>
+          <th scope="row" class="govuk-table__header">Food requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
-            <a href="/help-requests" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
+            <a href="/food-requests" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
           </td>
         </tr>
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Generate a daily delivery schedule</th>
+          <th scope="row" class="govuk-table__header">Help requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
-            <a href="/delivery-schedules" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
+            <a href="/help-requests" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
           </td>
         </tr>
-
-        {% if isAdmin %}
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Manage exceptions</th>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-            <a href="/exceptions" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
-          </td>
-        </tr>
-        {% endif %}
     </tbody>
   </table>
 {% endblock %}

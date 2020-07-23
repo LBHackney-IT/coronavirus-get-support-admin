@@ -5,6 +5,15 @@ const config = require('../config');
 const isAuthorised = (req, res, next) => {
   const token = req.cookies[config.token_name];
 
+  if(config.local) {
+    req.auth = {
+      name: "Joe Bloggs",
+      isAdmin: true
+    }
+
+    return next();
+  };
+
   res.locals.returnURL = req.protocol + '://' + req.hostname;
 
   if (token) {

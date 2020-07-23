@@ -22,7 +22,7 @@ const addressValidation = [
     .if(check("postcode").notEmpty()).isPostalCode("GB")
 ]
 
-const helpRequestValidation = [
+const foodRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
     .trim().escape().notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
@@ -51,6 +51,6 @@ const deliveryLimitValidation = [
 module.exports = {
   searchValidation,
   addressValidation,
-  helpRequestValidation,
+  foodRequestValidation,
   deliveryLimitValidation
 }

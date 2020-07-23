@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-const config = require('../config');
-const { handleAPIErrors } = require('../helpers/error');
+const config = require('../../config');
+const { handleAPIErrors } = require('../../helpers/error');
 
 class HelpRequestModel {
 

@@ -1,16 +1,16 @@
 {% from 'lbh-input/macro.njk' import lbhInput %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
   <h1 class="lbh-heading-h1">Generate a new delivery schedule</h1>
   {{ lbhBackLink({
-    "href": "/",
-    "text": "Back to home"
+    "href": "/food-requests",
+    "text": "Back"
   }) }}
 
-  <form action="/delivery-schedules/list" method="post">
+  <form action="/food-requests/delivery-schedules/list" method="post">
     <h3 class="lbh-heading-h3">How many deliveries do you want to include?</h3>
     
     {{ lbhInput({

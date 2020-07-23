@@ -3,8 +3,8 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
-const HelpRequestsService = require('../services/help_requests.service');
-const { mapFieldErrors } = require('../helpers/fieldErrors');
+const HelpRequestsService = require('../../services/help-requests/help_requests.service');
+const { mapFieldErrors } = require('../../helpers/fieldErrors');
 
 module.exports = {
 
