@@ -20,10 +20,10 @@ class FoodRequestModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url, {
+            await axios.get(config.food_requests_api_url, {
                 headers: headers,
                 params: params
             }).then ( result => {
@@ -53,10 +53,10 @@ class FoodRequestModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url + '/' + id, {
+            await axios.get(config.food_requests_api_url + '/' + id, {
                 headers: headers
             }).then ( result => {
                 data = result;
@@ -87,10 +87,10 @@ class FoodRequestModel {
             const headers = {
                 "Content-Type": "application/json",
                 "Content-Length": FoodRequestdata.length,
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.patch(config.api_url + '/' + id, FoodRequestdata, {
+            await axios.patch(config.food_requests_api_url + '/' + id, FoodRequestdata, {
                 headers: headers
             }).then ( result => {
                 data = result;
@@ -125,10 +125,10 @@ class FoodRequestModel {
                 const headers = {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
-                    "x-api-key": config.api_key
+                    "x-api-key": config.food_requests_api_key
                 };
 
-                const apiRequest = axios.patch(config.api_url + '/' + item.id, data, {
+                const apiRequest = axios.patch(config.food_requests_api_url + '/' + item.id, data, {
                     headers: headers
                 });
 
@@ -163,10 +163,10 @@ class FoodRequestModel {
         try {          
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url + '/exceptions', {
+            await axios.get(config.food_requests_api_url + '/exceptions', {
                 headers: headers
             }).then ( (results) => {
                 data = results;
@@ -196,7 +196,7 @@ class FoodRequestModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
             await axios.get(config.annex_summary_api_url, {

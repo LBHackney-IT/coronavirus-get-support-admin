@@ -19,7 +19,7 @@ class DeliveryScheduleModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
             await axios.get(`${config.delivery_batch_api_url}`, {
@@ -53,7 +53,7 @@ class DeliveryScheduleModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
             await axios.get(`${config.delivery_api_url}`, {
@@ -85,7 +85,7 @@ class DeliveryScheduleModel {
             let data = [];
 
             const headers = {
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
             await axios.delete(`${config.delivery_batch_api_url}/${id}`, {
