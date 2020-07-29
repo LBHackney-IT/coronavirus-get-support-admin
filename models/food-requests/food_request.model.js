@@ -211,7 +211,7 @@ class FoodRequestModel {
             return data;
 
         } catch (err) {
-            console.log('FoodRequestModel: fetchAllFoodRequests() ERR');
+            console.log('FoodRequestModel: getAnnexSummary() ERR');
             console.log(err);
             return (err);
         }

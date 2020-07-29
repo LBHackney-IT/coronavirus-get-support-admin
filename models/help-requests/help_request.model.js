@@ -15,7 +15,6 @@ class HelpRequestModel {
      * @returns {Promise<*>}
      */
     async getAllCallbacks() {
-
         try {
             let data = [];
 
@@ -24,9 +23,8 @@ class HelpRequestModel {
                 "x-api-key": config.help_requests_api_key
             };
 
-            await axios.get(config.help_requests_api_url, {
-                headers: headers,
-                params: params
+            await axios.get(config.help_requests_callback_api_url, {
+                headers: headers
             }).then ( result => {
                 data = result;
             }).catch(err => {
@@ -79,7 +77,7 @@ class HelpRequestModel {
     }
 
     /**
-     * @description Fetch a single help request using the Annex ID
+     * @description Fetch a single help request using the ID
      * @returns {Promise<*>}
      */
     async getHelpRequest(id) {
