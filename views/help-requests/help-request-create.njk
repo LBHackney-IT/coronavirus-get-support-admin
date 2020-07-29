@@ -1,0 +1,19 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-date-input/macro.njk" import lbhDateInput %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Create help request</h1>
+    
+    <form action="/help-requests/edit/{{query.Id}}" method="post">
+
+    </form>
+   
+{% endblock %}
