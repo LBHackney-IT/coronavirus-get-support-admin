@@ -68,7 +68,9 @@ class HelpRequestsService {
             .then ( (result) => {
                 data = result.data;
 
-                data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
+                // Create new keys with yes/no values based on boolean input values
+                data.initial_callback_completed = data.InitialCallbackCompleted === true ? "yes" : "no";
+                data.callback_required = data.CallbackRequired === true ? "yes" : "no";
                 data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
 
                 // Build array of all values
@@ -126,7 +128,7 @@ class HelpRequestsService {
                 HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
                 HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
                 HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
-                CurrentSupport: query.CurrentSupport || '',
+                CurrentSupport: query.CurrentSupport.join() || '',
                 CurrentSupportFeedback: query.CurrentSupportFeedback || '',
                 GpSurgeryDetails: query.GpSurgeryDetails || "",
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
@@ -158,10 +160,9 @@ class HelpRequestsService {
         try {
             let data = [];
 
-            const id = query.Id;
-            const recordCreatedText = "*** CREATED ***";
+            const recordCreatedCaseNoteText = "*** CREATED ***";
 
-            let caseNotes = notesHelper.appendNote(userName, recordCreatedText, '');
+            let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '');
             caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
 
             const adviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
@@ -173,6 +174,10 @@ class HelpRequestsService {
                 LastName: query.LastName,
                 ContactTelephoneNumber: query.ContactTelephoneNumber || '',
                 ContactMobileNumber: query.ContactMobileNumber || '',
+                AddressFirstLine: query.address_first_line || "",
+                AddressSecondLine: query.address_second_line || "",
+                AddressThirdLine: query.address_third_line || "",
+                PostCode: query.postcode,
                 EmailAddress: query.EmailAddress,
                 DobDay: query.DobDay,
                 DobMonth: query.DobMonth,
@@ -185,7 +190,7 @@ class HelpRequestsService {
                 HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
                 HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
                 HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
-                CurrentSupport: query.CurrentSupport || '',
+                CurrentSupport: query.CurrentSupport.join() || '',
                 CurrentSupportFeedback: query.CurrentSupportFeedback || '',
                 GpSurgeryDetails: query.GpSurgeryDetails || "",
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
@@ -197,7 +202,7 @@ class HelpRequestsService {
 
             const updatedData = JSON.stringify(updatedFields);
 
-            await HelpRequestModel.updateHelpRequest(id, updatedData)
+            await HelpRequestModel.createHelpRequest(updatedData)
             .then ( (result) => {
                 data = result.data;
             });

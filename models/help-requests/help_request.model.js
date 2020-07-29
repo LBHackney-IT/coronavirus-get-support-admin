@@ -110,6 +110,42 @@ class HelpRequestModel {
 
 
     /**
+     * @description Create a new help request
+     * @returns {Promise<*>}
+     */
+    async createHelpRequest(helpRequestdata) {
+
+        try {
+            let data = {};
+
+            console.log(helpRequestdata);
+
+            const headers = {
+                "Content-Type": "application/json",
+                "Content-Length": helpRequestdata.length,
+                "x-api-key": config.help_requests_api_key
+            };
+
+            await axios.post(config.help_requests_api_url, helpRequestdata, {
+                headers: headers
+            }).then ( result => {
+                data = result;
+            }).catch(err => {
+                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: createHelpRequest()');
+                data.isError = true;
+            });
+
+            return data;            
+
+        } catch (err) {
+            console.log('HelpRequestModel: createHelpRequest ERR');
+            console.log(err);
+            return (err);
+        }
+    }
+
+
+    /**
      * @description Update a single help request using the Annex ID
      * @returns {Promise<*>}
      */

@@ -174,7 +174,7 @@ module.exports = {
 
                 await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
-                    res.render('help-requests/', {query: result});
+                    res.render('help-requests/help-request-create-success.njk', {query: result});
                 })
 
             } catch (err) {
@@ -213,12 +213,12 @@ module.exports = {
             try {
                 const query = req.body;
                 const userName = req.auth.name
-                const Uprn = query.Uprn;
+                const residentName = query.FirstName + ' ' + query.LastName;
                 const Id = query.Id;
 
                 await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.render('help-requests/help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
+                    return res.render('help-requests/help-request-edit-success.njk', {updatedData: result, residentName: residentName, Id: Id});
                 })                
 
             } catch (err) {
