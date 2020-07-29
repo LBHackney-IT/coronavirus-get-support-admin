@@ -61,7 +61,9 @@ module.exports = {
             autoescape: true,
             cache: false,
             express: app
-        } ) ;
+        })
+        .addGlobal('addresses_api_url', config.addresses_api_url)
+        .addGlobal('addresses_api_key',  config.addresses_api_key);
 
         app.set('views', path.join(__dirname, 'views'));
 
