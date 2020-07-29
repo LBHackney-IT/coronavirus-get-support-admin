@@ -9,6 +9,35 @@ class HelpRequestsService {
      * @returns {Promise<*>}
      */
 
+    async getAllCallbacks() {
+
+        try {
+            let data = [];
+
+            await HelpRequestModel.getAllCallbacks()
+            .then ( (result) => {
+                data = result.data || [];
+
+                data.forEach(item => {
+                    const formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
+
+                    item.creation_date = formattedCreationDate.concatenated;
+                });
+            });
+
+            return data;
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    /**
+     * @description Fetch all help request records using UPRN
+     * @returns {Promise<*>}
+     */
+
     async getAllHelpRequests(params) {
 
         try {
@@ -39,18 +68,23 @@ class HelpRequestsService {
             .then ( (result) => {
                 data = result.data;
 
-                data.OngoingFoodNeed = data.OngoingFoodNeed === true ? "yes" : "no";
-                
-                if (data.LastConfirmedFoodDelivery) {
-                    const lastConfirmedFoodDelivery = new Date(data.LastConfirmedFoodDelivery);
-                    const formattedDeliveryDate = dateHelper.convertDate(data.LastConfirmedFoodDelivery);
+                data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
+                data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
 
-                    data.last_confirmed_food_delivery_date = formattedDeliveryDate.concatenated;
-                    
-                    data.last_confirmed_food_delivery_day = lastConfirmedFoodDelivery.getDate();
-                    data.last_confirmed_food_delivery_month = lastConfirmedFoodDelivery.getMonth() + 1;
-                    data.last_confirmed_food_delivery_year = lastConfirmedFoodDelivery.getFullYear();
-                }
+                // Build array of all values
+                let what_coronavirus_help = [
+                    data.HelpWithAccessingFood && 'accessing food' || '',
+                    data.HelpWithDebtAndMoney && 'debt and money' || '',
+                    data.HelpWithHealth && 'health' || '',
+                    data.HelpWithMentalHealth && 'mental health' || '',
+                    data.HelpWithHousing && 'housing' || '',
+                    data.HelpWithAccessingInternet && 'technology support' || '',
+                    data.HelpWithSomethingElse && 'something else' || ''
+                ];
+
+                // Remove empty values.
+                data.what_coronavirus_help = what_coronavirus_help.filter(item => item);
+            
             });
 
             return data;
@@ -65,48 +99,43 @@ class HelpRequestsService {
      * @description Update a single help request
      * @returns {Promise<*>}
      */
-    async updateHelpRequest(query, userName, isAdmin) {
+    async updateHelpRequest(query, userName) {
         try {
             let data = [];
 
             const id = query.Id;
-            const day = query.last_confirmed_food_delivery_day;
-            const month = query.last_confirmed_food_delivery_month;
-            const year = query.last_confirmed_food_delivery_year;
-            const lastConfirmedDeliveryDate = new Date(Date.UTC(year, month - 1, day));
-
             const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
+            const updatedAdviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
 
             const updatedFields = {
-                OngoingFoodNeed: query.OngoingFoodNeed == "yes" && true || false,
+                InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
+                FollowupCallRequired: query.FollowupCallRequired == 'yes' && true || false,
+                FirstName: query.FirstName,
+                LastName: query.LastName,
                 ContactTelephoneNumber: query.ContactTelephoneNumber || '',
                 ContactMobileNumber: query.ContactMobileNumber || '',
-                LastConfirmedFoodDelivery: lastConfirmedDeliveryDate.toISOString(),
-                DeliveryNotes: query.DeliveryNotes,
-                CaseNotes: updatedCaseNotes
-            };
-
-            let updatedAdminFields = {};
-
-            if(isAdmin) {
-                updatedAdminFields = {
-                    FirstName: query.FirstName,
-                    LastName: query.LastName,
-                    AddressFirstLine: query.AddressFirstLine,
-                    AddressSecondLine: query.AddressSecondLine,
-                    AddressThirdLine: query.AddressThirdLine,
-                    Postcode: query.Postcode,
-                    Uprn: query.Uprn,
-                    DobDay: query.DobDay,
-                    DobMonth: query.DobMonth,
-                    DobYear: query.DobYear,
-                    EmailAddress: query.EmailAddress,
-                    RecordStatus: query.RecordStatus,
-                    IsDuplicate: query.IsDuplicate
-                }
+                EmailAddress: query.EmailAddress,
+                DobDay: query.DobDay,
+                DobMonth: query.DobMonth,
+                DobYear: query.DobYear,
+                GettingInTouchReason: query.GettingInTouchReason || '',
+                HelpWithAccessingFood: query.what_coronavirus_help.includes('accessing food') && true || false,
+                HelpWithDebtAndMoney: query.what_coronavirus_help.includes('debt and money') && true || false,
+                HelpWithHealth: query.what_coronavirus_help.includes('health') && true || false,
+                HelpWithMentalHealth: query.what_coronavirus_help.includes('mental health') && true || false,
+                HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
+                HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
+                HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
+                CurrentSupport: query.CurrentSupport || '',
+                CurrentSupportFeedback: query.CurrentSupportFeedback || '',
+                GpSurgeryDetails: query.GpSurgeryDetails || "",
+                NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
+                ConsentToShare: query.consent_to_share && true || false,
+                CaseNotes: updatedCaseNotes,
+                AdviceNotes: updatedAdviceNotes
             }
 
-            const updatedData = JSON.stringify(Object.assign({}, updatedFields, updatedAdminFields));
+            const updatedData = JSON.stringify(updatedFields);
 
             await HelpRequestModel.updateHelpRequest(id, updatedData)
             .then ( (result) => {
@@ -119,28 +148,6 @@ class HelpRequestsService {
             console.log(err);
         }
     }
-
-
-    /**
-     * @description Update multiple help requests
-     * @returns {Promise<*>}
-     */
-    async updateAllHelpRequests(helpRequestsData) {
-        try {
-            let data = [];
-
-            await HelpRequestModel.updateAllHelpRequests(helpRequestsData)
-            .then ( (result) => {
-                data = result.data;
-            });
-            
-            return data;
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
 }
 
 module.exports = new HelpRequestsService;
