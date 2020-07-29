@@ -9,20 +9,56 @@ const { mapFieldErrors } = require('../../helpers/fieldErrors');
 module.exports = {
 
      /**
-     * @description Display a list of help requests
+     * @description Display the Help Request home page
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_help_requests_post: async (req, res, next) => {
-        res.locals.query = req.body;
+    index_get: async (req, res, next) => {
         res.locals.isAdmin = req.auth.isAdmin;
 
-        const searchBy = req.body.searchby;
+        return res.render("help-requests/index.njk");
+
+    },  
+
+     /**
+     * @description Render a specific help request
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    all_callbacks_get: async (req, res, next) => {
+        try {
+
+            await HelpRequestsService.getAllCallbacks()
+            .then(result => {
+                res.render('help-requests/help-requests-callbacks-list.njk', {callbacksData: result});
+            })
+
+        } catch (err) {
+            
+            const error = new Error(err);
+
+            return next(error);
+        }
+
+    }, 
+
+
+     /**
+     * @description Search for help requests by postcode
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    search_help_requests_post: async (req, res, next) => {
+        res.locals.query = req.body;
+
         const postcode = req.body.postcode;
         const id = req.body.id;
-        const masterOnly = req.body.masterOnly && req.body.masterOnly == 'NO' ? false : true;
 
         const errors = validator.validationResult(req);
 
@@ -30,7 +66,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/help-requests?" +
+              "/help-requests/search?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -40,30 +76,20 @@ module.exports = {
             try {
                 let data = [];
 
-                if(searchBy === 'postcode') {
+                /**
+                 * @param postcode: string - matching full or partial postcode
+                 */
+                await HelpRequestsService.getAllHelpRequests({postcode: postcode})
+                .then(result => {
+                    data = result;
 
-                    /**
-                     * @param postcode: string - matching full or partial postcode
-                     * @param master: boolean - specify whether to return only master records or all
-                     */
-                    await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: masterOnly})
-                    .then(result => {
-                        data = result;
+                    data.forEach(item => {
+                        const recDate = new Date(item.DateTimeRecorded);
+                        item.DateTimeRecorded = recDate.toLocaleDateString();
+                    });
 
-                        data.forEach(item => {
-                            const recDate = new Date(item.DateTimeRecorded);
-                            item.DateTimeRecorded = recDate.toLocaleDateString();
-                        });
-
-                        return res.render('help-requests-list.njk', {title: 'Home', searchBy: searchBy, postcode: postcode, id: id, helpRequests: data});
-                    })  
-                
-                } else {
-                    await HelpRequestsService.getHelpRequest(id)
-                    .then(result => {
-                        res.render('help-request-edit.njk', {query: result});
-                    })
-                }
+                    return res.render('help-requests/help-requests-list.njk', {postcode: postcode, id: id, helpRequests: data});
+                }) 
 
             } catch (err) {
                 const error = new Error(err);
@@ -83,17 +109,62 @@ module.exports = {
      */
     help_request_get: async (req, res, next) => {
         try {
+
+            if(req.query.id) {
+                res.locals.query = req.query;
+                res.oldVals = req.oldVals;
+
+                return res.render('help-requests/help-request-edit.njk');
+
+            } else {
+                await HelpRequestsService.getHelpRequest(req.params.id)
+                .then(result => {
+                    res.render('help-requests/help-request-edit.njk', {query: result, oldVals: result});
+                })
+            }
+
+        } catch (err) {
+            
+            const error = new Error(err);
+
+            return next(error);
+        }
+
+    }, 
+
+
+    /**
+     * @description Create a new help request
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_create_get: async (req, res, next) => {
+        return res.render('help-requests/help-request-create.njk');
+    }, 
+
+
+    /**
+     * @description Create a new help request
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_create_post: async (req, res, next) => {
+        try {
             res.locals.isAdmin = req.auth.isAdmin;
 
             if(req.query.Id) {
                 res.locals.query = req.query;
 
-                return res.render('help-request-edit.njk');
+                return res.render('help-requests/help-request-create.njk');
 
             } else {
-                await HelpRequestsService.getHelpRequest(req.params.id)
+                await HelpRequestsService.createHelpRequest(req.params.id)
                 .then(result => {
-                    res.render('help-request-edit.njk', {query: result});
+                    res.render('help-requests/help-request-create.njk', {query: result});
                 })
             }
 
@@ -116,7 +187,6 @@ module.exports = {
      */
     help_request_update_post: async (req, res, next) => {
         res.locals.query = req.body;
-        res.locals.isAdmin = req.auth.isAdmin;
 
         const errors = validator.validationResult(req);
 
@@ -137,9 +207,9 @@ module.exports = {
                 const Uprn = query.Uprn;
                 const Id = query.Id;
 
-                await HelpRequestsService.updateHelpRequest(query, userName, req.auth.isAdmin)
+                await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
+                    return res.render('help-requests/help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
                 })                
 
             } catch (err) {
