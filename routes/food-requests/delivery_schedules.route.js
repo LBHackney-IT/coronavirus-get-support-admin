@@ -6,17 +6,17 @@ const deliverySchedulesController = require('../../controllers/food-requests/del
 const {isAuthorised, isAdmin} = require('../../middleware/auth');
 
 // GET request to search delivey schedule
-router.get('/', [isAuthorised], (req, res, next) => {
+router.get('/', [isAuthorised, isAdmin], (req, res, next) => {
    deliverySchedulesController.delivery_schedule_get(req, res, next)
 });
 
 // POST request to retrieve the list of records for the next delivery schedule report
-router.post('/list', [isAuthorised, deliveryLimitValidation], (req, res, next) => {
+router.post('/list', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res, next) => {
     deliverySchedulesController.delivery_schedule_list_post(req, res, next)
 });
 
 // POST request to confirm the next delivery schedule report
-router.post('/confirmed', [isAuthorised, deliveryLimitValidation], (req, res, next) => {
+router.post('/confirmed', [isAuthorised, isAdmin, deliveryLimitValidation], (req, res, next) => {
     deliverySchedulesController.delivery_schedule_confirmed_post(req, res, next)
 });
 
