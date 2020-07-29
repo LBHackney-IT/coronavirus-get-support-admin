@@ -11,14 +11,13 @@ module.exports = {
 
     food_requests_api_url: process.env.FOOD_REQUESTS_API_URL,
     food_requests_api_key: process.env.FOOD_REQUESTS_API_KEY,
-
     annex_summary_api_url: process.env.ANNEX_SUMMARY_API_URL,
-
     delivery_api_url: process.env.DELIVERY_SCHEDULE_API_URL,
     delivery_batch_api_url: process.env.DELIVERY_BATCH_API_URL,
 
-    help_rquests_api_url: process.env.HELP_REQUESTS_API_URL,
-    help_rquests_api_key: process.env.HELP_REQUESTS_API_KEY,
+    help_requests_api_url: process.env.HELP_REQUESTS_API_URL,
+    help_requests_api_key: process.env.HELP_REQUESTS_API_KEY,
+    help_requests_callback_api_url: process.env.HELP_REQUESTS_CALLBACK_API_URL,
 
     authorised_user_group: process.env.AUTHORISED_USER_GROUP,
     authorised_admin_group: process.env.AUTHORISED_ADMIN_GROUP,
