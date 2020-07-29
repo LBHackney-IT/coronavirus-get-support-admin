@@ -49,6 +49,10 @@ const deliveryLimitValidation = [
 ]
 
 const helpRequestCreateValidation = [
+  check("InitialCallbackCompleted", "Select if the initial callback has been completed.")
+    .notEmpty(),
+  check("CallbackRequired", "Select if a follow up callback is required.")
+    .notEmpty(),
   check("what_coronavirus_help", "Select what you need help with.")
     .notEmpty(),
   check("CurrentSupport", "Select who is helping you at the moment.")
@@ -57,16 +61,16 @@ const helpRequestCreateValidation = [
       .notEmpty(),
   check("LastName", "Enter your last name.")
     .notEmpty(),
-  check("AddressFirstLine", "Enter the first line of the address")
+  check("address_first_line", "Enter the first line of the address")
     .trim()
     .escape()
     .notEmpty(),
-  check("PostCode", "Enter a real postcode, like E8 1EA.")
+  check("postcode", "Enter a real postcode, like E8 1EA.")
     .trim()
     .escape()
     .notEmpty(),
-  check("PostCode", "Enter a real postcode, like E8 1EA.")
-    .if(check("PostCode").notEmpty())
+  check("postcode", "Enter a real postcode, like E8 1EA.")
+    .if(check("postcode").notEmpty())
     .isPostalCode("GB"),
   check("DobDay", "Enter a day of birth")
     .trim()
