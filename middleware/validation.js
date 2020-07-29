@@ -48,9 +48,45 @@ const deliveryLimitValidation = [
     .trim().escape().notEmpty().isInt({min: 1})
 ]
 
+const helpRequestValidation = [
+  check("what_coronavirus_help", "Select what you need help with.")
+    .notEmpty(),
+  check("currentSupport", "Select who is helping you at the moment.")
+    .notEmpty(),
+  check("firstName", "Enter your first name.")
+      .notEmpty(),
+  check("lastName", "Enter your last name.")
+    .notEmpty(),
+  check("dob_day", "Enter a day of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("dob_month", "Enter a month of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("dob_year", "Enter a year of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("contactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("numberOfchildrenUnder18", "Select the number of children under 18 in your household.")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("consent_to_share", "Select yes if we can share the information in this form with organisations offering help.")
+    .trim()
+    .escape()
+    .notEmpty() 
+]
+
 module.exports = {
   searchValidation,
   addressValidation,
   foodRequestValidation,
-  deliveryLimitValidation
+  deliveryLimitValidation,
+  helpRequestValidation
 }
