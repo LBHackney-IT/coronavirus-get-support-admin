@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { helpRequestValidation, addressValidation } = require('../../middleware/validation');
+const { helpRequestCreateValidation, helpRequestEditValidation, addressValidation } = require('../../middleware/validation');
 const helpRequestsController = require('../../controllers/help-requests/help_requests.controller');
 const {isAuthorised}= require('../../middleware/auth');
 
@@ -43,12 +43,12 @@ router.post('/search', [isAuthorised, addressValidation], (req, res, next) => {
 });
 
 // POST request to update 1 help request
-router.post('/edit/:id', [isAuthorised, helpRequestValidation], (req, res, next) => {
+router.post('/edit/:id', [isAuthorised, helpRequestEditValidation], (req, res, next) => {
     helpRequestsController.help_request_update_post(req, res, next)
 });
 
 // POST request to create a new help request
-router.post('/create', [isAuthorised, helpRequestValidation], (req, res, next) => {
+router.post('/create', [isAuthorised, helpRequestCreateValidation], (req, res, next) => {
     helpRequestsController.help_request_create_post(req, res, next)
 });
 

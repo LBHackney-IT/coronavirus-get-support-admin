@@ -110,16 +110,15 @@ module.exports = {
     help_request_get: async (req, res, next) => {
         try {
 
-            if(req.query.id) {
+            if(req.query.Id) {
                 res.locals.query = req.query;
-                res.oldVals = req.oldVals;
 
                 return res.render('help-requests/help-request-edit.njk');
 
             } else {
                 await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
-                    res.render('help-requests/help-request-edit.njk', {query: result, oldVals: result});
+                    res.render('help-requests/help-request-edit.njk', {query: result});
                 })
             }
 
@@ -141,6 +140,8 @@ module.exports = {
      * @returns {Promise<*>}
      */
     help_request_create_get: async (req, res, next) => {
+        res.locals.query = req.query;
+
         return res.render('help-requests/help-request-create.njk');
     }, 
 
@@ -153,28 +154,36 @@ module.exports = {
      * @returns {Promise<*>}
      */
     help_request_create_post: async (req, res, next) => {
-        try {
-            res.locals.isAdmin = req.auth.isAdmin;
+        res.locals.query = req.body;
 
-            if(req.query.Id) {
-                res.locals.query = req.query;
+        const errors = validator.validationResult(req);
 
-                return res.render('help-requests/help-request-create.njk');
+        if (!errors.isEmpty()) {
+            var extractedErrors = mapFieldErrors(errors);
 
-            } else {
-                await HelpRequestsService.createHelpRequest(req.params.id)
+            return res.redirect(
+              "/help-requests/create?" +
+                querystring.stringify(extractedErrors) +
+                "&" +
+                querystring.stringify(req.body)
+            );
+        } else {
+            try {
+                const query = req.body;
+                const userName = req.auth.name
+
+                await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
-                    res.render('help-requests/help-request-create.njk', {query: result});
+                    res.render('help-requests/', {query: result});
                 })
+
+            } catch (err) {
+                
+                const error = new Error(err);
+
+                return next(error);
             }
-
-        } catch (err) {
-            
-            const error = new Error(err);
-
-            return next(error);
         }
-
     }, 
 
 

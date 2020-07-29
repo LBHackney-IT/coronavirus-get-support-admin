@@ -148,6 +148,66 @@ class HelpRequestsService {
             console.log(err);
         }
     }
+
+
+    /**
+     * @description Update a single help request
+     * @returns {Promise<*>}
+     */
+    async createHelpRequest(query, userName) {
+        try {
+            let data = [];
+
+            const id = query.Id;
+            const recordCreatedText = "*** CREATED ***";
+
+            let caseNotes = notesHelper.appendNote(userName, recordCreatedText, '');
+            caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
+
+            const adviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
+
+            const updatedFields = {
+                InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
+                FollowupCallRequired: query.FollowupCallRequired == 'yes' && true || false,
+                FirstName: query.FirstName,
+                LastName: query.LastName,
+                ContactTelephoneNumber: query.ContactTelephoneNumber || '',
+                ContactMobileNumber: query.ContactMobileNumber || '',
+                EmailAddress: query.EmailAddress,
+                DobDay: query.DobDay,
+                DobMonth: query.DobMonth,
+                DobYear: query.DobYear,
+                GettingInTouchReason: query.GettingInTouchReason || '',
+                HelpWithAccessingFood: query.what_coronavirus_help.includes('accessing food') && true || false,
+                HelpWithDebtAndMoney: query.what_coronavirus_help.includes('debt and money') && true || false,
+                HelpWithHealth: query.what_coronavirus_help.includes('health') && true || false,
+                HelpWithMentalHealth: query.what_coronavirus_help.includes('mental health') && true || false,
+                HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
+                HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
+                HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
+                CurrentSupport: query.CurrentSupport || '',
+                CurrentSupportFeedback: query.CurrentSupportFeedback || '',
+                GpSurgeryDetails: query.GpSurgeryDetails || "",
+                NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
+                ConsentToShare: query.consent_to_share && true || false,
+                CaseNotes: caseNotes,
+                AdviceNotes: adviceNotes,
+                DateTimeRecorded: new Date()
+            }
+
+            const updatedData = JSON.stringify(updatedFields);
+
+            await HelpRequestModel.updateHelpRequest(id, updatedData)
+            .then ( (result) => {
+                data = result.data;
+            });
+
+            return data;
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
 module.exports = new HelpRequestsService;
