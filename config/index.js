@@ -9,6 +9,9 @@ module.exports = {
     protocol: process.env.PROTOCOL,
     local: process.env.LOCAL,
 
+    addresses_api_url: process.env.ADDRESSES_API_URL,
+    addresses_api_key: process.env.ADDRESSES_API_KEY,
+
     food_requests_api_url: process.env.FOOD_REQUESTS_API_URL,
     food_requests_api_key: process.env.FOOD_REQUESTS_API_KEY,
     annex_summary_api_url: process.env.ANNEX_SUMMARY_API_URL,
