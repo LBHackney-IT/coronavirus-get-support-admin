@@ -50,27 +50,27 @@
                         "text": "Initial callback completed?"
                         }
                     },
-                    "id": "InitialCallbackCompleted",
-                    "name": "InitialCallbackCompleted",
+                    "id": "initial_callback_completed",
+                    "name": "initial_callback_completed",
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
                         "value": "yes",
                         "text": "Yes",
-                        "checked": true if query.InitialCallbackCompleted  == "yes" else false
+                        "checked": true if query.initial_callback_completed  == "yes" else false
                         },
                         {
                         "value": "no",
                         "text": "No",
-                        "checked": true if query.InitialCallbackCompleted != "yes" else false
+                        "checked": true if query.initial_callback_completed != "yes" else false
                         }
                         ],
                         "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_InitialCallbackCompleted else ''
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
                         },
                         "errorMessage": {
-                        "text": query.error_InitialCallbackCompleted
-                        } if query.error_InitialCallbackCompleted else null
+                        "text": query.error_initial_callback_completed
+                        } if query.error_initial_callback_completed else null
                     }) }}
             </div>
             <div class="govuk-grid-column-one-half">
