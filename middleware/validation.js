@@ -48,32 +48,78 @@ const deliveryLimitValidation = [
     .trim().escape().notEmpty().isInt({min: 1})
 ]
 
-const helpRequestValidation = [
+const helpRequestCreateValidation = [
   check("what_coronavirus_help", "Select what you need help with.")
     .notEmpty(),
-  check("currentSupport", "Select who is helping you at the moment.")
+  check("CurrentSupport", "Select who is helping you at the moment.")
     .notEmpty(),
-  check("firstName", "Enter your first name.")
+  check("FirstName", "Enter your first name.")
       .notEmpty(),
-  check("lastName", "Enter your last name.")
+  check("LastName", "Enter your last name.")
     .notEmpty(),
-  check("dob_day", "Enter a day of birth")
+  check("AddressFirstLine", "Enter the first line of the address")
     .trim()
     .escape()
     .notEmpty(),
-  check("dob_month", "Enter a month of birth")
+  check("PostCode", "Enter a real postcode, like E8 1EA.")
     .trim()
     .escape()
     .notEmpty(),
-  check("dob_year", "Enter a year of birth")
+  check("PostCode", "Enter a real postcode, like E8 1EA.")
+    .if(check("PostCode").notEmpty())
+    .isPostalCode("GB"),
+  check("DobDay", "Enter a day of birth")
     .trim()
     .escape()
     .notEmpty(),
-  check("contactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+  check("DobMonth", "Enter a month of birth")
     .trim()
     .escape()
     .notEmpty(),
-  check("numberOfchildrenUnder18", "Select the number of children under 18 in your household.")
+  check("DobYear", "Enter a year of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("ContactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("NumberOfChildrenUnder18", "Select the number of children under 18 in your household.")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("consent_to_share", "Select yes if we can share the information in this form with organisations offering help.")
+    .trim()
+    .escape()
+    .notEmpty() 
+]
+
+const helpRequestEditValidation = [
+  check("what_coronavirus_help", "Select what you need help with.")
+    .notEmpty(),
+  check("CurrentSupport", "Select who is helping you at the moment.")
+    .notEmpty(),
+  check("FirstName", "Enter your first name.")
+      .notEmpty(),
+  check("LastName", "Enter your last name.")
+    .notEmpty(),
+  check("DobDay", "Enter a day of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobMonth", "Enter a month of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobYear", "Enter a year of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("ContactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("NumberOfChildrenUnder18", "Select the number of children under 18 in your household.")
     .trim()
     .escape()
     .notEmpty(),
@@ -88,5 +134,6 @@ module.exports = {
   addressValidation,
   foodRequestValidation,
   deliveryLimitValidation,
-  helpRequestValidation
+  helpRequestCreateValidation,
+  helpRequestEditValidation
 }
