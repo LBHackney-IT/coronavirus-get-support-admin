@@ -5,11 +5,16 @@
 
 {% block content %}
 
-  <h1 class="lbh-heading-h1">Ask for help requests</h1>
+  <h1 class="lbh-heading-h1">Manage help requests</h1>
   {{ lbhBackLink({
     "href": "/",
     "text": "Back"
   }) }}
+
+  {% if summary.ActiveCases %}
+  <p class="lbh-body-m">Total help requests: ({{ summary.ActiveCases }})</p>
+  {% endif %}
+
 
   <table class="govuk-table  lbh-table">
     <tbody class="govuk-table__body">

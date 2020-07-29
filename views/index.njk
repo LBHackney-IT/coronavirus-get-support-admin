@@ -1,4 +1,5 @@
 {% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
 
 {% extends "./layouts/base.njk" %}
 
@@ -11,17 +12,19 @@
   <table class="govuk-table lbh-table">
     <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Help requests</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <a href="/help-requests" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
+        {%if isAdmin %}
+        <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Food requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
             <a href="/food-requests" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
           </td>
         </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Help requests</th>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-            <a href="/help-requests" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
-          </td>
-        </tr>
+      {% endif %}
     </tbody>
   </table>
 {% endblock %}
