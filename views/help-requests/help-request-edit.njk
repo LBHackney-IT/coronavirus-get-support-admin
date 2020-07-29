@@ -22,6 +22,12 @@
 
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
+        <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
+        <input type="hidden" name="AddressSecondLine" value="{{query.AddressSecondLine}}">
+        <input type="hidden" name="AddressThirdLine" value="{{query.AddressThirdLine}}">
+        <input type="hidden" name="PostCode" value="{{query.PostCode}}">
+        <input type="hidden" name="Uprn" value="{{query.Uprn}}">
+        <input type="hidden" name="Ward" value="{{query.Ward}}">
 
         <p class="lbh-body-m">
         {{query.FirstName | upper }} {{query.LastName | upper}} <br />
@@ -51,7 +57,7 @@
                         {
                         "value": "yes",
                         "text": "Yes",
-                        "checked": true if or  == "yes" else false
+                        "checked": true if query.InitialCallbackCompleted  == "yes" else false
                         },
                         {
                         "value": "no",
@@ -74,27 +80,27 @@
                         "text": "Follow up call required?"
                         }
                     },
-                    "id": "FollowupCallRequired",
-                    "name": "FollowupCallRequired",
+                    "id": "CallbackRequired",
+                    "name": "CallbackRequired",
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
                         "value": "yes",
                         "text": "Yes",
-                        "checked": true if query.FollowupCallRequired == "yes" else false
+                        "checked": true if query.CallbackRequired == "yes" else false
                         },
                         {
                         "value": "no",
                         "text": "No",
-                        "checked": true if query.FollowupCallRequired != "yes" else false
+                        "checked": true if query.CallbackRequired != "yes" else false
                         }
                         ],
                         "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_FollowupCallRequired else ''
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
                         },
                         "errorMessage": {
-                        "text": query.error_FollowupCallRequired
-                        } if query.error_FollowupCallRequired else null
+                        "text": query.error_CallbackRequired
+                        } if query.error_CallbackRequired else null
                 }) }}
 
             </div>
@@ -349,11 +355,11 @@
                 }
             ],
             "formGroup": {
-                "classes": "govuk-form-group--error lbh-form-group" if query.error_current_support else ''
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
             },
             "errorMessage": {
-                "text": query.error_current_support
-            } if query.error_current_support else null
+                "text": query.error_CurrentSupport
+            } if query.error_CurrentSupport else null
         }) }}
 
         <hr>

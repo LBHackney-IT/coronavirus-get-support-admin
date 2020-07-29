@@ -17,11 +17,23 @@
 
         <p class="lbh-body-m">Displaying {{helpRequests | length}} record(s)</p>
 
-        {{ lbhButton({
-            text: "New search",
-            isSecondary: true,
-            href: "/help-requests/search"
-        })}}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{ lbhButton({
+                    text: "New search",
+                    isSecondary: true,
+                    href: "/help-requests/search"
+                })}}
+                    </div>
+            <div class="govuk-grid-column-one-half text-align-right">
+                {{ lbhButton({
+                    text: "Create new",
+                    href: "/help-requests/create"
+                })}}
+            </div>
+        </div>
+
+        
 
         <table class="govuk-table  lbh-table">
             <thead class="govuk-table__head">
@@ -63,7 +75,7 @@
             </div>
             <div class="govuk-grid-column-one-half text-align-right">
                 {{ lbhButton({
-                    text: "Create",
+                    text: "Create new",
                     href: "/help-requests/create"
                 })}}
             </div>
