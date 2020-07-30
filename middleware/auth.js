@@ -5,10 +5,12 @@ const config = require('../config');
 const isAuthorised = (req, res, next) => {
   const token = req.cookies[config.token_name];
 
+  // If on local environment, bypass authentication, 
+  // get username from config and set Admin permission
   if(config.local) {
     req.auth = {
-      name: "Joe Bloggs",
-      isAdmin: true
+      name: config.user_name,
+      isAdmin: config.is_admin
     }
 
     return next();
@@ -31,10 +33,12 @@ const isAuthorised = (req, res, next) => {
       }
 
       if (groups) {
+        // User is authorised if in either group
         if(groups.includes(config.authorised_user_group) || groups.includes(config.authorised_admin_group)) {
           isAuthorised = true;
         };
         
+        // User is an Admin if in the admin group
         if(groups.includes(config.authorised_admin_group)) {
           req.auth.isAdmin = true;
         }
@@ -55,9 +59,11 @@ const isAuthorised = (req, res, next) => {
     } 
   }
 
+  // If not authorised, render the login page
   return res.render("login.njk");
 };
 
+// Used by the routes to determine if a user is an Admin
 const isAdmin = (req, res, next) => {
   if(req.auth && req.auth.isAdmin) {
     return next();
