@@ -6,10 +6,6 @@
 {% block content %}
 
   <h1 class="lbh-heading-h1">Manage help requests</h1>
-  {{ lbhBackLink({
-    "href": "/",
-    "text": "Back"
-  }) }}
 
   {% if summary.ActiveCases %}
   <p class="lbh-body-m">Total help requests: ({{ summary.ActiveCases }})</p>
