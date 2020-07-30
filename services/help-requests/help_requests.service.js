@@ -46,6 +46,12 @@ class HelpRequestsService {
             await HelpRequestModel.getAllHelpRequests(params)
             .then ( (result) => {
                 data = result.data || [];
+
+                data.forEach(item => {
+                    const formattedCreationDate = dateHelper.convertDate(item.DateTimeRecorded);
+
+                    item.creation_date = formattedCreationDate.concatenated;
+                });
             });
 
             return data;
