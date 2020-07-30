@@ -1,0 +1,29 @@
+{% macro HelpRequestDataList(data) %}
+<table class="govuk-table  lbh-table">
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">ID</th>
+        <th scope="col" class="govuk-table__header">Name & Address</th>
+        <th scope="col" class="govuk-table__header">Submitted</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        <th scope="col" class="govuk-table__header"></th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        {% for item in data %}
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{item.Id}}</td>
+                <td class="govuk-table__cell">
+                    {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.Postcode}}
+                </td>
+                <td class="govuk-table__cell">{{item.creation_date}}</td>
+                <td class="govuk-table__cell">{{item.RecordStatus}}</td>
+                <td class="govuk-table__cell">
+                    <a href="/help-requests/edit/{{item.Id}}" class="js-cta-btn">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+</table>
+{% endmacro %}
