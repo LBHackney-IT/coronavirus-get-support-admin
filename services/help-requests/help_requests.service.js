@@ -106,6 +106,7 @@ class HelpRequestsService {
             let data = [];
 
             const id = query.Id;
+            const currentSupport = Array.isArray(query.CurrentSupport) ? query.CurrentSupport.join() : query.CurrentSupport;
             const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
             const updatedAdviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
 
@@ -128,7 +129,7 @@ class HelpRequestsService {
                 HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
                 HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
                 HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
-                CurrentSupport: query.CurrentSupport.join() || '',
+                CurrentSupport: currentSupport || '',
                 CurrentSupportFeedback: query.CurrentSupportFeedback || '',
                 GpSurgeryDetails: query.GpSurgeryDetails || "",
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
@@ -162,6 +163,8 @@ class HelpRequestsService {
 
             const recordCreatedCaseNoteText = "*** CREATED ***";
 
+            const currentSupport = Array.isArray(query.CurrentSupport) ? query.CurrentSupport.join() : query.CurrentSupport;
+
             let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '');
             caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
 
@@ -190,7 +193,7 @@ class HelpRequestsService {
                 HelpWithHousing: query.what_coronavirus_help.includes('housing') && true || false,
                 HelpWithAccessingInternet: query.what_coronavirus_help.includes('technology support') && true || false,
                 HelpWithSomethingElse: query.what_coronavirus_help.includes('something else') && true || false,
-                CurrentSupport: query.CurrentSupport.join() || '',
+                CurrentSupport: currentSupport || '',
                 CurrentSupportFeedback: query.CurrentSupportFeedback || '',
                 GpSurgeryDetails: query.GpSurgeryDetails || "",
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
