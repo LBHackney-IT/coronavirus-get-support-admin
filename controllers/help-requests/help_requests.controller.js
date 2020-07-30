@@ -34,7 +34,7 @@ module.exports = {
 
             await HelpRequestsService.getAllCallbacks()
             .then(result => {
-                res.render('help-requests/help-requests-callbacks-list.njk', {callbacksData: result});
+                res.render('help-requests/help-requests-callbacks-list.njk', {helpRequestsData: result});
             })
 
         } catch (err) {
@@ -88,7 +88,7 @@ module.exports = {
                         item.DateTimeRecorded = recDate.toLocaleDateString();
                     });
 
-                    return res.render('help-requests/help-requests-list.njk', {postcode: postcode, id: id, helpRequests: data});
+                    return res.render('help-requests/help-requests-list.njk', {postcode: postcode, id: id, helpRequestsData: data});
                 }) 
 
             } catch (err) {
