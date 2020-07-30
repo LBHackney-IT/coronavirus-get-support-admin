@@ -94,6 +94,8 @@
 .text-align-right {
   text-align: right;
 }
+
+input[readonly],
 textarea[readonly] {
   border-width: 0;
   background-color: lbh-colour("lbh-grey-4");
