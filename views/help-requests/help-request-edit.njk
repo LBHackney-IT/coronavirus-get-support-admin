@@ -7,18 +7,32 @@
 {% from "lbh-date-input/macro.njk" import lbhDateInput %}
 {% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
+{% from "lbh-panel/macro.njk" import lbhPanel %}
 
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
-    <h1 class="lbh-heading-h1">Edit help request</h1>
+    <h1 class="lbh-heading-h1">Manage help request</h1>
     {{ lbhBackLink({
         "href": "/help-requests",
         "text": "Back to home"
     }) }}
 
+    {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "Error",
+        "descriptionText": "Please complete all fields marked in red before updating."
+    }) }}
+    {% endif %}
+
+    {% if hasupdated %}
+    {{ lbhPanel({
+        "titleHtml": "Updated succesfully"
+    }) }}
+    {% endif %}
+
     {% if query.Id %}
-    <h3 class="lbh-heading-h3">UPRN: {{query.Uprn}}, ID: {{query.Id}}</h3>
 
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
@@ -37,74 +51,6 @@
         {{query.PostCode}} <br />
         ({{query.Ward}})
         </p>
-
-        {% include '../partials/help-request-edit-cta-btns.njk' %}
-
-        <hr>
-
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Initial callback completed?"
-                        }
-                    },
-                    "id": "initial_callback_completed",
-                    "name": "initial_callback_completed",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.initial_callback_completed  == "yes" else false
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.initial_callback_completed != "yes" else false
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_initial_callback_completed
-                        } if query.error_initial_callback_completed else null
-                    }) }}
-            </div>
-            <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Follow up call required?"
-                        }
-                    },
-                    "id": "CallbackRequired",
-                    "name": "CallbackRequired",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.CallbackRequired == "yes" else false
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.CallbackRequired != "yes" else false
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_CallbackRequired
-                        } if query.error_CallbackRequired else null
-                }) }}
-
-            </div>
-        </div>
 
         <hr>
 
@@ -214,23 +160,6 @@
             "errorMessage": {
                 "text": "Enter a valid date"
             } if query.error_dob-day or query.error_dob-month or query.error_dob-year else null
-        }) }}
-
-        <hr>
-        
-        {{ lbhFieldset({
-            "legend": {
-                "text": "Why are you getting in touch with us today? (Optional)"
-            }
-        }) }}
-
-        {{ lbhTextarea({
-            "hint": {
-                "text": "Tell us about your situation and the help you need."
-            },
-            "id": "GettingInTouchReason",
-            "name": "GettingInTouchReason",
-            "value": query.GettingInTouchReason
         }) }}
 
         <hr>
@@ -364,30 +293,6 @@
 
         <hr>
 
-        <h3 class="lbh-heading-h3">Is there anything you’d like to tell us about the support you’re receiving? (Optional)</h3>
-        {{ lbhTextarea({
-            "hint": {
-                "text": "For example, who is supporting you, how they’re helping or anything else you think we should know."
-            },
-            "id": "CurrentSupportFeedback",
-            "name": "CurrentSupportFeedback",
-            "value": query.CurrentSupportFeedback
-        }) }}
-
-        <hr>
-            
-        <h3 class="lbh-heading-h3">Which GP surgery are you registered with? (Optional)</h3>
-        {{ lbhTextarea({
-            "hint": {
-                "text": "Please provide the name and address of the GP surgery you are registered with. This will help us to arrange support for you more quickly."
-            },
-            "id": "GpSurgeryDetails",
-            "name": "GpSurgeryDetails",
-            "value": query.GpSurgeryDetails
-        }) }}
-
-        <hr>
-
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
@@ -467,6 +372,43 @@
 
         <hr>
 
+        {{ lbhFieldset({
+            "legend": {
+                "text": "Why are you getting in touch with us today? (Optional)"
+            }
+        }) }}
+
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Tell us about your situation and the help you need."
+            },
+            "id": "GettingInTouchReason",
+            "name": "GettingInTouchReason",
+            "value": query.GettingInTouchReason
+        }) }}
+
+        <h3 class="lbh-heading-h3">Is there anything you’d like to tell us about the support you’re receiving? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "For example, who is supporting you, how they’re helping or anything else you think we should know."
+            },
+            "id": "CurrentSupportFeedback",
+            "name": "CurrentSupportFeedback",
+            "value": query.CurrentSupportFeedback
+        }) }}
+
+        <h3 class="lbh-heading-h3">Which GP surgery are you registered with? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Please provide the name and address of the GP surgery you are registered with. This will help us to arrange support for you more quickly."
+            },
+            "id": "GpSurgeryDetails",
+            "name": "GpSurgeryDetails",
+            "value": query.GpSurgeryDetails
+        }) }}
+
+        <hr>
+
         <h2 class="lbh-heading-h1">Notes:</h2>
 
         <fieldset class="govuk-fieldset lbh-fieldset">
@@ -526,9 +468,71 @@
                     </textarea>
                 </section>
             </div>
-
-            
         </fieldset>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Initial callback completed?"
+                        }
+                    },
+                    "id": "initial_callback_completed",
+                    "name": "initial_callback_completed",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.initial_callback_completed  == "yes" else false
+                        },
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.initial_callback_completed != "yes" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_initial_callback_completed
+                        } if query.error_initial_callback_completed else null
+                    }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Follow up call required?"
+                        }
+                    },
+                    "id": "CallbackRequired",
+                    "name": "CallbackRequired",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.CallbackRequired == "yes" else false
+                        },
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.CallbackRequired != "yes" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_CallbackRequired
+                        } if query.error_CallbackRequired else null
+                }) }}
+
+            </div>
+        </div>
 
         {% include '../partials/help-request-edit-cta-btns.njk' %}
     </form>

@@ -110,7 +110,7 @@ module.exports = {
     help_request_get: async (req, res, next) => {
         try {
 
-            if(req.query.Id) {
+            if(req.query.haserrors) {
                 res.locals.query = req.query;
 
                 return res.render('help-requests/help-request-edit.njk');
@@ -118,7 +118,7 @@ module.exports = {
             } else {
                 await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
-                    res.render('help-requests/help-request-edit.njk', {query: result});
+                    res.render('help-requests/help-request-edit.njk', {query: result, hasupdated: true});
                 })
             }
 
@@ -133,7 +133,7 @@ module.exports = {
 
 
     /**
-     * @description Create a new help request
+     * @description Redner a new help request form
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
@@ -203,7 +203,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/help-requests/edit/" + req.body.Id + "?" +
+              "/help-requests/edit/" + req.body.Id + "?haserrors=true&" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -213,12 +213,10 @@ module.exports = {
             try {
                 const query = req.body;
                 const userName = req.auth.name
-                const residentName = query.FirstName + ' ' + query.LastName;
-                const Id = query.Id;
 
                 await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.render('help-requests/help-request-edit-success.njk', {updatedData: result, residentName: residentName, Id: Id});
+                    return res.redirect('/help-requests/edit/' + query.Id + "?hasupdated=true");
                 })                
 
             } catch (err) {
