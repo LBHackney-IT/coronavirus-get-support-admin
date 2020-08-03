@@ -118,7 +118,8 @@ module.exports = {
             } else {
                 await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
-                    res.render('help-requests/help-request-edit.njk', {query: result, hasupdated: true});
+                    res.locals.hasupdated = req.query.hasupdated;
+                    res.render('help-requests/help-request-edit.njk', {query: result, hasupdated: req.query.hasupdated});
                 })
             }
 
