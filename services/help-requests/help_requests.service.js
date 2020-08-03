@@ -114,7 +114,6 @@ class HelpRequestsService {
             const id = query.Id;
             const currentSupport = Array.isArray(query.CurrentSupport) ? query.CurrentSupport.join() : query.CurrentSupport;
             const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
-            const updatedAdviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
 
             const updatedFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
@@ -140,8 +139,7 @@ class HelpRequestsService {
                 GpSurgeryDetails: query.GpSurgeryDetails || "",
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
                 ConsentToShare: query.consent_to_share && true || false,
-                CaseNotes: updatedCaseNotes,
-                AdviceNotes: updatedAdviceNotes
+                CaseNotes: updatedCaseNotes
             }
 
             const updatedData = JSON.stringify(updatedFields);
@@ -174,8 +172,6 @@ class HelpRequestsService {
             let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '');
             caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
 
-            const adviceNotes = notesHelper.appendNote(userName, query.NewAdviceNote, query.AdviceNotes);
-
             const updatedFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
                 FollowupCallRequired: query.FollowupCallRequired == 'yes' && true || false,
@@ -205,7 +201,6 @@ class HelpRequestsService {
                 NumberOfChildrenUnder18: query.NumberOfChildrenUnder18 || '',
                 ConsentToShare: query.consent_to_share && true || false,
                 CaseNotes: caseNotes,
-                AdviceNotes: adviceNotes,
                 DateTimeRecorded: new Date()
             }
 
