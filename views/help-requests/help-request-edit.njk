@@ -58,7 +58,7 @@
             <div class="govuk-grid-column-one-half">
                 {{ lbhFieldset({
                     "legend": {
-                        "text": "First Name"
+                        "text": "First name"
                     }
                 }) }}
                 {{ lbhInput({
@@ -74,7 +74,7 @@
             <div class="govuk-grid-column-one-half">
                 {{ lbhFieldset({
                     "legend": {
-                        "text": "Last Name"
+                        "text": "Last name"
                     }
                 }) }}
                 {{ lbhInput({
@@ -411,64 +411,25 @@
 
         <h2 class="lbh-heading-h1">Notes:</h2>
 
-        <fieldset class="govuk-fieldset lbh-fieldset">
-            <div class="govuk-tabs  lbh-tabs" data-module="govuk-tabs">
-                <h2 class="govuk-tabs__title">
-                    Notes
-                </h2>
-                <ul class="govuk-tabs__list">
-                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                        <a class="govuk-tabs__tab" href="#case-notes">
-                            Case Notes
-                        </a>
-                    </li>
-                    <li class="govuk-tabs__list-item">
-                        <a class="govuk-tabs__tab" href="#advice-notes">
-                            Advice Notes
-                        </a>
-                    </li>
-                </ul>
-                <section class="govuk-tabs__panel" id="case-notes">
-                    <h3 class="lbh-heading-h3">Add a new case note (optional):</h3>
-                    {{ lbhTextarea({
-                        "label": {
-                            "text": ""
-                        },
-                        "id": "NewCaseNote",
-                        "name": "NewCaseNote",
-                        "hint" : {
-                            "text": ""
-                        },
-                        "value": query.NewCaseNote
-                    }) }}
+        <h3 class="lbh-heading-h3">Add a new case note (optional):</h3>
+        {{ lbhTextarea({
+            "label": {
+                "text": ""
+            },
+            "id": "NewCaseNote",
+            "name": "NewCaseNote",
+            "hint" : {
+                "text": ""
+            },
+            "value": query.NewCaseNote
+        }) }}
 
-                    <h3 class="lbh-heading-h3">Case note history (read only):</h3>
-                    <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
-                    <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
-                    </textarea>
+        <h3 class="lbh-heading-h3">Case note history (read only):</h3>
+        <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
+        <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
+        </textarea>
 
-                </section>
-                <section class="govuk-tabs__panel" id="advice-notes">
-                    <h3 class="lbh-heading-h3">Add a new advice note (optional):</h3>
-                    {{ lbhTextarea({
-                        "label": {
-                            "text": ""
-                        },
-                        "id": "NewAdviceNote",
-                        "name": "NewAdviceNote",
-                        "hint" : {
-                            "text": ""
-                        },
-                        "value": query.NewAdviceNote
-                    }) }}
-
-                    <h3 class="lbh-heading-h3">Advice note history (read only):</h3>
-                    <input type="hidden" name="AdviceNotes" value="{{query.AdviceNotes}}">
-                    <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.AdviceNotes}}
-                    </textarea>
-                </section>
-            </div>
-        </fieldset>
+        <hr>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
@@ -533,6 +494,8 @@
 
             </div>
         </div>
+
+        <hr>
 
         {% include '../partials/help-request-edit-cta-btns.njk' %}
     </form>

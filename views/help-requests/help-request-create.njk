@@ -19,73 +19,6 @@
         <input type="hidden" name="ward" id="ward" value="{{query.ward}}">
         <input type="hidden" name="gazetteer" id="gazetteer" value="{{query.gazetteer}}">
         
-
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Initial callback completed?"
-                        }
-                    },
-                    "id": "InitialCallbackCompleted",
-                    "name": "InitialCallbackCompleted",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.InitialCallbackCompleted  == "yes" else false
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.InitialCallbackCompleted == "no" else false
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_InitialCallbackCompleted else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_InitialCallbackCompleted
-                        } if query.error_InitialCallbackCompleted else null
-                    }) }}
-            </div>
-            <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Follow up call required?"
-                        }
-                    },
-                    "id": "CallbackRequired",
-                    "name": "CallbackRequired",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.CallbackRequired == "yes" else false
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.CallbackRequired == "no" else false
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_CallbackRequired
-                        } if query.error_CallbackRequired else null
-                }) }}
-
-            </div>
-        </div>
-
-        <hr>
-
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
                 {{ lbhFieldset({
@@ -266,22 +199,7 @@
 
         <hr>
         
-        {{ lbhFieldset({
-            "legend": {
-                "text": "Why are you getting in touch with us today? (Optional)"
-            }
-        }) }}
-
-        {{ lbhTextarea({
-            "hint": {
-                "text": "Tell us about your situation and the help you need."
-            },
-            "id": "GettingInTouchReason",
-            "name": "GettingInTouchReason",
-            "value": query.GettingInTouchReason
-        }) }}
-
-        <hr>
+        
 
         {{ lbhCheckboxes({
             "fieldset": {
@@ -412,30 +330,6 @@
 
         <hr>
 
-        <h3 class="lbh-heading-h3">Is there anything you’d like to tell us about the support you’re receiving? (Optional)</h3>
-        {{ lbhTextarea({
-            "hint": {
-                "text": "For example, who is supporting you, how they’re helping or anything else you think we should know."
-            },
-            "id": "CurrentSupportFeedback",
-            "name": "CurrentSupportFeedback",
-            "value": query.CurrentSupportFeedback
-        }) }}
-
-        <hr>
-            
-        <h3 class="lbh-heading-h3">Which GP surgery are you registered with? (Optional)</h3>
-        {{ lbhTextarea({
-            "hint": {
-                "text": "Please provide the name and address of the GP surgery you are registered with. This will help us to arrange support for you more quickly."
-            },
-            "id": "GpSurgeryDetails",
-            "name": "GpSurgeryDetails",
-            "value": query.GpSurgeryDetails
-        }) }}
-
-        <hr>
-
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
@@ -515,66 +409,130 @@
 
         <hr>
 
-        <h2 class="lbh-heading-h1">Notes:</h2>
+        {{ lbhFieldset({
+            "legend": {
+                "text": "Why are you getting in touch with us today? (Optional)"
+            }
+        }) }}
 
-        <fieldset class="govuk-fieldset lbh-fieldset">
-            <div class="govuk-tabs  lbh-tabs" data-module="govuk-tabs">
-                <h2 class="govuk-tabs__title">
-                    Notes
-                </h2>
-                <ul class="govuk-tabs__list">
-                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                        <a class="govuk-tabs__tab" href="#case-notes">
-                            Case Notes
-                        </a>
-                    </li>
-                    <li class="govuk-tabs__list-item">
-                        <a class="govuk-tabs__tab" href="#advice-notes">
-                            Advice Notes
-                        </a>
-                    </li>
-                </ul>
-                <section class="govuk-tabs__panel" id="case-notes">
-                    <h3 class="lbh-heading-h3">Add a new case note (optional):</h3>
-                    {{ lbhTextarea({
-                        "label": {
-                            "text": ""
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Tell us about your situation and the help you need."
+            },
+            "id": "GettingInTouchReason",
+            "name": "GettingInTouchReason",
+            "value": query.GettingInTouchReason
+        }) }}
+
+        <h3 class="lbh-heading-h3">Is there anything you’d like to tell us about the support you’re receiving? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "For example, who is supporting you, how they’re helping or anything else you think we should know."
+            },
+            "id": "CurrentSupportFeedback",
+            "name": "CurrentSupportFeedback",
+            "value": query.CurrentSupportFeedback
+        }) }}
+
+        <h3 class="lbh-heading-h3">Which GP surgery are you registered with? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Please provide the name and address of the GP surgery you are registered with. This will help us to arrange support for you more quickly."
+            },
+            "id": "GpSurgeryDetails",
+            "name": "GpSurgeryDetails",
+            "value": query.GpSurgeryDetails
+        }) }}
+
+        <hr>
+
+
+        <h2 class="lbh-heading-h1">Case notes:</h2>
+        <h3 class="lbh-heading-h3">Add a new case note (optional):</h3>
+        {{ lbhTextarea({
+            "label": {
+                "text": ""
+            },
+            "id": "NewCaseNote",
+            "name": "NewCaseNote",
+            "hint" : {
+                "text": ""
+            },
+            "value": query.NewCaseNote
+        }) }}
+
+        <h3 class="lbh-heading-h3">Case note history (read only):</h3>
+        <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
+        <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
+        </textarea>
+
+        <hr>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Initial callback completed?"
+                        }
+                    },
+                    "id": "InitialCallbackCompleted",
+                    "name": "InitialCallbackCompleted",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.InitialCallbackCompleted  == "yes" else false
                         },
-                        "id": "NewCaseNote",
-                        "name": "NewCaseNote",
-                        "hint" : {
-                            "text": ""
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.InitialCallbackCompleted == "no" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_InitialCallbackCompleted else ''
                         },
-                        "value": query.NewCaseNote
+                        "errorMessage": {
+                        "text": query.error_InitialCallbackCompleted
+                        } if query.error_InitialCallbackCompleted else null
                     }) }}
-
-                    <h3 class="lbh-heading-h3">Case note history (read only):</h3>
-                    <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
-                    <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
-                    </textarea>
-
-                </section>
-                <section class="govuk-tabs__panel" id="advice-notes">
-                    <h3 class="lbh-heading-h3">Add a new advice note (optional):</h3>
-                    {{ lbhTextarea({
-                        "label": {
-                            "text": ""
-                        },
-                        "id": "NewAdviceNote",
-                        "name": "NewAdviceNote",
-                        "hint" : {
-                            "text": ""
-                        },
-                        "value": query.NewAdviceNote
-                    }) }}
-
-                    <h3 class="lbh-heading-h3">Advice note history (read only):</h3>
-                    <input type="hidden" name="AdviceNotes" value="{{query.AdviceNotes}}">
-                    <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.AdviceNotes}}
-                    </textarea>
-                </section>
             </div>
-        </fieldset>
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Follow up call required?"
+                        }
+                    },
+                    "id": "CallbackRequired",
+                    "name": "CallbackRequired",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.CallbackRequired == "yes" else false
+                        },
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.CallbackRequired == "no" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_CallbackRequired
+                        } if query.error_CallbackRequired else null
+                }) }}
+
+            </div>
+        </div>
+        
+        <hr>
 
         {% include '../partials/help-request-create-cta-btns.njk' %}
     </form>
