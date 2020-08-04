@@ -134,7 +134,7 @@ module.exports = {
 
 
     /**
-     * @description Redner a new help request form
+     * @description Render a new help request form
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
@@ -163,7 +163,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/help-requests/create?" +
+              "/help-requests/create?haserrors=true&" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)

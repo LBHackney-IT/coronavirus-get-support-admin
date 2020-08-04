@@ -7,11 +7,19 @@
 {% from "lbh-date-input/macro.njk" import lbhDateInput %}
 {% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
 
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
     <h1 class="lbh-heading-h1">New help request</h1>
+
+    {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "Error",
+        "descriptionText": "Please complete all fields marked in red before updating."
+    }) }}
+    {% endif %}
     
     <form action="/help-requests/create" method="post">
         <input type="hidden" name="building_number" id="building_number" value="{{query.building_number}}">
