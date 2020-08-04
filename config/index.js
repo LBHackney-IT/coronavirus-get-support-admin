@@ -8,8 +8,11 @@ module.exports = {
     port: parseInt(process.env.PORT, 10) || 5000,
     protocol: process.env.PROTOCOL,
     local: process.env.LOCAL,
-    user_name: process.env.USER_NAME || 'Joe Bloggs',
-    is_admin: process.env.IS_ADMIN || false,
+    local_user_name: process.env.LOCAL_USER_NAME,
+    local_is_admin: process.env.LOCAL_IS_ADMIN || false,
+    
+    help_requests_enabled: process.env.MANAGE_HELP_REQUESTS_ENABLED || false,
+    food_requests_enabled: process.env.MANAGE_FOOD_REQUESTS_ENABLED || false,
 
     addresses_api_url: process.env.ADDRESSES_API_URL,
     addresses_api_key: process.env.ADDRESSES_API_KEY,
