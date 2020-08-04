@@ -11,7 +11,7 @@
 
   <table class="govuk-table lbh-table">
     <tbody class="govuk-table__body">
-        {%if canManage.helpRequests %}
+        {%if canManage.helpRequests or isAdmin %}
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Help requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
