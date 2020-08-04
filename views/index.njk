@@ -11,13 +11,15 @@
 
   <table class="govuk-table lbh-table">
     <tbody class="govuk-table__body">
+        {%if canManage.helpRequests %}
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Help requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
             <a href="/help-requests" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
           </td>
         </tr>
-        {%if isAdmin %}
+        {% endif %}
+        {%if canManage.foodRequests or isAdmin %}
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Food requests</th>
           <td class="govuk-table__cell govuk-table__cell--numeric">
