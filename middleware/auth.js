@@ -9,8 +9,8 @@ const isAuthorised = (req, res, next) => {
   // get username from config and set Admin permission
   if(config.local) {
     req.auth = {
-      name: config.user_name,
-      isAdmin: config.is_admin
+      name: config.local_user_name,
+      isAdmin: config.local_is_admin === 'true' ? true : false
     }
 
     return next();
