@@ -1,6 +1,3 @@
-const indexService = require('../services/index.service');
-
-
 module.exports = {
 
     /**
@@ -13,6 +10,7 @@ module.exports = {
     index_get: async (req, res, next) => {
 
         try {
+            
             return res.render("index.njk");                
 
         } catch (err) {
