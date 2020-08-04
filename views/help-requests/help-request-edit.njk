@@ -469,27 +469,27 @@
                         "text": "Follow up call required?"
                         }
                     },
-                    "id": "CallbackRequired",
-                    "name": "CallbackRequired",
+                    "id": "callback_required",
+                    "name": "callback_required",
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
                         "value": "yes",
                         "text": "Yes",
-                        "checked": true if query.CallbackRequired == "yes" else false
+                        "checked": true if query.callback_required == "yes" else false
                         },
                         {
                         "value": "no",
                         "text": "No",
-                        "checked": true if query.CallbackRequired != "yes" else false
+                        "checked": true if query.callback_required != "yes" else false
                         }
                         ],
                         "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_callback_required else ''
                         },
                         "errorMessage": {
-                        "text": query.error_CallbackRequired
-                        } if query.error_CallbackRequired else null
+                        "text": query.error_callback_required
+                        } if query.error_callback_required else null
                 }) }}
 
             </div>
