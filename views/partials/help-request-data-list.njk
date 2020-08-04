@@ -12,7 +12,7 @@
         {% for item in data %}
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                    {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.Postcode}}
+                    {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.PostCode}}
                 </td>
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">{{item.RecordStatus}}</td>
