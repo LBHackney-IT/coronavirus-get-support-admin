@@ -116,8 +116,8 @@ class HelpRequestsService {
             const updatedCaseNotes = notesHelper.appendNote(userName, query.NewCaseNote, query.CaseNotes);
 
             const updatedFields = {
-                InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
-                FollowupCallRequired: query.FollowupCallRequired == 'yes' && true || false,
+                InitialCallbackCompleted: query.initial_callback_completed == 'yes' && true || false,
+                CallbackRequired: query.callback_required == 'yes' && true || false,
                 FirstName: query.FirstName,
                 LastName: query.LastName,
                 ContactTelephoneNumber: query.ContactTelephoneNumber || '',
@@ -174,7 +174,7 @@ class HelpRequestsService {
 
             const updatedFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
-                FollowupCallRequired: query.FollowupCallRequired == 'yes' && true || false,
+                CallbackRequired: query.CallbackRequired == 'yes' && true || false,
                 FirstName: query.FirstName,
                 LastName: query.LastName,
                 ContactTelephoneNumber: query.ContactTelephoneNumber || '',
