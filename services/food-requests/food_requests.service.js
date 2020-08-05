@@ -1,21 +1,42 @@
-const HelpRequestModel = require('../models/help_request.model');
-const notesHelper = require('../helpers/notes');
-const dateHelper = require('../helpers/date');
-const { param } = require('express-validator');
+const FoodRequestModel = require('../../models/food-requests/food_request.model');
+const notesHelper = require('../../helpers/notes');
+const dateHelper = require('../../helpers/date');
 
-class HelpRequestsService {
+
+class FoodRequestsService {
 
     /**
-     * @description Fetch all help request records using UPRN
+     * @description Get the Food Request summary data
+     * @returns {Promise<*>}
+     */
+    async getAnnexSummary() {
+        try {
+            let data = [];
+
+            await FoodRequestModel.getAnnexSummary()
+            .then ( (result) => {
+                data = result.data || [];
+            });
+
+            return data;
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    
+
+    /**
+     * @description Fetch all food request records using UPRN
      * @returns {Promise<*>}
      */
 
-    async getAllHelpRequests(params) {
+    async getAllFoodRequests(params) {
 
         try {
             let data = [];
 
-            await HelpRequestModel.getAllHelpRequests(params)
+            await FoodRequestModel.getAllFoodRequests(params)
             .then ( (result) => {
                 data = result.data || [];
             });
@@ -29,14 +50,14 @@ class HelpRequestsService {
 
 
     /**
-     * @description Fetch a single help request using the Annex ID
+     * @description Fetch a single food request using the Annex ID
      * @returns {Promise<*>}
      */
-    async getHelpRequest(id) {
+    async getFoodRequest(id) {
         try {
             let data = [];
 
-            await HelpRequestModel.getHelpRequest(id)
+            await FoodRequestModel.getFoodRequest(id)
             .then ( (result) => {
                 data = result.data;
 
@@ -63,10 +84,10 @@ class HelpRequestsService {
 
 
     /**
-     * @description Update a single help request
+     * @description Update a single food request
      * @returns {Promise<*>}
      */
-    async updateHelpRequest(query, userName, isAdmin) {
+    async updateFoodRequest(query, userName, isAdmin) {
         try {
             let data = [];
 
@@ -109,7 +130,7 @@ class HelpRequestsService {
 
             const updatedData = JSON.stringify(Object.assign({}, updatedFields, updatedAdminFields));
 
-            await HelpRequestModel.updateHelpRequest(id, updatedData)
+            await FoodRequestModel.updateFoodRequest(id, updatedData)
             .then ( (result) => {
                 data = result.data;
             });
@@ -123,14 +144,14 @@ class HelpRequestsService {
 
 
     /**
-     * @description Update multiple help requests
+     * @description Update multiple food requests
      * @returns {Promise<*>}
      */
-    async updateAllHelpRequests(helpRequestsData) {
+    async updateAllFoodRequests(FoodRequestsData) {
         try {
             let data = [];
 
-            await HelpRequestModel.updateAllHelpRequests(helpRequestsData)
+            await FoodRequestModel.updateAllFoodRequests(FoodRequestsData)
             .then ( (result) => {
                 data = result.data;
             });
@@ -144,4 +165,4 @@ class HelpRequestsService {
 
 }
 
-module.exports = new HelpRequestsService;
+module.exports = new FoodRequestsService;

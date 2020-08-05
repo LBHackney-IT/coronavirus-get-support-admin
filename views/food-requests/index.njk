@@ -1,0 +1,43 @@
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+
+  <h1 class="lbh-heading-h1">Manage food requests</h1>
+  {{ lbhBackLink({
+    "href": "/",
+    "text": "Back"
+  }) }}
+
+  {% if annexSummary.ActiveCases %}
+  <p class="lbh-body-m">Total households in need of food: ({{ annexSummary.ActiveCases }})</p>
+  {% endif %}
+
+  <table class="govuk-table  lbh-table">
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Search food requests</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <a href="/food-requests/search" class="govuk-button lbh-button" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Generate a daily delivery schedule</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <a href="/food-requests/delivery-schedules" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
+
+        {% if isAdmin %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Manage exceptions</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <a href="/food-requests/exceptions" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">Go</a>
+          </td>
+        </tr>
+        {% endif %}
+    </tbody>
+  </table>
+{% endblock %}

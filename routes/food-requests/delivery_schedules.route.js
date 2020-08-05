@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { deliveryLimitValidation } = require('../middleware/validation');
-const deliverySchedulesController = require('../controllers/delivery_schedules.controller');
-const {isAuthorised, isAdmin} = require('../middleware/auth');
+const { deliveryLimitValidation } = require('../../middleware/validation');
+const deliverySchedulesController = require('../../controllers/food-requests/delivery_schedules.controller');
+const { isAuthorised } = require('../../middleware/auth');
 
 // GET request to search delivey schedule
-router.get('/', [isAuthorised], (req, res, next) => {
+router.get('/', isAuthorised, (req, res, next) => {
    deliverySchedulesController.delivery_schedule_get(req, res, next)
 });
 
@@ -21,7 +21,7 @@ router.post('/confirmed', [isAuthorised, deliveryLimitValidation], (req, res, ne
 });
 
 // DELETE request to remove the current delivery schedule report
-router.get('/delete/:id', [isAuthorised, isAdmin], (req, res, next) => {
+router.get('/delete/:id', isAuthorised, (req, res, next) => {
     deliverySchedulesController.delivery_schedule_delete(req, res, next)
 });
 

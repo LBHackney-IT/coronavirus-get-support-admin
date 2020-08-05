@@ -2,13 +2,13 @@
 {% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
     <h1 class="lbh-heading-h1">Delivery schedule</h1>
     {{ lbhBackLink({
-        "href": "/",
-        "text": "Back to home"
+        "href": "/food-requests",
+        "text": "Back to food requests"
     }) }}
 
     {% if deliveryData | length %}
@@ -19,13 +19,13 @@
                 {{ lbhButton({
                     text: "Try a different capacity",
                     isSecondary: true,
-                    href: "/delivery-schedules"
+                    href: "/food-requests/delivery-schedules"
                 })}}
             </div>
 
             {% if deliveryData | length %}
             <div class="govuk-grid-column-one-half text-align-right">
-                <form action="/delivery-schedules/confirmed" method="post">
+                <form action="/food-requests/delivery-schedules/confirmed" method="post">
                     <input type="hidden" name="delivery_limit" value="{{query.delivery_limit}}">
 
                     <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">

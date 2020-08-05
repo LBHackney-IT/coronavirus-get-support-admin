@@ -7,19 +7,19 @@
 {% from "lbh-textarea/macro.njk" import lbhTextarea %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
-    <h1 class="lbh-heading-h1">Manage food deliveries</h1>
+    <h1 class="lbh-heading-h1">Edit food request</h1>
     {{ lbhBackLink({
-        "href": "/",
-        "text": "Back to home"
+        "href": "/food-requests",
+        "text": "Back to food requests"
     }) }}
 
     {% if query.Id %}
     <h3 class="lbh-heading-h3">UPRN: {{query.Uprn}}, Annex ID: {{query.Id}}</h3>
 
-    <form action="/help-requests/edit/{{query.Id}}" method="post">
+    <form action="/food-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
 
         <p class="lbh-body-m">
@@ -30,7 +30,7 @@
         {{query.Postcode}}
         </p>
 
-        {% include './partials/help-request-edit-cta-btns.njk' %}
+        {% include '../partials/food-request-edit-cta-btns.njk' %}
 
         <table class="govuk-table  lbh-table">
             <thead class="govuk-table__head">
@@ -391,7 +391,7 @@
             </textarea>
         </fieldset>
 
-        {% include './partials/help-request-edit-cta-btns.njk' %}
+        {% include '../partials/food-request-edit-cta-btns.njk' %}
     </form>
     {% else %}
     <h2 class="lbh-heading-h2">Sorry, no record found with that id.</h2>
@@ -399,7 +399,7 @@
     {{ lbhButton({
         text: "New search",
         isSecondary: true,
-        href: "/help-requests"
+        href: "/food-requests/search"
     })}}
     {% endif %}
 {% endblock %}

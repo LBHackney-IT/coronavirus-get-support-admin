@@ -1,18 +1,18 @@
-const HelpRequestModel = require('../models/help_request.model');
-const notesHelper = require('../helpers/notes');
-const dateHelper = require('../helpers/date');
+const FoodRequestModel = require('../../models/food-requests/food_request.model');
+const notesHelper = require('../../helpers/notes');
+const dateHelper = require('../../helpers/date');
 
 class ExceptionsService {
 
     /**
-     * @description Get all Exception help requests
+     * @description Get all Exception food requests
      * @returns {Promise<*>}
      */
     async getAllExceptions() {
         try {
             let data = [];
 
-            await HelpRequestModel.getAllExceptions()
+            await FoodRequestModel.getAllExceptions()
             .then ( (result) => {
                 data = result.data || [];
 
@@ -32,15 +32,15 @@ class ExceptionsService {
 
 
     /**
-     * @description Fetch all help request records with the same UPRN
+     * @description Fetch all food request records with the same UPRN
      * @returns {Promise<*>}
      */
 
-    async getAllMatchingHelpRequests(params) {
+    async getAllMatchingFoodRequests(params) {
         try {
             let data = [];
 
-            await HelpRequestModel.getAllHelpRequests(params)
+            await FoodRequestModel.getAllFoodRequests(params)
             .then ( (result) => {
                 let recordIDs = [];
 

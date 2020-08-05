@@ -2,25 +2,25 @@
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
 
-{% extends "./layouts/base.njk" %}
+{% extends "../layouts/base.njk" %}
 
 {% block content %}
 <div id="top">
-    <h1 class="lbh-heading-h1">Manage food deliveries</h1>
+    <h1 class="lbh-heading-h1">Manage food requests</h1>
     {{ lbhBackLink({
         "href": "/",
         "text": "Back to home"
     }) }}
 
-    {% if helpRequests | length %}
+    {% if foodRequestsData | length %}
         <h2 class="lbh-heading-h2">Food requests matching postcode: {{postcode}}</h2>
 
-        <p class="lbh-body-m">Displaying {{helpRequests | length}} record(s)</p>
+        <p class="lbh-body-m">Displaying {{foodRequestsData | length}} record(s)</p>
 
         {{ lbhButton({
             text: "New search",
             isSecondary: true,
-            href: "/help-requests"
+            href: "/food-requests/search"
         })}}
 
         <table class="govuk-table  lbh-table">
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                {% for item in helpRequests %}
+                {% for item in foodRequestsData %}
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell">{{item.Id}}</td>
                         <td class="govuk-table__cell">
@@ -43,7 +43,7 @@
                         <td class="govuk-table__cell">{{item.DateTimeRecorded}}</td>
                         <td class="govuk-table__cell">{{item.RecordStatus}}</td>
                         <td class="govuk-table__cell">
-                            <a href="help-requests/edit/{{item.Id}}" class="js-cta-btn">Edit</a>
+                            <a href="/food-requests/edit/{{item.Id}}" class="js-cta-btn">Edit</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -56,7 +56,7 @@
         {{ lbhButton({
             text: "Search another postcode",
             isSecondary: true,
-            href: "/help-requests"
+            href: "/food-requests/search"
         })}}
     {% endif %}
 </div>

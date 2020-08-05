@@ -1,0 +1,25 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% from "partials/help-request-data-list.njk" import HelpRequestDataList %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">New website requests for help</h1>
+    
+    {{ lbhBackLink({
+        "href": "/help-requests",
+        "text": "Back"
+    }) }}
+
+    {% if helpRequestsData | length %}
+        <h3 class="lbh-heaading-h3">List of residents to contact.</h3>
+        <p class="lbh-body-m">Displaying {{helpRequestsData | length}} record(s)</p>
+
+        {{ HelpRequestDataList(helpRequestsData) }}
+        
+    {% else %}
+        <h3 class="lbh-heading-h3">No website requests to display.</h3>
+    {% endif %}
+{% endblock %}

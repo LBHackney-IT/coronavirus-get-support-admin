@@ -2,15 +2,15 @@
 
 const querystring = require('querystring');
 
-const notesHelper = require('../helpers/notes');
-const mapFieldErrors = require('../helpers/fieldErrors');
-const HelpRequestsService = require('../services/help_requests.service');
-const ExceptionsService = require('../services/exceptions.service');
+const notesHelper = require('../../helpers/notes');
+const mapFieldErrors = require('../../helpers/fieldErrors');
+const FoodRequestsService = require('../../services/food-requests/food_requests.service');
+const ExceptionsService = require('../../services/food-requests/exceptions.service');
 
 module.exports = {
 
     /**
-     * @description Display a list of help requests matching the UPRN.
+     * @description Display a list of food requests matching the UPRN.
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
@@ -24,7 +24,7 @@ module.exports = {
             .then(result => {
                 data = result;
 
-                return res.render('exceptions-list.njk', {exceptionsData: data});
+                return res.render('food-requests/exceptions-list.njk', {exceptionsData: data});
             })                
 
         } catch (err) {
@@ -36,23 +36,23 @@ module.exports = {
 
 
     /**
-     * @description Display a list of help requests matching the UPRN.
+     * @description Display a list of food requests matching the UPRN.
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_help_requests_get: async (req, res, next) => {
+    all_food_requests_get: async (req, res, next) => {
         try {
             let data = [];
 
-            await ExceptionsService.getAllMatchingHelpRequests({uprn: req.params.uprn, master: false})
+            await ExceptionsService.getAllMatchingFoodRequests({uprn: req.params.uprn, master: false})
             .then(result => {
                 data = result;
 
                 res.locals.query = data;
 
-                return res.render('exceptions-edit.njk', {helpRequestData: data, uprn:  req.params.uprn});
+                return res.render('food-requests/exceptions-edit.njk', {foodRequestData: data, uprn:  req.params.uprn});
             })                
 
         } catch (err) {
@@ -64,13 +64,13 @@ module.exports = {
 
 
     /**
-     * @description Update a list of help requests
+     * @description Update a list of food requests
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_help_requests_post: async (req, res, next) => {
+    all_food_requests_post: async (req, res, next) => {
         res.locals.query = req.body;
 
         let recIds = req.body.record_ids.split(',');
@@ -117,17 +117,17 @@ module.exports = {
 
                     recFields.OngoingFoodNeed = req.body["OngoingFoodNeed_" + id] === 'yes' ? true : false;
 
-                    const updatedCaseNotes = notesHelper.appendNote(req.auth.name, req.body["NewCaseNote_" + id], req.body["CaseNotes_" + id]);
+                    const updatedCaseNotes = notesfooder.appendNote(req.auth.name, req.body["NewCaseNote_" + id], req.body["CaseNotes_" + id]);
 
                     recFields.CaseNotes = updatedCaseNotes;
 
                     recordsData.push(recFields);
                 });
 
-                // Update all the Help Request records
-                await HelpRequestsService.updateAllHelpRequests(recordsData)
+                // Update all the food Request records
+                await FoodRequestsService.updateAllFoodRequests(recordsData)
                 .then(result => {
-                    return res.redirect("/exceptions");
+                    return res.redirect("/food-requests/exceptions");
                 })  
 
             } catch (err) {

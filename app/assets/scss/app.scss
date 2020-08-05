@@ -18,6 +18,7 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-skip-link/skip-link";
 @import "node_modules/lbh-frontend/lbh/components/lbh-table/table";
 @import "node_modules/lbh-frontend/lbh/components/lbh-tag/tag";
+@import "node_modules/lbh-frontend/lbh/components/lbh-tabs/tabs";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
 
 
@@ -83,9 +84,18 @@
   }
 }
 
+#what_coronavirus_help,
+#current_support {
+  @include govuk-media-query($from: tablet) {
+    column-count: 2;
+  }
+}
+
 .text-align-right {
   text-align: right;
 }
+
+input[readonly],
 textarea[readonly] {
   border-width: 0;
   background-color: lbh-colour("lbh-grey-4");

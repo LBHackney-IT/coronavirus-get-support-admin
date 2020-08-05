@@ -3,19 +3,48 @@
 const validator = require('express-validator');
 const querystring = require('querystring');
 
-const HelpRequestsService = require('../services/help_requests.service');
-const { mapFieldErrors } = require('../helpers/fieldErrors');
+const FoodRequestsService = require('../../services/food-requests/food_requests.service');
+const { mapFieldErrors } = require('../../helpers/fieldErrors');
 
 module.exports = {
 
      /**
-     * @description Display a list of help requests
+     * @description Display the Food Request home page
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    all_help_requests_post: async (req, res, next) => {
+    index_get: async (req, res, next) => {
+
+        try {
+            let data = [];
+
+            await FoodRequestsService.getAnnexSummary()
+            .then(result => {
+                data = result;
+
+                res.locals.isAdmin = req.auth.isAdmin;
+
+                return res.render("food-requests/index.njk", { annexSummary: data});
+            })                
+
+        } catch (err) {
+            const error = new Error(err);
+
+            return next(error);
+        }
+
+    },  
+
+     /**
+     * @description Display a list of food requests
+     * @param req {object} Express req object 
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    all_food_requests_post: async (req, res, next) => {
         res.locals.query = req.body;
         res.locals.isAdmin = req.auth.isAdmin;
 
@@ -30,7 +59,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/help-requests?" +
+              "/food-requests/search?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -46,7 +75,7 @@ module.exports = {
                      * @param postcode: string - matching full or partial postcode
                      * @param master: boolean - specify whether to return only master records or all
                      */
-                    await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: masterOnly})
+                    await FoodRequestsService.getAllFoodRequests({postcode: postcode, master: masterOnly})
                     .then(result => {
                         data = result;
 
@@ -55,13 +84,13 @@ module.exports = {
                             item.DateTimeRecorded = recDate.toLocaleDateString();
                         });
 
-                        return res.render('help-requests-list.njk', {title: 'Home', searchBy: searchBy, postcode: postcode, id: id, helpRequests: data});
+                        return res.render('food-requests/food-requests-list.njk', {title: 'Home', searchBy: searchBy, postcode: postcode, id: id, foodRequestsData: data});
                     })  
                 
                 } else {
-                    await HelpRequestsService.getHelpRequest(id)
+                    await FoodRequestsService.getFoodRequest(id)
                     .then(result => {
-                        res.render('help-request-edit.njk', {query: result});
+                        res.render('food-requests/food-request-edit.njk', {query: result});
                     })
                 }
 
@@ -75,25 +104,25 @@ module.exports = {
 
 
     /**
-     * @description Render a specific help request
+     * @description Render a specific food request
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    help_request_get: async (req, res, next) => {
+    food_request_get: async (req, res, next) => {
         try {
             res.locals.isAdmin = req.auth.isAdmin;
 
             if(req.query.Id) {
                 res.locals.query = req.query;
 
-                return res.render('help-request-edit.njk');
+                return res.render('food-requests/food-request-edit.njk');
 
             } else {
-                await HelpRequestsService.getHelpRequest(req.params.id)
+                await FoodRequestsService.getFoodRequest(req.params.id)
                 .then(result => {
-                    res.render('help-request-edit.njk', {query: result});
+                    res.render('food-requests/food-request-edit.njk', {query: result});
                 })
             }
 
@@ -108,13 +137,13 @@ module.exports = {
 
 
     /**
-     * @description Update a specific help request
+     * @description Update a specific food request
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    help_request_update_post: async (req, res, next) => {
+    food_request_update_post: async (req, res, next) => {
         res.locals.query = req.body;
         res.locals.isAdmin = req.auth.isAdmin;
 
@@ -124,7 +153,7 @@ module.exports = {
             var extractedErrors = mapFieldErrors(errors);
 
             return res.redirect(
-              "/help-requests/edit/" + req.body.Id + "?" +
+              "/food-requests/edit/" + req.body.Id + "?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
                 querystring.stringify(req.body)
@@ -137,9 +166,9 @@ module.exports = {
                 const Uprn = query.Uprn;
                 const Id = query.Id;
 
-                await HelpRequestsService.updateHelpRequest(query, userName, req.auth.isAdmin)
+                await FoodRequestsService.updateFoodRequest(query, userName, req.auth.isAdmin)
                 .then(result => {
-                    return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
+                    return res.render('food-requests/food-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
                 })                
 
             } catch (err) {

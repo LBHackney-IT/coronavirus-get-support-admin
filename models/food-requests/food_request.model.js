@@ -1,74 +1,74 @@
 const axios = require('axios');
 
-const config = require('../config');
-const { handleAPIErrors } = require('../helpers/error');
+const config = require('../../config');
+const { handleAPIErrors } = require('../../helpers/error');
 
-class HelpRequestModel {
+class FoodRequestModel {
 
     constructor() {
         
     }
     
     /**
-     * @description Fetch all help request records matching the params
+     * @description Fetch all food request records matching the params
      * @returns {Promise<*>}
      */
-    async getAllHelpRequests(params) {
+    async getAllFoodRequests(params) {
 
         try {
             let data = [];
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url, {
+            await axios.get(config.food_requests_api_url, {
                 headers: headers,
                 params: params
             }).then ( result => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: fetchAllHelpRequests())');
+                data = handleAPIErrors(err, 'Axios catch Error at FoodRequestModel: fetchAllFoodRequests())');
                 data.isError = true;
             });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel: fetchAllHelpRequests() ERR');
+            console.log('FoodRequestModel: fetchAllFoodRequests() ERR');
             console.log(err);
             return (err);
         }
     }
 
     /**
-     * @description Fetch a single help request using the Annex ID
+     * @description Fetch a single food request using the Annex ID
      * @returns {Promise<*>}
      */
-    async getHelpRequest(id) {
+    async getFoodRequest(id) {
 
         try {
             let data = [];
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url + '/' + id, {
+            await axios.get(config.food_requests_api_url + '/' + id, {
                 headers: headers
             }).then ( result => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getHelpRequest())');
+                data = handleAPIErrors(err, 'Axios catch Error at FoodRequestModel: getFoodRequest())');
                 data.isError = true;
             });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel: getHelpRequest ERR');
+            console.log('FoodRequestModel: getFoodRequest ERR');
             console.log(err);
             return (err);
         }
@@ -76,33 +76,33 @@ class HelpRequestModel {
 
 
     /**
-     * @description Update a single help request using the Annex ID
+     * @description Update a single food request using the Annex ID
      * @returns {Promise<*>}
      */
-    async updateHelpRequest(id, helpRequestdata) {
+    async updateFoodRequest(id, FoodRequestdata) {
 
         try {
             let data = {};
 
             const headers = {
                 "Content-Type": "application/json",
-                "Content-Length": helpRequestdata.length,
-                "x-api-key": config.api_key
+                "Content-Length": FoodRequestdata.length,
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.patch(config.api_url + '/' + id, helpRequestdata, {
+            await axios.patch(config.food_requests_api_url + '/' + id, FoodRequestdata, {
                 headers: headers
             }).then ( result => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: updateHelpRequest()');
+                data = handleAPIErrors(err, 'Axios catch Error at FoodRequestModel: updateFoodRequest()');
                 data.isError = true;
             });
 
             return data;            
 
         } catch (err) {
-            console.log('HelpRequestModel: updateHelpRequest ERR');
+            console.log('FoodRequestModel: updateFoodRequest ERR');
             console.log(err);
             return (err);
         }
@@ -110,25 +110,25 @@ class HelpRequestModel {
 
 
     /**
-     * @description Update multiple help requests
+     * @description Update multiple food requests
      * @returns {Promise<*>}
      */
-    async updateAllHelpRequests(helpRequestsdata) {
+    async updateAllFoodRequests(FoodRequestsdata) {
 
         try {
             let apiRequests = [],
                 data = [];
 
-            helpRequestsdata.forEach(item => {
+            FoodRequestsdata.forEach(item => {
                 const data = JSON.stringify(item);
 
                 const headers = {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
-                    "x-api-key": config.api_key
+                    "x-api-key": config.food_requests_api_key
                 };
 
-                const apiRequest = axios.patch(config.api_url + '/' + item.id, data, {
+                const apiRequest = axios.patch(config.food_requests_api_url + '/' + item.id, data, {
                     headers: headers
                 });
 
@@ -139,14 +139,14 @@ class HelpRequestModel {
             .then ( axios.spread((result) => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Errorat HelpRequestModel: updateAllHelpRequests()');
+                data = handleAPIErrors(err, 'Axios catch Errorat FoodRequestModel: updateAllFoodRequests()');
                 data.isError = true;
             }));
             
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel updateAllHelpRequests ERR');
+            console.log('FoodRequestModel updateAllFoodRequests ERR');
             console.log(err);
             return (err);
         }
@@ -163,15 +163,15 @@ class HelpRequestModel {
         try {          
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
-            await axios.get(config.api_url + '/exceptions', {
+            await axios.get(config.food_requests_api_url + '/exceptions', {
                 headers: headers
             }).then ( (results) => {
                 data = results;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getAllExceptions()');
+                data = handleAPIErrors(err, 'Axios catch Error at FoodRequestModel: getAllExceptions()');
                 data.isError = true;
             });
 
@@ -196,7 +196,7 @@ class HelpRequestModel {
 
             const headers = {
                 "Content-Type": "application/json",
-                "x-api-key": config.api_key
+                "x-api-key": config.food_requests_api_key
             };
 
             await axios.get(config.annex_summary_api_url, {
@@ -204,18 +204,18 @@ class HelpRequestModel {
             }).then ( result => {
                 data = result;
             }).catch(err => {
-                data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: getAnnexSummary()');
+                data = handleAPIErrors(err, 'Axios catch Error at FoodRequestModel: getAnnexSummary()');
                 data.isError = true;
             });
 
             return data;
 
         } catch (err) {
-            console.log('HelpRequestModel: fetchAllHelpRequests() ERR');
+            console.log('FoodRequestModel: getAnnexSummary() ERR');
             console.log(err);
             return (err);
         }
     }
 }
 
-module.exports = new HelpRequestModel;
+module.exports = new FoodRequestModel;
