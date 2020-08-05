@@ -6,15 +6,16 @@ class HelpRequestsService {
 
     /**
      * @description Fetch all help request records using UPRN
+     * @param params [object}
      * @returns {Promise<*>}
      */
 
-    async getAllCallbacks() {
+    async getAllCallbacks(params) {
 
         try {
             let data = [];
 
-            await HelpRequestModel.getAllCallbacks()
+            await HelpRequestModel.getAllCallbacks(params)
             .then ( (result) => {
                 data = result.data || [];
 
@@ -35,6 +36,7 @@ class HelpRequestsService {
 
     /**
      * @description Fetch all help request records using UPRN
+     * @param params [object} 
      * @returns {Promise<*>}
      */
 
@@ -63,7 +65,8 @@ class HelpRequestsService {
 
 
     /**
-     * @description Fetch a single help request using the Annex ID
+     * @description Fetch a single help request using the record ID
+     * @param id Record Id
      * @returns {Promise<*>}
      */
     async getHelpRequest(id) {
@@ -105,6 +108,8 @@ class HelpRequestsService {
 
     /**
      * @description Update a single help request
+     * @param query {object} Updated record data
+     * @param userName Person who made the update
      * @returns {Promise<*>}
      */
     async updateHelpRequest(query, userName) {
@@ -158,7 +163,9 @@ class HelpRequestsService {
 
 
     /**
-     * @description Update a single help request
+     * @description Create a new help request
+     * @param query {object} Record data
+     * @param userName Person who created the record
      * @returns {Promise<*>}
      */
     async createHelpRequest(query, userName) {

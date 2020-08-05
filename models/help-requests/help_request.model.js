@@ -11,10 +11,11 @@ class HelpRequestModel {
 
 
     /**
-     * @description Fetch all callbacks
+     * @description Fetch all callbacks using params
+     * @param params {object} 
      * @returns {Promise<*>}
      */
-    async getAllCallbacks() {
+    async getAllCallbacks(params) {
         try {
             let data = [];
 
@@ -24,7 +25,8 @@ class HelpRequestModel {
             };
 
             await axios.get(config.help_requests_callback_api_url, {
-                headers: headers
+                headers: headers,
+                params: params
             }).then ( result => {
                 data = result;
             }).catch(err => {
@@ -45,6 +47,7 @@ class HelpRequestModel {
     
     /**
      * @description Fetch all help request records matching the params
+     * @param params {object} 
      * @returns {Promise<*>}
      */
     async getAllHelpRequests(params) {
@@ -78,6 +81,7 @@ class HelpRequestModel {
 
     /**
      * @description Fetch a single help request using the ID
+     * @param id String Record Id 
      * @returns {Promise<*>}
      */
     async getHelpRequest(id) {
@@ -111,14 +115,13 @@ class HelpRequestModel {
 
     /**
      * @description Create a new help request
+     * @helpRequestdata json data
      * @returns {Promise<*>}
      */
     async createHelpRequest(helpRequestdata) {
 
         try {
             let data = {};
-
-            console.log(helpRequestdata);
 
             const headers = {
                 "Content-Type": "application/json",
@@ -146,7 +149,9 @@ class HelpRequestModel {
 
 
     /**
-     * @description Update a single help request using the Annex ID
+     * @description Update a single help request using the record ID
+     * @param id string Record Id
+     * @helpRequestdata json data
      * @returns {Promise<*>}
      */
     async updateHelpRequest(id, helpRequestdata) {
@@ -177,9 +182,6 @@ class HelpRequestModel {
             return (err);
         }
     }
-
-
-    
     
 }
 

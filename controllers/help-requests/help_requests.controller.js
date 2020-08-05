@@ -23,7 +23,7 @@ module.exports = {
     },  
 
      /**
-     * @description Render a specific help request
+     * @description Render all hlp requests needing a callback
      * @param req {object} Express req object 
      * @param res {object} Express res object
      * @param next {object} Express next object
@@ -32,7 +32,7 @@ module.exports = {
     all_callbacks_get: async (req, res, next) => {
         try {
 
-            await HelpRequestsService.getAllCallbacks()
+            await HelpRequestsService.getAllCallbacks({master: true})
             .then(result => {
                 res.render('help-requests/help-requests-callbacks-list.njk', {helpRequestsData: result});
             })
