@@ -26,6 +26,12 @@ router.post('/edit/:id', [isAuthorised, helpRequestValidation], (req, res, next)
     helpRequestsController.help_request_update_post(req, res, next)
 });
 
+// POST request to create a snapshot for the resident
+router.post('/snapshot/:id', [isAuthorised, helpRequestValidation], (req, res, next) => {
+    helpRequestsController.help_request_snapshot_post(req, res, next)
+});
+
+
 
 
 module.exports = router;

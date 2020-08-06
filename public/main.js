@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n\r\nfunction Loader() {\r\n    this.body = document.getElementsByClassName(\"govuk-template\");\r\n    this.loaderOverlay = document.getElementById(\"loader_overlay\");\r\n    this.ctaBtns = document.getElementsByClassName(\"js-cta-btn\");\r\n};\r\n\r\nLoader.prototype.init = function() {\r\n    const that = this;\r\n\r\n    if (this.loaderOverlay) {\r\n        Array.from(this.ctaBtns).forEach(function(element) {\r\n            element.addEventListener('click', that.enable.bind(that));\r\n          });\r\n    }\r\n};\r\n\r\nLoader.prototype.enable = function() {\r\n    this.body[0].classList.add(\"is-loading\");\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (Loader);\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/loader.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n\nfunction Loader() {\n    this.body = document.getElementsByClassName(\"govuk-template\");\n    this.loaderOverlay = document.getElementById(\"loader_overlay\");\n    this.ctaBtns = document.getElementsByClassName(\"js-cta-btn\");\n};\n\nLoader.prototype.init = function() {\n    const that = this;\n\n    if (this.loaderOverlay) {\n        Array.from(this.ctaBtns).forEach(function(element) {\n            element.addEventListener('click', that.enable.bind(that));\n          });\n    }\n};\n\nLoader.prototype.enable = function() {\n    this.body[0].classList.add(\"is-loading\");\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Loader);\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/loader.js?");
 
 /***/ }),
 
@@ -116,7 +116,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n\r\nfunction Loader() {\r\n  
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lbh-frontend */ \"./node_modules/lbh-frontend/lbh/all.js\");\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loader */ \"./app/assets/js/loader.js\");\n\r\n\r\n\r\nObject(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__[\"initAll\"])();\r\nnew _loader__WEBPACK_IMPORTED_MODULE_1__[\"default\"]().init();\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lbh-frontend */ \"./node_modules/lbh-frontend/lbh/all.js\");\n/* harmony import */ var lbh_frontend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loader */ \"./app/assets/js/loader.js\");\n\n\n\nObject(lbh_frontend__WEBPACK_IMPORTED_MODULE_0__[\"initAll\"])();\nnew _loader__WEBPACK_IMPORTED_MODULE_1__[\"default\"]().init();\n\n//# sourceURL=webpack://Boilerplate/./app/assets/js/main.js?");
 
 /***/ }),
 
@@ -138,7 +138,7 @@ eval("(function webpackUniversalModuleDefinition(root, factory) {\n\tif(true)\n\
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\wamp64\\www\\lbh-coronavirus-get-support-admin\\app\\assets\\js\\main.js */\"./app/assets/js/main.js\");\n\n\n//# sourceURL=webpack://Boilerplate/multi_./app/assets/js/main.js?");
+eval("module.exports = __webpack_require__(/*! /home/laptop/futuregov/hackney/coronavirus-get-support-admin/app/assets/js/main.js */\"./app/assets/js/main.js\");\n\n\n//# sourceURL=webpack://Boilerplate/multi_./app/assets/js/main.js?");
 
 /***/ })
 

@@ -140,6 +140,44 @@ class HelpRequestsService {
         } catch (err) {
             console.log(err);
         }
+  }
+
+    /**
+     * @description
+     * @returns {Promise<*>}
+     */
+    async createVulnerabilitySnapshot(query, userName, isAdmin) {
+        try {
+            let data = [];
+
+
+            const inhId = query.Id;
+            const firstName = query.FirstName;
+            const lastName = query.LastName;
+            const postcode = query.Postcode;
+
+            const request = {
+                firstName: firstName,
+                lastName: lastName,
+                dob: {},
+                postcode: postcode,
+                systemIds: ["inh-" + inhId],
+                createdBy: userName
+            };
+
+
+            const updatedData = JSON.stringify(request);
+
+            await HelpRequestModel.createVulnerabilitySnapshot(updatedData)
+              .then ( (result) => {
+                  data = result.data;
+              });
+
+            return data;
+
+        } catch (err) {
+            console.log(err);
+        }
     }
 
 }

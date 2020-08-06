@@ -19,6 +19,17 @@
     {% if query.Id %}
     <h3 class="lbh-heading-h3">UPRN: {{query.Uprn}}, Annex ID: {{query.Id}}</h3>
 
+
+    <form action="/help-requests/snapshot/{{query.Id}}" method="post">
+        <input type="hidden" name="Id" value="{{query.Id}}">
+        <input type="hidden" name="FirstName" value="{{query.FirstName}}">
+        <input type="hidden" name="LastName" value="{{query.LastName}}">
+        <input type="hidden" name="Postcode" value="{{query.Postcode}}">
+       <button type="submit" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+            Create Snapshot
+        </button>
+    </form>
+
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
 
@@ -29,6 +40,7 @@
         {{query.AddressThirdLine}} <br />
         {{query.Postcode}}
         </p>
+
 
         {% include './partials/help-request-edit-cta-btns.njk' %}
 

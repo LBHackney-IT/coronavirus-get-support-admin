@@ -1,152 +1,172 @@
-"use strict";
+'use strict'
 
-const validator = require('express-validator');
-const querystring = require('querystring');
+const validator = require('express-validator')
+const querystring = require('querystring')
 
-const HelpRequestsService = require('../services/help_requests.service');
-const { mapFieldErrors } = require('../helpers/fieldErrors');
+const HelpRequestsService = require('../services/help_requests.service')
+const { mapFieldErrors } = require('../helpers/fieldErrors')
 
 module.exports = {
 
-     /**
-     * @description Display a list of help requests
-     * @param req {object} Express req object 
-     * @param res {object} Express res object
-     * @param next {object} Express next object
-     * @returns {Promise<*>}
-     */
-    all_help_requests_post: async (req, res, next) => {
-        res.locals.query = req.body;
-        res.locals.isAdmin = req.auth.isAdmin;
+  /**
+   * @description Display a list of help requests
+   * @param req {object} Express req object
+   * @param res {object} Express res object
+   * @param next {object} Express next object
+   * @returns {Promise<*>}
+   */
+  all_help_requests_post: async (req, res, next) => {
+    res.locals.query = req.body
+    res.locals.isAdmin = req.auth.isAdmin
 
-        const searchBy = req.body.searchby;
-        const postcode = req.body.postcode;
-        const id = req.body.id;
-        const masterOnly = req.body.masterOnly && req.body.masterOnly == 'NO' ? false : true;
+    const searchBy = req.body.searchby
+    const postcode = req.body.postcode
+    const id = req.body.id
+    const masterOnly = !(req.body.masterOnly && req.body.masterOnly == 'NO')
 
-        const errors = validator.validationResult(req);
+    const errors = validator.validationResult(req)
 
-        if (!errors.isEmpty()) {
-            var extractedErrors = mapFieldErrors(errors);
+    if (!errors.isEmpty()) {
+      var extractedErrors = mapFieldErrors(errors)
 
-            return res.redirect(
-              "/help-requests?" +
-                querystring.stringify(extractedErrors) +
-                "&" +
-                querystring.stringify(req.body)
-            );
+      return res.redirect(
+        '/help-requests?' +
+        querystring.stringify(extractedErrors) +
+        '&' +
+        querystring.stringify(req.body)
+      )
+    } else {
+      try {
+        let data = []
+
+        if (searchBy === 'postcode') {
+          /**
+           * @param postcode: string - matching full or partial postcode
+           * @param master: boolean - specify whether to return only master records or all
+           */
+          await HelpRequestsService.getAllHelpRequests({ postcode: postcode, master: masterOnly })
+            .then(result => {
+              data = result
+
+              data.forEach(item => {
+                const recDate = new Date(item.DateTimeRecorded)
+                item.DateTimeRecorded = recDate.toLocaleDateString()
+              })
+
+              return res.render('help-requests-list.njk', {
+                title: 'Home',
+                searchBy: searchBy,
+                postcode: postcode,
+                id: id,
+                helpRequests: data
+              })
+            })
         } else {
-
-            try {
-                let data = [];
-
-                if(searchBy === 'postcode') {
-
-                    /**
-                     * @param postcode: string - matching full or partial postcode
-                     * @param master: boolean - specify whether to return only master records or all
-                     */
-                    await HelpRequestsService.getAllHelpRequests({postcode: postcode, master: masterOnly})
-                    .then(result => {
-                        data = result;
-
-                        data.forEach(item => {
-                            const recDate = new Date(item.DateTimeRecorded);
-                            item.DateTimeRecorded = recDate.toLocaleDateString();
-                        });
-
-                        return res.render('help-requests-list.njk', {title: 'Home', searchBy: searchBy, postcode: postcode, id: id, helpRequests: data});
-                    })  
-                
-                } else {
-                    await HelpRequestsService.getHelpRequest(id)
-                    .then(result => {
-                        res.render('help-request-edit.njk', {query: result});
-                    })
-                }
-
-            } catch (err) {
-                const error = new Error(err);
-
-                return next(error);
-            }
+          await HelpRequestsService.getHelpRequest(id)
+            .then(result => {
+              res.render('help-request-edit.njk', { query: result })
+            })
         }
-    },    
+      } catch (err) {
+        const error = new Error(err)
 
+        return next(error)
+      }
+    }
+  },
 
-    /**
-     * @description Render a specific help request
-     * @param req {object} Express req object 
-     * @param res {object} Express res object
-     * @param next {object} Express next object
-     * @returns {Promise<*>}
-     */
-    help_request_get: async (req, res, next) => {
-        try {
-            res.locals.isAdmin = req.auth.isAdmin;
+  /**
+   * @description Render a specific help request
+   * @param req {object} Express req object
+   * @param res {object} Express res object
+   * @param next {object} Express next object
+   * @returns {Promise<*>}
+   */
+  help_request_get: async (req, res, next) => {
+    try {
+      res.locals.isAdmin = req.auth.isAdmin
 
-            if(req.query.Id) {
-                res.locals.query = req.query;
+      if (req.query.Id) {
+        res.locals.query = req.query
 
-                return res.render('help-request-edit.njk');
+        return res.render('help-request-edit.njk')
+      } else {
+        await HelpRequestsService.getHelpRequest(req.params.id)
+          .then(result => {
+            res.render('help-request-edit.njk', { query: result })
+          })
+      }
+    } catch (err) {
+      const error = new Error(err)
 
-            } else {
-                await HelpRequestsService.getHelpRequest(req.params.id)
-                .then(result => {
-                    res.render('help-request-edit.njk', {query: result});
-                })
-            }
+      return next(error)
+    }
+  },
 
-        } catch (err) {
-            
-            const error = new Error(err);
+  /**
+   * @description Update a specific help request
+   * @param req {object} Express req object
+   * @param res {object} Express res object
+   * @param next {object} Express next object
+   * @returns {Promise<*>}
+   */
+  help_request_update_post: async (req, res, next) => {
+    res.locals.query = req.body
+    res.locals.isAdmin = req.auth.isAdmin
 
-            return next(error);
-        }
+    const errors = validator.validationResult(req)
 
-    }, 
+    if (!errors.isEmpty()) {
+      var extractedErrors = mapFieldErrors(errors)
 
+      return res.redirect(
+        '/help-requests/edit/' + req.body.Id + '?' +
+        querystring.stringify(extractedErrors) +
+        '&' +
+        querystring.stringify(req.body)
+      )
+    } else {
+      try {
+        const query = req.body
+        const userName = req.auth.name
+        const Uprn = query.Uprn
+        const Id = query.Id
 
-    /**
-     * @description Update a specific help request
-     * @param req {object} Express req object 
-     * @param res {object} Express res object
-     * @param next {object} Express next object
-     * @returns {Promise<*>}
-     */
-    help_request_update_post: async (req, res, next) => {
-        res.locals.query = req.body;
-        res.locals.isAdmin = req.auth.isAdmin;
+        await HelpRequestsService.updateHelpRequest(query, userName, req.auth.isAdmin)
+          .then(result => {
+            return res.render('help-requests-update.njk', { updatedData: result, Uprn: Uprn, Id: Id })
+          })
+      } catch (err) {
+        const error = new Error(err)
 
-        const errors = validator.validationResult(req);
+        return next(error)
+      }
+    }
+  },
 
-        if (!errors.isEmpty()) {
-            var extractedErrors = mapFieldErrors(errors);
+  /**
+   * @description Create a vulnerability snapshot
+   * @param req {object} Express req object
+   * @param res {object} Express res object
+   * @param next {object} Express next object
+   * @returns {Promise<*>}
+   */
+  help_request_snapshot_post: async (req, res, next) => {
+    res.locals.query = req.body
+    res.locals.isAdmin = req.auth.isAdmin
 
-            return res.redirect(
-              "/help-requests/edit/" + req.body.Id + "?" +
-                querystring.stringify(extractedErrors) +
-                "&" +
-                querystring.stringify(req.body)
-            );
-          } else {
+    try {
+      const query = req.body
+      const userName = req.auth.name
 
-            try {
-                const query = req.body;
-                const userName = req.auth.name
-                const Uprn = query.Uprn;
-                const Id = query.Id;
+      await HelpRequestsService.createVulnerabilitySnapshot(query, userName, req.auth.isAdmin)
+        .then(result => {
+          return res.redirect("http://localhost:3000/snapshots/"+result.id);
+        })
+    } catch (err) {
+      const error = new Error(err)
 
-                await HelpRequestsService.updateHelpRequest(query, userName, req.auth.isAdmin)
-                .then(result => {
-                    return res.render('help-requests-update.njk', {updatedData: result, Uprn: Uprn, Id: Id});
-                })                
-
-            } catch (err) {
-                const error = new Error(err);
-
-                return next(error);
-            }
-        }
-    }       
-};
+      return next(error)
+    }
+  }
+}
