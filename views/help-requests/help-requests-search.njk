@@ -5,11 +5,12 @@
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
-  <h1 class="lbh-heading-h1">Search help requests</h1>
   {{ lbhBackLink({
     "href": "/help-requests",
     "text": "Back"
   }) }}
+
+  <h1 class="lbh-heading-h1">Search help requests</h1>
 
   <form action="/help-requests/search" method="post">
     <h3 class="lbh-heading-h3">Postcode:</h3>

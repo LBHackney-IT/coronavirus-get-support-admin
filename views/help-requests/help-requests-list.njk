@@ -8,11 +8,12 @@
 
 {% block content %}
 <div id="top">
-    <h1 class="lbh-heading-h1">Manage help requests</h1>
     {{ lbhBackLink({
         "href": "/help-requests",
         "text": "Back"
     }) }}
+
+    <h1 class="lbh-heading-h1">Search help requests</h1>
 
     {% if helpRequestsData | length %}
         <h2 class="lbh-heading-h2">Help requests matching postcode: {{postcode}}</h2>
@@ -43,14 +44,14 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
                 {{ lbhButton({
-                    text: "Search another postcode",
+                    text: "Search again",
                     isSecondary: true,
                     href: "/help-requests/search"
                 })}}
             </div>
             <div class="govuk-grid-column-one-half text-align-right">
                 {{ lbhButton({
-                    text: "Create new",
+                    text: "Create new help request",
                     href: "/help-requests/create"
                 })}}
             </div>
