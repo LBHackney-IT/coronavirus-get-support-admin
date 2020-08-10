@@ -43,6 +43,7 @@
     "autoprefixer": "^9.5.1",
     "chai": "^4.2.0",
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
     "cssnano": "^4.1.10",
     "cypress": "^4.12.1",
     "del": "^5.1.0",
