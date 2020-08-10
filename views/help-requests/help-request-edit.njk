@@ -13,12 +13,13 @@
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
+
     {{ lbhBackLink({
         "href": "/help-requests/callbacks",
         "text": "Back"
     }) }}
 
-    <h1 class="lbh-heading-h1"> {{query.FirstName | upper }} {{query.LastName | upper}}</h1>
+    <h1 class="lbh-heading-h1"> {{query.FirstName}} {{query.LastName}}</h1>
 
 
     {% if query.haserrors %}
@@ -45,15 +46,17 @@
         <input type="hidden" name="Uprn" value="{{query.Uprn}}">
         <input type="hidden" name="Ward" value="{{query.Ward}}">
 
-        <p class="lbh-body-m">
-        <strong>Address</strong><br />
-        {{query.AddressFirstLine}} <br />
-        {{query.AddressSecondLine}} <br />
-        {{query.AddressThirdLine}} <br />
-        {{query.PostCode}} <br />
-        ({{query.Ward}})
-        </p>
 
+        <div class="govuk-grid-column-full-with">
+            <p class="lbh-body-m">
+                <strong>Address</strong><br />
+                {{query.AddressFirstLine}} <br />
+                {{query.AddressSecondLine}} <br />
+                {{query.AddressThirdLine}} <br />
+                {{query.PostCode}} <br />
+                ({{query.Ward}})
+            </p>
+        </div>
 
         <div class="govuk-accordion myClass lbh-accordion" data-module="govuk-accordion" id="default-example" data-attribute="value">
             <div class="govuk-accordion__section ">
