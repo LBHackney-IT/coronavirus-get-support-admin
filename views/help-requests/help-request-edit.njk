@@ -58,6 +58,35 @@
             </p>
         </div>
 
+        <div class="govuk-grid-column-full-with">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Has the callback being completed?"
+                        }
+                    },
+                    "id": "initial_callback_completed",
+                    "name": "initial_callback_completed",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes"
+                        },
+                        {
+                        "value": "no",
+                        "text": "No"
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_initial_callback_completed
+                        } if query.error_initial_callback_completed else null
+                    }) }}
+            </div>
+            
         <div class="govuk-accordion myClass lbh-accordion" data-module="govuk-accordion" id="default-example" data-attribute="value">
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
@@ -177,6 +206,56 @@
                         "text": "Enter a valid date"
                     } if query.error_dob-day or query.error_dob-month or query.error_dob-year else null
                 }) }}
+
+
+                        <hr>
+
+                        {{ lbhRadios({
+                            "fieldset": {
+                                "legend": {
+                                    "text": "How many children under the age of 18 are in your household?"
+                                }
+                            },
+                            "idPrefix": "NumberOfChildrenUnder18",
+                            "name": "NumberOfChildrenUnder18",
+                            "classes": "govuk-radios--inline",
+                            "items": [
+                                {
+                                "value": "0",
+                                "text": "0",
+                                "checked": true if query.NumberOfChildrenUnder18 == "0" else false
+                                },
+                                {
+                                "value": "1",
+                                "text": "1",
+                                "checked": true if query.NumberOfChildrenUnder18 == "1" else false
+                                },
+                                {
+                                "value": "2",
+                                "text": "2",
+                                "checked": true if query.NumberOfChildrenUnder18 == "2" else false
+                                },
+                                {
+                                "value": "3",
+                                "text": "3",
+                                "checked": true if query.NumberOfChildrenUnder18 == "3" else false
+                                },
+                                {
+                                "value": "4",
+                                "text": "4",
+                                "checked": true if query.NumberOfChildrenUnder18 == "4" else false
+                                },
+                                {
+                                "value": "5 or more",
+                                "text": "5 or more",
+                                "checked": true if query.NumberOfChildrenUnder18 == "5 or more" else false
+                                }
+                            ],
+                            "errorMessage": {
+                                "text": query.error_NumberOfChildrenUnder18
+                            } if query.error_NumberOfChildrenUnder18 else null
+                        }) }}
+
                 <!-- End Bio section -->
 
                 </div>
@@ -256,7 +335,7 @@
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
                         <span class="govuk-accordion__section-button" id="default-example-heading-1">
-                        Current situation
+                        Support network
                         </span>
                     </h5>
                     </div>
@@ -329,53 +408,6 @@
                             } if query.error_CurrentSupport else null
                         }) }}
 
-                        <hr>
-
-                        {{ lbhRadios({
-                            "fieldset": {
-                                "legend": {
-                                    "text": "How many children under the age of 18 are in your household?"
-                                }
-                            },
-                            "idPrefix": "NumberOfChildrenUnder18",
-                            "name": "NumberOfChildrenUnder18",
-                            "classes": "govuk-radios--inline",
-                            "items": [
-                                {
-                                "value": "0",
-                                "text": "0",
-                                "checked": true if query.NumberOfChildrenUnder18 == "0" else false
-                                },
-                                {
-                                "value": "1",
-                                "text": "1",
-                                "checked": true if query.NumberOfChildrenUnder18 == "1" else false
-                                },
-                                {
-                                "value": "2",
-                                "text": "2",
-                                "checked": true if query.NumberOfChildrenUnder18 == "2" else false
-                                },
-                                {
-                                "value": "3",
-                                "text": "3",
-                                "checked": true if query.NumberOfChildrenUnder18 == "3" else false
-                                },
-                                {
-                                "value": "4",
-                                "text": "4",
-                                "checked": true if query.NumberOfChildrenUnder18 == "4" else false
-                                },
-                                {
-                                "value": "5 or more",
-                                "text": "5 or more",
-                                "checked": true if query.NumberOfChildrenUnder18 == "5 or more" else false
-                                }
-                            ],
-                            "errorMessage": {
-                                "text": query.error_NumberOfChildrenUnder18
-                            } if query.error_NumberOfChildrenUnder18 else null
-                        }) }}
                  </div>
             </div>
 
@@ -383,7 +415,7 @@
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
                         <span class="govuk-accordion__section-button" id="default-example-heading-1">
-                        Data sharing
+                        Privacy
                         </span>
                     </h5>
                     </div>
@@ -424,7 +456,7 @@
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
                         <span class="govuk-accordion__section-button" id="default-example-heading-1">
-                        Optional questions
+                        Additional Information
                         </span>
                     </h5>
                     </div>
@@ -492,35 +524,6 @@
 
         <hr>
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full-with">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Initial contact made?"
-                        }
-                    },
-                    "id": "initial_callback_completed",
-                    "name": "initial_callback_completed",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes"
-                        },
-                        {
-                        "value": "no",
-                        "text": "No"
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_initial_callback_completed
-                        } if query.error_initial_callback_completed else null
-                    }) }}
-            </div>
             <div class="govuk-grid-column-full-with">
                 {{ lbhRadios({
                     "fieldset": {
@@ -548,8 +551,6 @@
                         "text": query.error_callback_required
                         } if query.error_callback_required else null
                 }) }}
-
-            </div>
         </div>
 
         <hr>
