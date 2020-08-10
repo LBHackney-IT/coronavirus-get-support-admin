@@ -20,8 +20,11 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-tag/tag";
 @import "node_modules/lbh-frontend/lbh/components/lbh-tabs/tabs";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
-
+html.lbh-template > body.lbh-template__body * {
+  font-family: 'Open Sans', sans-serif;
+}
 #address-lookup-fieldset {
   display: none;
 
@@ -65,7 +68,9 @@
     margin-bottom: 15px;
   }
 }
-
+.lbh-heading-h1 {
+  margin-top: 0.5em !important;
+}
 .lbh-tag {
   padding: 8px 24px;
   font-weight: 700;
