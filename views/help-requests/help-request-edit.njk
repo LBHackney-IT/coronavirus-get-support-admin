@@ -21,8 +21,9 @@
 
     {% if query.haserrors %}
     {{ lbhErrorSummary({
-        "titleText": "Error",
-        "descriptionText": "Please complete all fields marked in red before updating."
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
     }) }}
     {% endif %}
 
