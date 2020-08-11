@@ -131,6 +131,7 @@ class HelpRequestsService {
                 DobDay: query.DobDay,
                 DobMonth: query.DobMonth,
                 DobYear: query.DobYear,
+                Uprn: query.uprn,
                 GettingInTouchReason: query.GettingInTouchReason || '',
                 HelpWithAccessingFood: query.what_coronavirus_help.includes('accessing food') && true || false,
                 HelpWithDebtAndMoney: query.what_coronavirus_help.includes('debt and money') && true || false,
