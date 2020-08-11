@@ -220,7 +220,7 @@ module.exports = {
 
             try {
                 const query = req.body;
-                const userName = req.auth.name || "system"
+                const userName = req.auth.name
 
                 await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
