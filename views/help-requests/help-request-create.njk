@@ -16,8 +16,9 @@
 
     {% if query.haserrors %}
     {{ lbhErrorSummary({
-        "titleText": "Error",
-        "descriptionText": query.message
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
     }) }}
     {% endif %}
     

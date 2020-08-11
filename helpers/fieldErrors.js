@@ -12,6 +12,15 @@ const mapFieldErrors = (errors) => {
     return extractedErrors;
 };
 
+/**
+ * Maps the validation errors into a plain html description.
+ * 
+ * @param {*} errors 
+ */
+const mapDescriptionHtml = (errors) => {
+    return errors.array().map(item => item.msg).join('<br>')
+};
+
 module.exports = {
-    mapFieldErrors
+    mapFieldErrors, mapDescriptionHtml
 };
