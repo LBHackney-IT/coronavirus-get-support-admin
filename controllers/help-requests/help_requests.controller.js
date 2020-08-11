@@ -4,7 +4,9 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 
 const HelpRequestsService = require('../../services/help-requests/help_requests.service');
-const { mapFieldErrors } = require('../../helpers/fieldErrors');
+const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldErrors');
+
+const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again later"
 
 module.exports = {
 
@@ -64,12 +66,13 @@ module.exports = {
 
         if (!errors.isEmpty()) {
             var extractedErrors = mapFieldErrors(errors);
-
+            let descriptionHtml = mapDescriptionHtml(errors)
             return res.redirect(
               "/help-requests/search?" +
                 querystring.stringify(extractedErrors) +
                 "&" +
-                querystring.stringify(req.body)
+                querystring.stringify(req.body) +
+                "&descriptionHtml=" + descriptionHtml
             );
         } else {
 
@@ -161,12 +164,13 @@ module.exports = {
 
         if (!errors.isEmpty()) {
             var extractedErrors = mapFieldErrors(errors);
-
+            let descriptionHtml = mapDescriptionHtml(errors)
             return res.redirect(
               "/help-requests/create?haserrors=true&" +
                 querystring.stringify(extractedErrors) +
                 "&" +
-                querystring.stringify(req.body)
+                querystring.stringify(req.body) +
+                "&descriptionHtml=" + descriptionHtml
             );
         } else {
             try {
@@ -175,6 +179,13 @@ module.exports = {
 
                 await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
+                    if(result.isError === true){
+                        return res.redirect( "/help-requests/create?haserrors=true&" +
+                          querystring.stringify(extractedErrors) +
+                          "&" +
+                          querystring.stringify(req.body) +
+                          "&message=" + SERVER_ERROR_MSG);
+                    }
                     res.render('help-requests/help-request-create-success.njk', {query: result});
                 })
 
@@ -201,13 +212,12 @@ module.exports = {
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
-            var extractedErrors = mapFieldErrors(errors);
-
+            var extractedErrors = mapFieldErrors(errors)
+            let descriptionHtml = mapDescriptionHtml(errors)
             return res.redirect(
-              "/help-requests/edit/" + req.body.Id + "?haserrors=true&" +
-                querystring.stringify(extractedErrors) +
-                "&" +
-                querystring.stringify(req.body)
+              "/help-requests/edit/" + req.body.Id + "?haserrors=true&descriptionHtml=" + descriptionHtml +
+                "&" + querystring.stringify(extractedErrors) +
+                "&" + querystring.stringify(req.body)
             );
           } else {
 
@@ -217,7 +227,11 @@ module.exports = {
 
                 await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.redirect('/help-requests/edit/' + query.Id + "?hasupdated=true");
+                    if(result.isError === true){
+                        return res.redirect('/help-requests/edit/' + query.Id + "/?haserrors=true&message="+ SERVER_ERROR_MSG +
+                          "&" + querystring.stringify(req.body));
+                    }
+                    return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
                 })                
 
             } catch (err) {

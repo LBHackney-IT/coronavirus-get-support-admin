@@ -131,6 +131,7 @@ class HelpRequestsService {
                 DobDay: query.DobDay,
                 DobMonth: query.DobMonth,
                 DobYear: query.DobYear,
+                Uprn: query.uprn,
                 GettingInTouchReason: query.GettingInTouchReason || '',
                 HelpWithAccessingFood: query.what_coronavirus_help.includes('accessing food') && true || false,
                 HelpWithDebtAndMoney: query.what_coronavirus_help.includes('debt and money') && true || false,
@@ -151,7 +152,7 @@ class HelpRequestsService {
 
             await HelpRequestModel.updateHelpRequest(id, updatedData)
             .then ( (result) => {
-                data = result.data;
+                data = result;
             });
 
             return data;
@@ -215,7 +216,7 @@ class HelpRequestsService {
 
             await HelpRequestModel.createHelpRequest(updatedData)
             .then ( (result) => {
-                data = result.data;
+                data = result;
             });
 
             return data;
