@@ -151,7 +151,7 @@ class HelpRequestsService {
 
             await HelpRequestModel.updateHelpRequest(id, updatedData)
             .then ( (result) => {
-                data = result.data;
+                data = result;
             });
 
             return data;
@@ -215,7 +215,7 @@ class HelpRequestsService {
 
             await HelpRequestModel.createHelpRequest(updatedData)
             .then ( (result) => {
-                data = result.data;
+                data = result;
             });
 
             return data;

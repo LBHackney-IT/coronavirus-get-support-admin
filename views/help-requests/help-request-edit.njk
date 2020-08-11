@@ -22,7 +22,7 @@
     {% if query.haserrors %}
     {{ lbhErrorSummary({
         "titleText": "Error",
-        "descriptionText": "Please complete all fields marked in red before updating."
+        "descriptionText": query.message
     }) }}
     {% endif %}
 

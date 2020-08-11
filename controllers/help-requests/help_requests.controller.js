@@ -175,6 +175,14 @@ module.exports = {
 
                 await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
+                    if(result.isError === true){
+                        let errorMessage = result.data || "Server error, please try later."
+                        return res.redirect( "/help-requests/create?haserrors=true&" +
+                          querystring.stringify(extractedErrors) +
+                          "&" +
+                          querystring.stringify(req.body) +
+                          "&message=" + errorMessage);
+                    }
                     res.render('help-requests/help-request-create-success.njk', {query: result});
                 })
 
@@ -202,22 +210,26 @@ module.exports = {
 
         if (!errors.isEmpty()) {
             var extractedErrors = mapFieldErrors(errors);
-
+            let errorMessage = "Please complete all fields marked in red before updating.";
             return res.redirect(
-              "/help-requests/edit/" + req.body.Id + "?haserrors=true&" +
-                querystring.stringify(extractedErrors) +
-                "&" +
-                querystring.stringify(req.body)
+              "/help-requests/edit/" + req.body.Id + "?haserrors=true&message=" + errorMessage +
+                "&" + querystring.stringify(extractedErrors) +
+                "&" + querystring.stringify(req.body)
             );
           } else {
 
             try {
                 const query = req.body;
-                const userName = req.auth.name
+                const userName = req.auth.name || "system"
 
                 await HelpRequestsService.updateHelpRequest(query, userName)
                 .then(result => {
-                    return res.redirect('/help-requests/edit/' + query.Id + "?hasupdated=true");
+                    if(result.isError === true){
+                        let errorMessage = result.data || "Server error, please try later."
+                        return res.redirect('/help-requests/edit/' + query.Id + "/?haserrors=true&message="+ errorMessage +
+                          "&" + querystring.stringify(req.body));
+                    }
+                    return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
                 })                
 
             } catch (err) {
