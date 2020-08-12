@@ -7,3 +7,6 @@ axeReports/
 *.zip
 sassdoc/
 .env
+cypress/screenshots/**
+cypress/videos/**
+.idea

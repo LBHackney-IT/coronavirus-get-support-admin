@@ -1,5 +1,5 @@
 var SELECT_ADDRESS_LABEL =
-  '<label class="govuk-label lbh-label" for="address-select">Select address</label>';
+  '<h3 class="lbh-heading-h3" for="address-select">Select address</h3>';
 var SELECT_ADDRESS_SELECT_START =
   '<select class="govuk-select  lbh-select" id="address-select" name="address-select"><option>Select address</option>';
 

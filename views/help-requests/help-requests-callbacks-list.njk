@@ -1,0 +1,24 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% from "partials/help-request-data-list.njk" import HelpRequestDataList %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    {{ lbhBackLink({
+        "href": "/help-requests",
+        "text": "Back"
+    }) }}
+
+    <h1 class="lbh-heading-h1">Callback list</h1>
+    
+    {% if helpRequestsData | length %}
+        <p class="lbh-body-m">Displaying {{helpRequestsData | length}} record(s)</p>
+
+        {{ HelpRequestDataList(helpRequestsData) }}
+        
+    {% else %}
+        <h3 class="lbh-heading-h3">No records found.</h3>
+    {% endif %}
+{% endblock %}

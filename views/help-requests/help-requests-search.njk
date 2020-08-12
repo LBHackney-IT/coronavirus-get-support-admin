@@ -1,0 +1,34 @@
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+  {{ lbhBackLink({
+    "href": "/help-requests",
+    "text": "Back"
+  }) }}
+
+  <h1 class="lbh-heading-h1">Resident lookup</h1>
+
+  <form action="/help-requests/search" method="post">
+    <h3 class="lbh-heading-h3">Postcode:</h3>
+      {{ lbhInput({
+        "id": "postcode",
+        "name": "postcode",
+        "value": query.postcode,
+        "classes": "govuk-input--width-10",
+        "formGroup": {
+          "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+        },
+        "errorMessage": {
+          "text": query.error_postcode
+        } if query.error_postcode else null
+      }) }}
+
+    <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+      Search
+    </button>
+  </form>
+{% endblock %}
