@@ -1,0 +1,405 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-date-input/macro.njk" import lbhDateInput %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Edit food request</h1>
+    {{ lbhBackLink({
+        "href": "/food-requests",
+        "text": "Back to food requests"
+    }) }}
+
+    {% if query.Id %}
+    <h3 class="lbh-heading-h3">UPRN: {{query.Uprn}}, Annex ID: {{query.Id}}</h3>
+
+    <form action="/food-requests/edit/{{query.Id}}" method="post">
+        <input type="hidden" name="Id" value="{{query.Id}}">
+
+        <p class="lbh-body-m">
+        {{query.FirstName | upper }} {{query.LastName | upper}} <br />
+        {{query.AddressFirstLine}} <br />
+        {{query.AddressSecondLine}} <br />
+        {{query.AddressThirdLine}} <br />
+        {{query.Postcode}}
+        </p>
+
+        {% include '../partials/food-request-edit-cta-btns.njk' %}
+
+        <table class="govuk-table  lbh-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">&nbsp;</th>
+                    <th scope="col" class="govuk-table__header">Current Values</th>
+                    <th scope="col" class="govuk-table__header">New values</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">On going food need</th>
+                    <td class="govuk-table__cell">{{"YES" if query.OngoingFoodNeed === true else "NO"}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhRadios({
+                            "classes": "govuk-radios--inline",
+                            "id": "OngoingFoodNeed",
+                            "name": "OngoingFoodNeed",
+                            "items": [
+                                {
+                                "value": "yes",
+                                "text": "Yes",
+                                "checked": true if query.OngoingFoodNeed == 'yes' else false
+                                },
+                                {
+                                "value": "no",
+                                "text": "No",
+                                "checked": true if query.OngoingFoodNeed == 'no'else false
+                                }
+                            ],
+                            "errorMessage": {
+                                "text": query.error_OngoingFoodNeed
+                            } if query.error_OngoingFoodNeed
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Contact telelephone</th>
+                    <td class="govuk-table__cell">{{query.ContactTelephoneNumber}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                        "label": {
+                            "text": ""
+                        },
+                        "type": "tel",
+                        "id": "ContactTelephoneNumber",
+                        "name": "ContactTelephoneNumber",
+                        "value": query.ContactTelephoneNumber,
+                        "classes": ""
+                    }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Contact mobile</th>
+                    <td class="govuk-table__cell">{{query.ContactMobileNumber}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "label": {
+                                "text": ""
+                            },
+                            "type": "tel",
+                            "id": "ContactMobileNumber",
+                            "name": "ContactMobileNumber",
+                            "value": query.ContactMobileNumber,
+                            "classes": "",
+                            "errorMessage": {
+                                "text": query.error_ContactMobileNumber
+                            } if query.error_ContactMobileNumber else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last confirmed delivery</th>
+                    <td class="govuk-table__cell">{{query.last_confirmed_food_delivery_date}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhDateInput({
+                            "items": [
+                                {
+                                "id": "last_confirmed_food_delivery_day",
+                                "name": "last_confirmed_food_delivery_day",
+                                "label": "Day",
+                                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_day else ''),
+                                "value": query.last_confirmed_food_delivery_day
+                                },
+                                {
+                                "id": "last_confirmed_food_delivery_month",
+                                "name": "last_confirmed_food_delivery_month",
+                                "label": "Month",
+                                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_month else ''),
+                                "value": query.last_confirmed_food_delivery_month
+                                },
+                                {
+                                "id": "last_confirmed_food_delivery_year",
+                                "name": "last_confirmed_food_delivery_year",
+                                "label": "Year",
+                                "classes": "govuk-input--width-3 " + ("govuk-input--error" if query.error_last_confirmed_food_delivery_year else ''),
+                                "value": query.last_confirmed_food_delivery_year
+                                }
+                            ],
+                            "formGroup": {
+                                "classes": "govuk-form-group--error lbh-form-group" if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else ''
+                            },
+                            "errorMessage": {
+                                "text": "Enter a valid date E.g 29 03 2020"
+                            } if query.error_last_confirmed_food_delivery_day or query.error_last_confirmed_food_delivery_month or query.error_last_confirmed_food_delivery_year else null
+                        }) }}
+                    </td>
+                </tr>    
+
+                {% if isAdmin %}
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">First name</th>
+                    <td class="govuk-table__cell">{{query.FirstName}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "id": "FirstName",
+                            "name": "FirstName",
+                            "value": query.FirstName,
+                            "classes": ("govuk-input--error" if query.error_FirstName else ''),
+                            "errorMessage": {
+                                "text": query.error_FirstName
+                            } if query.error_FirstName else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last name</th>
+                    <td class="govuk-table__cell">{{query.LastName}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "id": "LastName",
+                            "name": "LastName",
+                            "value": query.LastName,
+                            "classes": ("govuk-input--error" if query.error_LastName else ''),
+                            "errorMessage": {
+                                "text": query.error_LastName
+                            } if query.error_LastName else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Address 1</th>
+                    <td class="govuk-table__cell">{{query.AddressFirstLine}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "id": "AddressFirstLine",
+                            "name": "AddressFirstLine",
+                            "value": query.AddressFirstLine,
+                            "classes": ("govuk-input--error" if query.error_AddressFirstLine else ''),
+                            "formGroup": {
+                                "classes": "govuk-form-group--error lbh-form-group" if query.error_AddressFirstLine else ''
+                            },
+                            "errorMessage": {
+                                "text": query.error_AddressFirstLine
+                            } if query.error_AddressFirstLine else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Address 2</th>
+                    <td class="govuk-table__cell">{{query.AddressSecondLine}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "id": "AddressSecondLine",
+                            "name": "AddressSecondLine",
+                            "value": query.AddressSecondLine
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Address 3</th>
+                    <td class="govuk-table__cell">{{query.AddressThirdLine}}</td>
+                    <td class="govuk-table__cell">
+                            {{ lbhInput({
+                                "id": "AddressThirdLine",
+                                "name": "AddressThirdLine",
+                                "value": query.AddressThirdLine
+                            }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Post code</th>
+                    <td class="govuk-table__cell">{{query.Postcode}}</td>
+                    <td class="govuk-table__cell">
+                            {{ lbhInput({
+                                "id": "Postcode",
+                                "name": "Postcode",
+                                "value": query.Postcode,
+                                "classes": ("govuk-input--error" if query.error_Postcode else ''),
+                                "formGroup": {
+                                    "classes": "govuk-form-group--error lbh-form-group" if query.error_Postcode else ''
+                                },
+                                "errorMessage": {
+                                    "text": query.error_Postcode
+                                } if query.error_Postcode else null
+                            }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">UPRN</th>
+                    <td class="govuk-table__cell">{{query.Uprn}}</td>
+                    <td class="govuk-table__cell">
+                            {{ lbhInput({
+                                "id": "Uprn",
+                                "name": "Uprn",
+                                "value": query.Uprn,
+                                "classes": ("govuk-input--error" if query.error_Uprn else ''),
+                                "formGroup": {
+                                    "classes": "govuk-form-group--error lbh-form-group" if query.error_Uprn else ''
+                                },
+                                "errorMessage": {
+                                    "text": query.error_Uprn
+                                } if query.error_Uprn else null
+                            }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">DOB:</th>
+                    <td class="govuk-table__cell">{{query.DobDay}}/{{query.DobMonth}}/{{query.DobYear}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhDateInput({
+                            "items": [
+                                {
+                                    "id": "DobDay",
+                                    "name": "DobDay",
+                                    "label": "Day",
+                                    "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobDay else ''),
+                                    "value": query.DobDay
+                                },
+                                {
+                                    "id": "DobMonth",
+                                    "name": "DobMonth",
+                                    "label": "Month",
+                                    "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobMonth else ''),
+                                    "value": query.DobMonth
+                                },
+                                {
+                                    "id": "DobYear",
+                                    "name": "DobYear",
+                                    "label": "Year",
+                                    "classes": "govuk-input--width-3 " + ("govuk-input--error" if query.error_DobYear else ''),
+                                    "value": query.DobYear
+                                }
+                            ],
+                            "formGroup": {
+                                "classes": "govuk-form-group--error lbh-form-group" if query.error_DobDay or query.error_DobMonth or query.error_DobYear else ''
+                            },
+                            "errorMessage": {
+                                "text": "Enter a valid date"
+                            } if query.error_dob-day or query.error_dob-month or query.error_dob-year else null
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Email</th>
+                    <td class="govuk-table__cell">{{query.EmailAddress}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhInput({
+                            "id": "EmailAddress",
+                            "name": "EmailAddress",
+                            "value": query.EmailAddress
+                        }) }}
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Record status:</th>
+                    <td class="govuk-table__cell">{{query.RecordStatus}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhSelect({
+                            "id": "RecordStatus",
+                            "name": "RecordStatus",
+                            "items": [
+                                {
+                                "value": "MASTER",
+                                "text": "MASTER",
+                                "selected": true if query.RecordStatus == "MASTER" else false
+                                },
+                                {
+                                "value": "DUPLICATE",
+                                "text": "DUPLICATE",
+                                "selected": true if query.RecordStatus == "DUPLICATE" else false
+                                },
+                                {
+                                "value": "EXCEPTION",
+                                "text": "EXCEPTION",
+                                "selected": true if query.RecordStatus == "EXCEPTION" else false
+                                }
+                            ]
+                        }) }}                              
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Is duplicate:</th>
+                    <td class="govuk-table__cell">{{"YES" if (query.IsDuplicate == "true" or query.IsDuplicate == "TRUE") else "NO"}}</td>
+                    <td class="govuk-table__cell">
+                        {{ lbhRadios({
+                            "classes": "govuk-radios--inline",
+                            "id": "IsDuplicate",
+                            "name": "IsDuplicate",
+                            "items": [
+                                {
+                                "value": "TRUE",
+                                "text": "Yes",
+                                "checked": true if (query.IsDuplicate == "true" or query.IsDuplicate == "TRUE") else false
+                                },
+                                {
+                                "value": "FALSE",
+                                "text": "No",
+                                "checked": true if (query.IsDuplicate == "false" or query.IsDuplicate == "FALSE") else false
+                                }
+                            ]
+                        }) }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+
+        <fieldset class="govuk-fieldset lbh-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                <h2 class="govuk-fieldset__heading">Notes:</h2>
+            </legend>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <h3 class="lbh-heading-h3">Delivery notes (optional):</h3>
+                    {{ lbhTextarea({
+                        "label": {
+                            "text": ""
+                        },
+                        "id": "DeliveryNotes",
+                        "name": "DeliveryNotes",
+                        "hint" : {
+                            "text": ""
+                        },
+                        "value": query.DeliveryNotes
+                    }) }}
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <h3 class="lbh-heading-h3">Add a new Case note (optional):</h3>
+                    {{ lbhTextarea({
+                        "label": {
+                            "text": ""
+                        },
+                        "id": "NewCaseNote",
+                        "name": "NewCaseNote",
+                        "hint" : {
+                            "text": ""
+                        },
+                        "value": query.NewCaseNote
+                    }) }}
+                </div>
+            </div>
+
+            <h3 class="lbh-heading-h3">Case note history (read only):</h3>
+            <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
+            <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
+            </textarea>
+        </fieldset>
+
+        {% include '../partials/food-request-edit-cta-btns.njk' %}
+    </form>
+    {% else %}
+    <h2 class="lbh-heading-h2">Sorry, no record found with that id.</h2>
+
+    {{ lbhButton({
+        text: "New search",
+        isSecondary: true,
+        href: "/food-requests/search"
+    })}}
+    {% endif %}
+{% endblock %}

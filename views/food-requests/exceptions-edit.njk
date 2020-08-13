@@ -1,0 +1,375 @@
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from "lbh-date-input/macro.njk" import lbhDateInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-tag/macro.njk" import lbhTag %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h2">Help requests for UPRN {{uprn}}</h1>
+    {{ lbhBackLink({
+        "href": "/food-requests",
+        "text": "Back to food requests"
+    }) }}
+    
+    {% if foodRequestData | length %}
+    <form action="/food-requests/exceptions/{{uprn}}" method="post">
+        <input type="hidden" name="record_ids" value="{{query.recordIDs}}">
+
+        <p class="lbh-body-m">
+            <strong>Address: (taken from first record)</strong><br />
+            {{foodRequestData.AddressFirstLine}}<br />
+            {{foodRequestData.AddressSecondLine}}<br />
+            {{foodRequestData.Postcode}}
+        </p>
+
+        <p class="lbh-body-m">
+            <strong>Email:</strong> {{item.EmailAddress}}
+        </p>
+
+        <p class="lbh-body-m">Displaying {{foodRequestData | length}} record(s)</p>
+        
+        <div class="govuk-accordion lbh-accordion" data-module="govuk-accordion">
+            {% for item in foodRequestData %}
+
+            {% if item.RecordStatus === 'MASTER' %}
+                {% set statusClass = 'is-master' %}
+            {% elif item.RecordStatus === 'EXCEPTION' %}
+                {% set statusClass = 'is-exception' %}
+            {% elif item.RecordStatus === 'DUPLICATE' %}
+                {% set statusClass = 'is-duplicate' %}
+            {% else %}
+                {% set statusClass = '' %}            
+            {% endif %}
+
+            <input type="hidden" name="{{'id_' + item.Id}}" value="{{item.Id}}">
+
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                <h5 class="govuk-accordion__section-heading">
+                    <span class="govuk-accordion__section-button" id="default-example-heading-1">
+                    {{ lbhTag({
+                        "html": "<span>" + item.RecordStatus + "</span>",
+                        "classes": statusClass
+                    }) }}
+                     (ID: {{item.Id}}) - Created on {{item.creation_date}} using form {{item.FormVersion}}.
+                    </span>
+                </h5>
+                </div>
+                <div id="default-example-content-1" class="govuk-accordion__section-content" aria-labelledby="default-example-heading-1">
+                    <table class="govuk-table  lbh-table">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">&nbsp;</th>
+                                <th scope="col" class="govuk-table__header">Current Values</th>
+                                <th scope="col" class="govuk-table__header">New values</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Record status:</th>
+                                <td class="govuk-table__cell">{{item.RecordStatus}}</td>
+                                <td class="govuk-table__cell">
+                                {{ lbhSelect({
+                                    "id": "RecordStatus_" + item.Id,
+                                        "name": "RecordStatus_" + item.Id,
+                                        "classes": "",
+                                        "items": [
+                                            {
+                                            "value": "MASTER",
+                                            "text": "MASTER",
+                                            "selected": true if item["RecordStatus_" + item.Id] == "MASTER" else false
+                                            },
+                                            {
+                                            "value": "DUPLICATE",
+                                            "text": "DUPLICATE",
+                                            "selected": true if item["RecordStatus_" + item.Id] == "DUPLICATE" else false
+                                            },
+                                            {
+                                            "value": "EXCEPTION",
+                                            "text": "EXCEPTION",
+                                            "selected": true if item["RecordStatus_" + item.Id] == "EXCEPTION" else false
+                                            }
+                                        ]
+                                    }) }}                              
+                                
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Is duplicate:</th>
+                                <td class="govuk-table__cell">{{"YES" if item.IsDuplicate === "TRUE" else "NO"}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhRadios({
+                                        "classes": "govuk-radios--inline",
+                                        "id": "IsDuplicate_" + item.Id,
+                                        "name": "IsDuplicate_" + item.Id,
+                                        "items": [
+                                            {
+                                            "value": "TRUE",
+                                            "text": "Yes",
+                                            "checked": true if item["IsDuplicate_" + item.Id] == 'TRUE' else false
+                                            },
+                                            {
+                                            "value": "FALSE",
+                                            "text": "No",
+                                            "checked": true if item["IsDuplicate_" + item.Id] == 'FALSE'else false
+                                            }
+                                        ]
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">First Name:</th>
+                                <td class="govuk-table__cell">{{item.FirstName}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhInput({
+                                        "label": {
+                                            "text": ""
+                                        },
+                                        "type": "tel",
+                                        "id": "FirstName_" + item.Id,
+                                        "name": "FirstName_" + item.Id,
+                                        "value": item.FirstName,
+                                        "errorMessage": {
+                                            "text": query.error_FirstName
+                                        } if query.error_FirstName else null
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Last Name:</th>
+                                <td class="govuk-table__cell">{{item.LastName}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhInput({
+                                        "label": {
+                                            "text": ""
+                                        },
+                                        "type": "tel",
+                                        "id": "LastName_" + item.Id,
+                                        "name": "LastName_" + item.Id,
+                                        "value": item.LastName,
+                                        "errorMessage": {
+                                            "text": query.error_LastName
+                                        } if query.error_LastName else null
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Last confirmed delivery:</th>
+                                <td class="govuk-table__cell">{{item["last_confirmed_food_delivery_date_" + item.Id]}}</td>
+                                <td class="govuk-table__cell"></td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Ongoing food need:</th>
+                                <td class="govuk-table__cell">{{"YES" if item.OngoingFoodNeed === true else "NO"}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhRadios({
+                                        "classes": "govuk-radios--inline",
+                                        "id": "OngoingFoodNeed_" + item.Id,
+                                        "name": "OngoingFoodNeed_" + item.Id,
+                                        "items": [
+                                            {
+                                            "value": "yes",
+                                            "text": "Yes",
+                                            "checked": true if item["OngoingFoodNeed_" + item.Id] === true else false
+                                            },
+                                            {
+                                            "value": "no",
+                                            "text": "No",
+                                            "checked": true if item["OngoingFoodNeed_" + item.Id] === false else false
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "text": query.error_OngoingFoodNeed
+                                        } if query.error_OngoingFoodNeed
+                                    }) }}
+                                
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">DOB:</th>
+                                <td class="govuk-table__cell">{{item["DobDay_" + item.Id]}}/{{item["DobMonth_" + item.Id]}}/{{item["DobYear_" + item.Id]}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhDateInput({
+                                        "items": [
+                                            {
+                                            "id": "DobDay_" + item.Id,
+                                            "name": "DobDay_" + item.Id,
+                                            "label": "Day",
+                                            "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobDay_ else ''),
+                                            "value": item["DobDay_" + item.Id]
+                                            },
+                                            {
+                                            "id": "DobMonth_" + item.Id,
+                                            "name": "DobMonth_" + item.Id,
+                                            "label": "Month",
+                                            "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobMonth_ else ''),
+                                            "value": item["DobMonth_" + item.Id]
+                                            },
+                                            {
+                                            "id": "DobYear_" + item.Id,
+                                            "name": "DobYear_" + item.Id,
+                                            "label": "Year",
+                                            "classes": "govuk-input--width-4 " + ("govuk-input--error" if query.error_DobYear_ else ''),
+                                            "value": item["DobYear_" + item.Id]
+                                            }
+                                        ],
+                                        "formGroup": {
+                                            "classes": "govuk-form-group--error lbh-form-group" if query.error_DobDay_ or query.error_DobMonth_ or query.error_DobYear_ else ''
+                                        },
+                                        "errorMessage": {
+                                            "text": "Enter a valid date"
+                                        } if query.error_dob-day or query.error_dob-month or query.error_dob-year else null
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Contact tel:</th>
+                                <td class="govuk-table__cell">{{item.ContactTelephoneNumber}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhInput({
+                                        "label": {
+                                            "text": ""
+                                        },
+                                        "type": "tel",
+                                        "id": "ContactTelephoneNumber_" + item.Id,
+                                        "name": "ContactTelephoneNumber_" + item.Id,
+                                        "value": item.ContactTelephoneNumber,
+                                        "errorMessage": {
+                                            "text": query.error_ContactTelephoneNumber
+                                        } if query.error_ContactTelephoneNumber else null
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Contact mobile:</th>
+                                <td class="govuk-table__cell">{{item.ContactMobileNumber}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhInput({
+                                        "label": {
+                                            "text": ""
+                                        },
+                                        "type": "tel",
+                                        "id": "ContactMobileNumber_" + item.Id,
+                                        "name": "ContactMobileNumber_" + item.Id,
+                                        "value": item.ContactMobileNumber,
+                                        "errorMessage": {
+                                            "text": query.error_ContactMobileNumber
+                                        } if query.error_ContactMobileNumber else null
+                                    }) }}
+                                </td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">People in house:</th>
+                                <td class="govuk-table__cell">{{item.NumberOfPeopleInHouse}}</td>
+                                <td class="govuk-table__cell">
+                                    {{ lbhSelect({
+                                        "id": "NumberOfPeopleInHouse_" + item.Id,
+                                        "name": "NumberOfPeopleInHouse_" + item.Id,
+                                        "classes": "",
+                                        "items": [
+                                            {
+                                            "value": "1",
+                                            "text": "1",
+                                            "selected": true if item.NumberOfPeopleInHouse == "1" else false
+                                            },
+                                            {
+                                            "value": 2,
+                                            "text": "2",
+                                            "selected": true if item.NumberOfPeopleInHouse == "2" else false
+                                            },
+                                            {
+                                            "value": "3",
+                                            "text": "3",
+                                            "selected": true if item.NumberOfPeopleInHouse == "3" else false
+                                            },
+                                            {
+                                            "value": "4",
+                                            "text": "4",
+                                            "selected": true if item.NumberOfPeopleInHouse == "4" else false
+                                            },
+                                            {
+                                            "value": "5 or more",
+                                            "text": "5 or more",
+                                            "selected": true if item.NumberOfPeopleInHouse == "5 or more" else false
+                                            }
+                                        ],
+                                        "errorMessage": {
+                                            "text": query.error_number_of_people_in_house
+                                        } if query.error_number_of_people_in_house else null
+                                    }) }}
+                                </td>
+                            </tr>                       
+                        </tbody>
+                    </table>
+
+                    <fieldset class="govuk-fieldset lbh-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                            <h2 class="govuk-fieldset__heading">Notes:</h2>
+                        </legend>
+
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-half">
+                                <h3 class="lbh-heading-h3">Delivery notes (optional):</h3>
+                                {{ lbhTextarea({
+                                    "label": {
+                                        "text": ""
+                                    },
+                                    "id": "DeliveryNotes_" + item.Id,
+                                    "name": "DeliveryNotes_" + item.Id,
+                                    "hint" : {
+                                        "text": ""
+                                    },
+                                    "value": item.DeliveryNotes
+                                }) }}
+                            </div>
+                            <div class="govuk-grid-column-one-half">
+                                <h3 class="lbh-heading-h3">Add a new Case note (optional):</h3>
+                                {{ lbhTextarea({
+                                    "label": {
+                                        "text": ""
+                                    },
+                                    "id": "NewCaseNote_" + item.Id,
+                                    "name": "NewCaseNote_" + item.Id,
+                                    "hint" : {
+                                        "text": ""
+                                    },
+                                    "value": item.NewCaseNote
+                                }) }}
+                            </div>
+                        </div>
+
+                        <h3 class="lbh-heading-h3">Case note history (read only):</h3>
+                        <input type="hidden" name="CaseNotes_{{item.Id}}" id="CaseNotes_{{item.Id}}" value="{{item.CaseNotes}}">
+                        <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{item.CaseNotes}}
+                        </textarea>
+                    </fieldset>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+    {% else %}
+        <p class="lbh-body-m">No records found.</p>
+    {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <a href="/food-requests/exceptions" class="govuk-button lbh-button govuk-button--secondary lbh-button--secondary js-cta-btn" data-module="govuk-button">Back to exceptions list</a>
+            </div>
+
+            {% if foodRequestData | length %}
+            <div class="govuk-grid-column-one-half text-align-right">
+                <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+                Update all records
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

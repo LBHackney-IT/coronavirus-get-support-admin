@@ -1,0 +1,549 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-checkboxes/macro.njk" import lbhCheckboxes %}
+{% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-date-input/macro.njk" import lbhDateInput %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Create new resident profile</h1>
+
+    {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
+    }) }}
+    {% endif %}
+    
+    <form action="/help-requests/create" method="post">
+        <input type="hidden" name="building_number" id="building_number" value="{{query.building_number}}">
+        <input type="hidden" name="uprn" id="uprn" value="{{query.uprn}}">
+        <input type="hidden" name="ward" id="ward" value="{{query.ward}}">
+        <input type="hidden" name="gazetteer" id="gazetteer" value="{{query.gazetteer}}">
+        
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{ lbhFieldset({
+                    "legend": {
+                        "text": "First name"
+                    }
+                }) }}
+                {{ lbhInput({
+                    "id": "FirstName",
+                    "name": "FirstName",
+                    "value": query.FirstName,
+                    "classes": ("govuk-input--error" if query.error_FirstName else ''),
+                    "errorMessage": {
+                        "text": query.error_FirstName
+                    } if query.error_FirstName else null
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                {{ lbhFieldset({
+                    "legend": {
+                        "text": "Last name"
+                    }
+                }) }}
+                {{ lbhInput({
+                    "id": "LastName",
+                    "name": "LastName",
+                    "value": query.LastName,
+                    "classes": ("govuk-input--error" if query.error_LastName else ''),
+                    "errorMessage": {
+                        "text": query.error_LastName
+                    } if query.error_LastName else null
+                }) }}
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Contact telephone</h3>
+                {{ lbhInput({
+                    "type": "tel",
+                    "id": "ContactTelephoneNumber",
+                    "name": "ContactTelephoneNumber",
+                    "value": query.ContactTelephoneNumber,
+                    "classes": "",
+                    "errorMessage": {
+                        "text": query.error_ContactTelephoneNumber
+                    } if query.error_ContactTelephoneNumber else null
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Contact mobile (Optional)</h3>
+                {{ lbhInput({
+                    "type": "tel",
+                    "id": "ContactMobileNumber",
+                    "name": "ContactMobileNumber",
+                    "value": query.ContactMobileNumber,
+                    "classes": ""
+                }) }}
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Email address (Optional)</h3>
+                {{ lbhInput({
+                    "id": "EmailAddress",
+                    "name": "EmailAddress",
+                    "value": query.EmailAddress
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                
+            </div>
+        </div>
+
+        <h3 class="lbh-heading-h3">Date of birth</h3>
+        {{ lbhDateInput({
+            "items": [
+                {
+                "id": "DobDay",
+                "name": "DobDay",
+                "label": "Day",
+                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobDay else ''),
+                "value": query.DobDay
+                },
+                {
+                "id": "DobMonth",
+                "name": "DobMonth",
+                "label": "Month",
+                "classes": "govuk-input--width-2 " + ("govuk-input--error" if query.error_DobMonth else ''),
+                "value": query.DobMonth
+                },
+                {
+                "id": "DobYear",
+                "name": "DobYear",
+                "label": "Year",
+                "classes": "govuk-input--width-4 " + ("govuk-input--error" if query.error_DobYear else ''),
+                "value": query.DobYear
+                }
+            ],
+            "formGroup": {
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_DobDay or query.error_DobMonth or query.error_DobYear else ''
+            },
+            "errorMessage": {
+                "text": "Enter a valid date"
+            } if query.error_DobDay or query.error_DobMonth or query.error_DobYear else null
+        }) }}
+
+        <hr>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Search address by postcode</h3>
+                {{ lbhInput({
+                    "id": "lookup_postcode",
+                    "name": "lookup_postcode",
+                    "value": query.lookup_postcode,
+                    "classes": "govuk-input--width-10",
+                    "formGroup": {
+                    "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+                    },
+                    "errorMessage": {
+                    "text": query.error_postcode
+                    } if query.error_postcode else null
+                }) }}
+                
+                {{ lbhButton({
+                    element: "button",
+                    text: "Search address",
+                    type: "button",
+                    attributes: {"id": "address-finder", "data-api-url": addresses_api_url, "data-api-key": addresses_api_key}
+                })}}
+
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Selected address</h3>
+                {{ lbhInput({
+                    "id": "address_first_line",
+                    "name": "address_first_line",
+                    "value": query.address_first_line,
+                    "classes": ("govuk-input--error" if query.error_address_first_line else ''),
+                    "attributes": {"readonly": "readonly"},
+                    "errorMessage": {
+                        "text": query.error_address_first_line
+                    } if query.error_address_first_line else null
+                }) }}
+
+                {{ lbhInput({
+                    "id": "address_second_line",
+                    "name": "address_second_line",
+                    "value": query.address_second_line,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+                
+                {{ lbhInput({
+                    "id": "address_third_line",
+                    "name": "address_third_line",
+                    "value": query.address_third_line,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+
+                {{ lbhInput({
+                    "id": "postcode",
+                    "name": "postcode",
+                    "value": query.postcode,
+                    "classes": ("govuk-input--error" if query.error_postcode else ''),
+                    "attributes": {"readonly": "readonly"},
+                    "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+                    },
+                    "errorMessage": {
+                        "text": query.error_postcode
+                    } if query.error_postcode else null
+                }) }}
+               
+            </div>
+        </div>
+
+        <hr>
+        
+        
+
+        {{ lbhCheckboxes({
+            "fieldset": {
+                "legend": {
+                    "text": "What type of help do you need because of coronavirus?"
+                }
+            },
+            "hint": {
+                "text": "Select all that apply"
+            },
+            "idPrefix": "what_coronavirus_help",
+            "name": "what_coronavirus_help",
+            "attributes": {"id": "what_coronavirus_help"},
+            "classes": "govuk-checkboxes--inline",
+            "items": [
+                {
+                    "value": "accessing food",
+                    "text": "Accessing food",
+                    "checked": true if query.what_coronavirus_help and "accessing food" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "debt and money",
+                    "text": "Managing money or debts, including how to apply for benefits",
+                    "checked": true if query.what_coronavirus_help and "debt and money" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "health",
+                    "text": "Health, including Coronavirus testing",
+                    "checked": true if query.what_coronavirus_help and "health" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "mental health",
+                    "text": "Mental health and wellbeing, including if you're feeling lonely or isolated",
+                    "checked": true if query.what_coronavirus_help and "mental health" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "housing",
+                    "text": "Housing, including feeling unsafe where you live or help staying at home",
+                    "checked": true if query.what_coronavirus_help and "housing" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "technology support",
+                    "text": "Accessing the internet, including support to use technology",
+                    "checked": true if query.what_coronavirus_help and "technology support" in query.what_coronavirus_help else false
+                },
+                {
+                    "value": "something else",
+                    "text": "Something else",
+                    "checked": true if query.what_coronavirus_help and "something else" in query.what_coronavirus_help else false
+                }
+            ],
+            "formGroup": {
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_what_coronavirus_help else ''
+            },
+            "errorMessage": {
+                "text": query.error_what_coronavirus_help
+            } if query.error_what_coronavirus_help else null
+        }) }}
+
+        <hr>
+
+        {{ lbhCheckboxes({
+            "fieldset": {
+                "legend": {
+                "text": "Who is supporting you currently?"
+                }
+            },
+            "hint": {
+                "text": "Select all that apply"
+            },
+            "idPrefix": "CurrentSupport",
+            "name": "CurrentSupport",
+            "attributes": {"id": "CurrentSupport"},
+            "items": [
+                {
+                    "value": "family",
+                    "text": "Family",
+                    "checked": true if query.CurrentSupport and "family" in query.CurrentSupport else false
+                },
+                {
+                    "value": "friends",
+                    "text": "Friends",
+                    "checked": true if query.CurrentSupport and "friends" in query.CurrentSupport else false
+                },
+                {
+                    "value": "neighbours",
+                    "text": "Neighbours",
+                    "checked": true if query.CurrentSupport and "neighbours" in query.CurrentSupport else false
+                },
+                {
+                    "value": "volunteers",
+                    "text": "Volunteers",
+                    "checked": true if query.CurrentSupport and "volunteers" in query.CurrentSupport else false
+                },
+                {
+                    "value": "charities",
+                    "text": "Charities",
+                    "checked": true if query.CurrentSupport and "charities" in query.CurrentSupport else false
+                },
+                {
+                    "value": "hackney council",
+                    "text": "Hackney Council - such as a social worker, carer or housing officer",
+                    "checked": true if query.CurrentSupport and "hackney council" in query.CurrentSupport else false
+                },
+                {
+                    "value": "someone else",
+                    "text": "Someone else - such as health professionals, including GPs",
+                    "checked": true if query.CurrentSupport and "someone else" in query.CurrentSupport else false
+                },
+                {
+                    "value": "nobody",
+                    "text": "Nobody, I am not receiving any support",
+                    "checked": true if query.CurrentSupport and "nobody" in query.CurrentSupport else false
+                },
+            {
+                    "value": "not sure",
+                    "text": "Not sure",
+                    "checked": true if query.CurrentSupport and "not sure" in query.CurrentSupport else false
+                }
+            ],
+            "formGroup": {
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+            },
+            "errorMessage": {
+                "text": query.error_CurrentSupport
+            } if query.error_CurrentSupport else null
+        }) }}
+
+        <hr>
+
+        {{ lbhRadios({
+            "fieldset": {
+                "legend": {
+                    "text": "How many children under the age of 18 are in your household?"
+                }
+            },
+            "idPrefix": "NumberOfChildrenUnder18",
+            "name": "NumberOfChildrenUnder18",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                "value": "0",
+                "text": "0",
+                "checked": true if query.NumberOfChildrenUnder18 == "0" else false
+                },
+                {
+                "value": "1",
+                "text": "1",
+                "checked": true if query.NumberOfChildrenUnder18 == "1" else false
+                },
+                {
+                "value": "2",
+                "text": "2",
+                "checked": true if query.NumberOfChildrenUnder18 == "2" else false
+                },
+                {
+                "value": "3",
+                "text": "3",
+                "checked": true if query.NumberOfChildrenUnder18 == "3" else false
+                },
+                {
+                "value": "4",
+                "text": "4",
+                "checked": true if query.NumberOfChildrenUnder18 == "4" else false
+                },
+                {
+                "value": "5 or more",
+                "text": "5 or more",
+                "checked": true if query.NumberOfChildrenUnder18 == "5 or more" else false
+                }
+            ],
+            "errorMessage": {
+                "text": query.error_NumberOfChildrenUnder18
+            } if query.error_NumberOfChildrenUnder18 else null
+        }) }}
+
+        <hr>
+
+        {{ lbhRadios({
+            "fieldset": {
+                "legend": {
+                    "text": "Can we share the information you’ve provided with voluntary or community organisations?"
+                }
+            },
+            "hint": {
+                "text": "For example, sharing your contact details with a charity so they can call you to offer support."
+            },
+            "idPrefix": "consent_to_share",
+            "name": "consent_to_share",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                "value": "yes",
+                    "text": "Yes",
+                    "checked": true if query.consent_to_share == 'yes' else false
+                },
+                {
+                "value": "no",
+                    "text": "No",
+                    "checked": true if query.consent_to_share == 'no' else false
+                }
+            ],
+            "errorMessage": {
+                "text": query.error_consent_to_share
+            } if query.error_consent_to_share else null
+        }) }}
+
+        <hr>
+
+        {{ lbhFieldset({
+            "legend": {
+                "text": "Why are you getting in touch with us today? (Optional)"
+            }
+        }) }}
+
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Tell us about your situation and the help you need."
+            },
+            "id": "GettingInTouchReason",
+            "name": "GettingInTouchReason",
+            "value": query.GettingInTouchReason
+        }) }}
+
+        <h3 class="lbh-heading-h3">Is there anything you’d like to tell us about the support you’re receiving? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "For example, who is supporting you, how they’re helping or anything else you think we should know."
+            },
+            "id": "CurrentSupportFeedback",
+            "name": "CurrentSupportFeedback",
+            "value": query.CurrentSupportFeedback
+        }) }}
+
+        <h3 class="lbh-heading-h3">Which GP surgery are you registered with? (Optional)</h3>
+        {{ lbhTextarea({
+            "hint": {
+                "text": "Please provide the name and address of the GP surgery you are registered with. This will help us to arrange support for you more quickly."
+            },
+            "id": "GpSurgeryDetails",
+            "name": "GpSurgeryDetails",
+            "value": query.GpSurgeryDetails
+        }) }}
+
+        <hr>
+
+
+        <h2 class="lbh-heading-h2">Case notes:</h2>
+        <h3 class="lbh-heading-h3">Add a new case note (optional):</h3>
+        {{ lbhTextarea({
+            "label": {
+                "text": ""
+            },
+            "id": "NewCaseNote",
+            "name": "NewCaseNote",
+            "hint" : {
+                "text": ""
+            },
+            "value": query.NewCaseNote
+        }) }}
+
+        <h3 class="lbh-heading-h3">Case note history (read only):</h3>
+        <input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
+        <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{query.CaseNotes}}
+        </textarea>
+
+        <hr>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Initial callback completed?"
+                        }
+                    },
+                    "id": "InitialCallbackCompleted",
+                    "name": "InitialCallbackCompleted",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.InitialCallbackCompleted  == "yes" else false
+                        },
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.InitialCallbackCompleted == "no" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_InitialCallbackCompleted else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_InitialCallbackCompleted
+                        } if query.error_InitialCallbackCompleted else null
+                    }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                {{ lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Follow up call required?"
+                        }
+                    },
+                    "id": "CallbackRequired",
+                    "name": "CallbackRequired",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                        "value": "yes",
+                        "text": "Yes",
+                        "checked": true if query.CallbackRequired == "yes" else false
+                        },
+                        {
+                        "value": "no",
+                        "text": "No",
+                        "checked": true if query.CallbackRequired == "no" else false
+                        }
+                        ],
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallbackRequired else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_CallbackRequired
+                        } if query.error_CallbackRequired else null
+                }) }}
+
+            </div>
+        </div>
+        
+        <hr>
+
+        {% include '../partials/help-request-create-cta-btns.njk' %}
+    </form>
+   
+{% endblock %}

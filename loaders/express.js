@@ -7,10 +7,12 @@ const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 
+const config = require('../config');
 const indexRoutes = require('../routes/index.route');
-const helpRequestsRoutes = require('../routes/help_requests.route');
-const deliverySchedulesRoutes = require('../routes/delivery_schedules.route');
-const exceptionsRoutes = require('../routes/exceptions.route');
+const foodRequestsRoutes = require('../routes/food-requests/food_requests.route');
+const deliverySchedulesRoutes = require('../routes/food-requests/delivery_schedules.route');
+const exceptionsRoutes = require('../routes/food-requests/exceptions.route');
+const helpRequestsRoutes = require('../routes/help-requests/help_requests.route');
 
 const logger = require('../middleware/logger');
 const { handleError } = require('../helpers/error');
@@ -21,7 +23,7 @@ module.exports = {
         // Configuration
         //----------------------
 
-        if (!process.env.LOCAL) {
+        if (!config.local) {
             function requireHTTPS(req, res, next) {
               // The 'x-forwarded-proto' check is for Heroku
               if (
@@ -59,7 +61,9 @@ module.exports = {
             autoescape: true,
             cache: false,
             express: app
-        } ) ;
+        })
+        .addGlobal('addresses_api_url', config.addresses_api_url)
+        .addGlobal('addresses_api_key',  config.addresses_api_key);
 
         app.set('views', path.join(__dirname, 'views'));
 
@@ -76,11 +80,18 @@ module.exports = {
         // Route Handlers
         //-------------------------
 
+        app.use('/food-requests', foodRequestsRoutes);
+        app.use('/food-requests/delivery-schedules', deliverySchedulesRoutes);
+        app.use('/food-requests/exceptions', exceptionsRoutes);
         app.use('/help-requests', helpRequestsRoutes);
-        app.use('/delivery-schedules', deliverySchedulesRoutes);
-        app.use('/exceptions', exceptionsRoutes);
 
         app.use('/', indexRoutes);
+
+        app.get("/:page", function(req, res) {
+            res.locals.query = req.query;
+        
+            return res.render(req.params.page + ".njk");
+        });
 
 
         //-------------------------

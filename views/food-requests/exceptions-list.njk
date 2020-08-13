@@ -1,0 +1,46 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+    <h1 class="lbh-heading-h1">Manage exceptions</h1>
+    {{ lbhBackLink({
+        "href": "/food-requests",
+        "text": "Back to food requests"
+    }) }}
+
+    {% if exceptionsData | length %}
+        <p class="lbh-body-m">Displaying {{exceptionsData | length}} record(s)</p>
+
+        <table class="govuk-table  lbh-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Created</th>
+                <th scope="col" class="govuk-table__header">Address</th>
+                <th scope="col" class="govuk-table__header">UPRN</th>                
+                <th scope="col" class="govuk-table__header"></th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {% for item in exceptionsData %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{item.creation_date}}</td>
+                        <td class="govuk-table__cell">
+                            {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.Postcode}}
+                        </td>
+                        <td class="govuk-table__cell">{{item.Uprn}}</td>                        
+                        <td class="govuk-table__cell">
+                        {% if item.Uprn | length %}
+                            <a href="/food-requests/exceptions/{{item.Uprn}}" class="js-cta-btn">Edit</a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="lbh-heading-h3">No exceptions to display</h3>
+    {% endif %}
+{% endblock %}

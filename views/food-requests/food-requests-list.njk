@@ -1,0 +1,63 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+<div id="top">
+    <h1 class="lbh-heading-h1">Manage food requests</h1>
+    {{ lbhBackLink({
+        "href": "/",
+        "text": "Back to home"
+    }) }}
+
+    {% if foodRequestsData | length %}
+        <h2 class="lbh-heading-h2">Food requests matching postcode: {{postcode}}</h2>
+
+        <p class="lbh-body-m">Displaying {{foodRequestsData | length}} record(s)</p>
+
+        {{ lbhButton({
+            text: "New search",
+            isSecondary: true,
+            href: "/food-requests/search"
+        })}}
+
+        <table class="govuk-table  lbh-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">ID</th>
+                <th scope="col" class="govuk-table__header">Address</th>
+                <th scope="col" class="govuk-table__header">Date</th>
+                <th scope="col" class="govuk-table__header">Status</th>
+                <th scope="col" class="govuk-table__header"></th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {% for item in foodRequestsData %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{item.Id}}</td>
+                        <td class="govuk-table__cell">
+                            {{item.FirstName | upper }} {{item.LastName | upper}} <br />{{item.AddressFirstLine}}, {{item.AddressSecondLine}}, {{item.Postcode}}
+                        </td>
+                        <td class="govuk-table__cell">{{item.DateTimeRecorded}}</td>
+                        <td class="govuk-table__cell">{{item.RecordStatus}}</td>
+                        <td class="govuk-table__cell">
+                            <a href="/food-requests/edit/{{item.Id}}" class="js-cta-btn">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="lbh-heading-h3">No records found with postcode: {{postcode}}</h3>
+
+        {{ lbhButton({
+            text: "Search another postcode",
+            isSecondary: true,
+            href: "/food-requests/search"
+        })}}
+    {% endif %}
+</div>
+{% endblock %}
