@@ -4217,6 +4217,9 @@ html.lbh-template > body.lbh-template__body * {
   .js-enabled #address-lookup-fieldset {
     display: block; }
 
+.lbh-form-group label {
+  font-weight: 300 !important; }
+
 #address-manual-fieldset {
   display: none; }
 

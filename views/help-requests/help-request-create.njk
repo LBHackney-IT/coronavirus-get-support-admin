@@ -12,6 +12,12 @@
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
+
+  {{ lbhBackLink({
+    "href": "/help-requests",
+    "text": "Back"
+  }) }}
+
     <h1 class="lbh-heading-h1">Create new resident profile</h1>
 
     {% if query.haserrors %}
@@ -29,12 +35,8 @@
         <input type="hidden" name="gazetteer" id="gazetteer" value="{{query.gazetteer}}">
         
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                {{ lbhFieldset({
-                    "legend": {
-                        "text": "First name"
-                    }
-                }) }}
+            <div class="govuk-grid-column-one-third">
+                <label class="govuk-label" for="FirstName">First name</label>
                 {{ lbhInput({
                     "id": "FirstName",
                     "name": "FirstName",
@@ -45,12 +47,8 @@
                     } if query.error_FirstName else null
                 }) }}
             </div>
-            <div class="govuk-grid-column-one-half">
-                {{ lbhFieldset({
-                    "legend": {
-                        "text": "Last name"
-                    }
-                }) }}
+            <div class="govuk-grid-column-one-third">
+                <label class="govuk-label" for="LastName">Last name</label>
                 {{ lbhInput({
                     "id": "LastName",
                     "name": "LastName",
@@ -64,8 +62,8 @@
         </div>
 
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                <h3 class="lbh-heading-h3">Contact telephone</h3>
+            <div class="govuk-grid-column-one-third">
+                <label class="govuk-label" for="ContactTelephoneNumber">Contact telephone</label>
                 {{ lbhInput({
                     "type": "tel",
                     "id": "ContactTelephoneNumber",
@@ -77,8 +75,8 @@
                     } if query.error_ContactTelephoneNumber else null
                 }) }}
             </div>
-            <div class="govuk-grid-column-one-half">
-                <h3 class="lbh-heading-h3">Contact mobile (Optional)</h3>
+            <div class="govuk-grid-column-one-third">
+                <label class="govuk-label" for="ContactMobileNumber">Contact mobile (Optional)</label>
                 {{ lbhInput({
                     "type": "tel",
                     "id": "ContactMobileNumber",
@@ -87,21 +85,17 @@
                     "classes": ""
                 }) }}
             </div>
-        </div>
-
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                <h3 class="lbh-heading-h3">Email address (Optional)</h3>
+            <div class="govuk-grid-column-one-third">
+                <label class="govuk-label" for="EmailAddress">Email address (Optional)</label>
                 {{ lbhInput({
                     "id": "EmailAddress",
                     "name": "EmailAddress",
                     "value": query.EmailAddress
                 }) }}
             </div>
-            <div class="govuk-grid-column-one-half">
-                
-            </div>
+
         </div>
+
 
         <h3 class="lbh-heading-h3">Date of birth</h3>
         {{ lbhDateInput({
@@ -168,11 +162,7 @@
                     "id": "address_first_line",
                     "name": "address_first_line",
                     "value": query.address_first_line,
-                    "classes": ("govuk-input--error" if query.error_address_first_line else ''),
-                    "attributes": {"readonly": "readonly"},
-                    "errorMessage": {
-                        "text": query.error_address_first_line
-                    } if query.error_address_first_line else null
+                    "attributes": {"readonly": "readonly"}
                 }) }}
 
                 {{ lbhInput({
@@ -193,14 +183,7 @@
                     "id": "postcode",
                     "name": "postcode",
                     "value": query.postcode,
-                    "classes": ("govuk-input--error" if query.error_postcode else ''),
-                    "attributes": {"readonly": "readonly"},
-                    "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
-                    },
-                    "errorMessage": {
-                        "text": query.error_postcode
-                    } if query.error_postcode else null
+                    "attributes": {"readonly": "readonly"}
                 }) }}
                
             </div>

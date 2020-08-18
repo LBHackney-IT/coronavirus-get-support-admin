@@ -10,8 +10,29 @@ const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again 
 
 const SNAPSHOT_URL = process.env.SNAPSHOT_URL
 
-module.exports = {
+/**
+ * Common functionality to handle a snapshot creation
+ * @param query
+ * @param res
+ */
+const handleSnapshotCreation = (query, userName, res) => {
+      const requestModel = {
+          inhId: query.id,
+          firstName: query.FirstName,
+          lastName: query.LastName,
+          postcode: query.postcode
+      }
 
+    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
+      .then(result => {
+          if (!result) {
+              return next(new Error("Could not create Snapshot for resident, but the resident form has been saved"));
+          }
+          return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
+      })
+};
+
+module.exports = {
      /**
      * @description Display the Help Request home page
      * @param req {object} Express req object 
@@ -216,18 +237,7 @@ module.exports = {
                     console.log("Resident created successfully with ID: ", result.data.Id)
                     query.id = result.data.Id
                 })
-                .then(() => {
-                    const requestModel = {
-                        inhId: query.id,
-                        firstName: query.FirstName,
-                        lastName: query.LastName,
-                        postcode: query.postcode
-                    }
-                    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
-                        .then(result => {
-                            return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
-                        })
-                });
+                .then(()=> handleSnapshotCreation(query, userName, res));
 
             } catch (err) {
                 const error = new Error(err);
@@ -298,8 +308,8 @@ module.exports = {
 
             const requestModel = {
                 inhId: query.id,
-                firstName: query.firstName,
-                lastName: query.lastName,
+                firstName: query.FirstName,
+                lastName: query.LastName,
                 postcode: query.postcode
             }
             await HelpRequestsService.findVulnerabilitySnapshot(requestModel, userName)
@@ -310,10 +320,7 @@ module.exports = {
                     return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.snapshots[0].id);
                 } else {
                     console.log(`Snapshot not found, for resident ${query.firstName}  ${query.lastName}. Creating...`);
-                    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
-                      .then(snapshot => {
-                          return res.redirect(SNAPSHOT_URL + "/snapshots/" + snapshot.id);
-                      })
+                    handleSnapshotCreation(query, userName, res)
                 }
             })
         } catch (err) {
