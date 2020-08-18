@@ -307,6 +307,7 @@ module.exports = {
                 if(result.snapshots && result.snapshots.length > 0) {
                     console.log("Snapshot found, fore resident {} {}", query.firstName, query.lastName);
                     console.log(`Snapshot found, for resident ${query.firstName}  ${query.lastName}. Opening...`);
+                    return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.snapshots[0].id);
                 } else {
                     console.log(`Snapshot not found, for resident ${query.firstName}  ${query.lastName}. Creating...`);
                     HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
