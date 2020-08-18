@@ -1,7 +1,6 @@
 const HelpRequestModel = require('../../models/help-requests/help_request.model');
 const notesHelper = require('../../helpers/notes');
 const dateHelper = require('../../helpers/date');
-const INH_SYSTEM_PREFIX = "inh-"
 
 class HelpRequestsService {
 
@@ -240,7 +239,7 @@ class HelpRequestsService {
                 lastName: query.lastName,
                 dob: {},
                 postcode: query.postcode,
-                systemIds: [INH_SYSTEM_PREFIX + query.inhId],
+                systemIds: [query.inhId],
                 createdBy: userName
             };
             const createData = JSON.stringify(request);
@@ -263,7 +262,7 @@ class HelpRequestsService {
         try {
             let data = [];
             const request = {
-                systemIds: [INH_SYSTEM_PREFIX + query.inhId],
+                systemIds: [query.inhId],
                 firstName: query.firstName,
                 lastName: query.lastName
             };
