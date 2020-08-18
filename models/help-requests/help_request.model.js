@@ -185,6 +185,30 @@ class HelpRequestModel {
         }
     }
 
+    async makeSnapshotApiCall (endpoint, data) {
+        try {
+            const headers = {
+                'Content-Type': 'application/json',
+            }
+
+            await axios.post(SNAPSHOT_URL + endpoint, data, {
+                headers: headers
+            })
+              .then(response => {
+                  data = response
+              }).catch(err => {
+                  data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: ${endpoint}')
+                  data.isError = true
+              })
+
+            return data
+
+        } catch (err) {
+            console.log('Snapshot API error')
+            console.log(err)
+            return (err)
+        }
+    }
 
     /**
      * Makes an API call to the Snapshot tool to create a record of the resident for a Snapshot
@@ -192,29 +216,7 @@ class HelpRequestModel {
      * @returns {Promise<*>}
      */
     async createVulnerabilitySnapshot (data) {
-
-        try {
-            const headers = {
-                'Content-Type': 'application/json',
-            }
-
-            await axios.post(SNAPSHOT_URL + '/api/snapshots', data, {
-                headers: headers
-            })
-                .then(response => {
-                    data = response
-                }).catch(err => {
-                    data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: createVulnerabilitySnapshot()')
-                    data.isError = true
-                })
-
-            return data
-
-        } catch (err) {
-            console.log('HelpRequestModel createVulnerabilitySnapshot ERR')
-            console.log(err)
-            return (err)
-        }
+        return this.makeSnapshotApiCall('/api/snapshots', data)
     }
 
 
@@ -224,29 +226,7 @@ class HelpRequestModel {
      * @returns {Promise<*>}
      */
     async findVulnerabilitySnapshot (data) {
-
-        try {
-            const headers = {
-                'Content-Type': 'application/json',
-            }
-
-            await axios.post(SNAPSHOT_URL + '/api/snapshots/find', data, {
-                headers: headers
-            })
-              .then(response => {
-                  data = response
-              }).catch(err => {
-                  data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: findVulnerabilitySnapshot()')
-                  data.isError = true
-              })
-
-            return data
-
-        } catch (err) {
-            console.log('HelpRequestModel findVulnerabilitySnapshot ERR')
-            console.log(err)
-            return (err)
-        }
+        return this.makeSnapshotApiCall('/api/snapshots/find', data)
     }
 }
 
