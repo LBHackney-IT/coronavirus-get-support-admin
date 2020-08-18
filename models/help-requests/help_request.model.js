@@ -3,6 +3,8 @@ const axios = require('axios');
 const config = require('../../config');
 const { handleAPIErrors } = require('../../helpers/error');
 
+const SNAPSHOT_URL = process.env.SNAPSHOT_URL
+
 class HelpRequestModel {
 
     constructor() {
@@ -182,7 +184,50 @@ class HelpRequestModel {
             return (err);
         }
     }
-    
+
+    async makeSnapshotApiCall (endpoint, data) {
+        try {
+            const headers = {
+                'Content-Type': 'application/json',
+            }
+
+            await axios.post(SNAPSHOT_URL + endpoint, data, {
+                headers: headers
+            })
+              .then(response => {
+                  data = response
+              }).catch(err => {
+                  data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: ${endpoint}')
+                  data.isError = true
+              })
+
+            return data
+
+        } catch (err) {
+            console.log('Snapshot API error')
+            console.log(err)
+            return (err)
+        }
+    }
+
+    /**
+     * Makes an API call to the Snapshot tool to create a record of the resident for a Snapshot
+     * @description
+     * @returns {Promise<*>}
+     */
+    async createVulnerabilitySnapshot (data) {
+        return this.makeSnapshotApiCall('/api/snapshots', data)
+    }
+
+
+    /**
+     * Makes an API call to the Snapshot tool to find a Snapshot record for the resident
+     * @description
+     * @returns {Promise<*>}
+     */
+    async findVulnerabilitySnapshot (data) {
+        return this.makeSnapshotApiCall('/api/snapshots/find', data)
+    }
 }
 
 module.exports = new HelpRequestModel;

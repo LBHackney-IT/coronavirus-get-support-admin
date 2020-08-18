@@ -8,8 +8,31 @@ const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldError
 
 const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again later"
 
-module.exports = {
+const SNAPSHOT_URL = process.env.SNAPSHOT_URL
 
+/**
+ * Common functionality to handle a snapshot creation
+ * @param query
+ * @param res
+ */
+const handleSnapshotCreation = (query, userName, res) => {
+      const requestModel = {
+          inhId: query.id,
+          firstName: query.FirstName,
+          lastName: query.LastName,
+          postcode: query.postcode
+      }
+
+    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
+      .then(result => {
+          if (!result) {
+              return next(new Error("Could not create Snapshot for resident, but the resident form has been saved"));
+          }
+          return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
+      })
+};
+
+module.exports = {
      /**
      * @description Display the Help Request home page
      * @param req {object} Express req object 
@@ -133,8 +156,33 @@ module.exports = {
             return next(error);
         }
 
-    }, 
+    },
 
+
+    /**
+     * @description Render a specific help request complete page
+     * @param req {object} Express req object
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_complete: async (req, res, next) => {
+        try {
+            if(req.query.haserrors) {
+                res.locals.query = req.query;
+                return res.render('help-requests/help-request-complete.njk');
+            } else {
+                await HelpRequestsService.getHelpRequest(req.params.id)
+                  .then(result => {
+                      res.locals.hasupdated = req.query.hasupdated;
+                      res.render('help-requests/help-request-complete.njk', {query: result, hasupdated: req.query.hasupdated});
+                  })
+            }
+        } catch (err) {
+            const error = new Error(err);
+            return next(error);
+        }
+    },
 
     /**
      * @description Render a new help request form
@@ -173,10 +221,10 @@ module.exports = {
                 "&descriptionHtml=" + descriptionHtml
             );
         } else {
-            try {
-                const query = req.body;
-                const userName = req.auth.name
 
+            const query = req.body;
+            const userName = req.auth.name
+            try {
                 await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
                     if(result.isError === true){
@@ -186,13 +234,13 @@ module.exports = {
                           querystring.stringify(req.body) +
                           "&message=" + SERVER_ERROR_MSG);
                     }
-                    res.render('help-requests/help-request-create-success.njk', {query: result});
+                    console.log("Resident created successfully with ID: ", result.data.Id)
+                    query.id = result.data.Id
                 })
+                .then(()=> handleSnapshotCreation(query, userName, res));
 
             } catch (err) {
-                
                 const error = new Error(err);
-
                 return next(error);
             }
         }
@@ -240,5 +288,43 @@ module.exports = {
                 return next(error);
             }
         }
-    }       
+    },
+
+    /**
+     * @description Requests to edits a vulnerability snapshot for a resident
+     *
+     * @param req {object} Express req object
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_edit_snapshot: async (req, res, next) => {
+        res.locals.query = req.body
+        res.locals.isAdmin = req.auth.isAdmin
+
+        try {
+            const query = req.body
+            const userName = req.auth.name
+
+            const requestModel = {
+                inhId: query.id,
+                firstName: query.FirstName,
+                lastName: query.LastName,
+                postcode: query.postcode
+            }
+            await HelpRequestsService.findVulnerabilitySnapshot(requestModel, userName)
+            .then(result => {
+                if(result.snapshots && result.snapshots.length > 0) {
+                    console.log(`Snapshot found, for resident ${query.firstName}  ${query.lastName}. Opening...`);
+                    return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.snapshots[0].id);
+                } else {
+                    console.log(`Snapshot not found, for resident ${query.firstName}  ${query.lastName}. Creating...`);
+                    handleSnapshotCreation(query, userName, res)
+                }
+            })
+        } catch (err) {
+            const error = new Error(err)
+            return next(error)
+        }
+    }
 };

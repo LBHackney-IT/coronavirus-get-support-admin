@@ -38,6 +38,16 @@
 
     {% if query.Id %}
 
+    <form action="/help-requests/snapshot/{{query.Id}}" method="post">
+       <input type="hidden" name="id" value="{{query.Id}}">
+       <input type="hidden" name="FirstName" value="{{query.FirstName}}">
+       <input type="hidden" name="LastName" value="{{query.LastName}}">
+       <input type="hidden" name="postcode" value="{{query.PostCode}}">
+       <button type="submit" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+           Go to Snapshot
+       </button>
+    </form>
+
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
         <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
@@ -55,7 +65,7 @@
                 {{query.AddressSecondLine}} <br />
                 {{query.AddressThirdLine}} <br />
                 {{query.PostCode}} <br />
-                ({{query.Ward}})
+                {{query.Ward}}
             </p>
         </div>
 

@@ -33,6 +33,9 @@ router.get('/search', isAuthorised, function(req, res) {
 // GET request to display 1 help request
 router.get('/edit/:id', isAuthorised, helpRequestsController.help_request_get);
 
+// GET request to display the help request complete page
+router.get('/complete/:id', isAuthorised, helpRequestsController.help_request_complete);
+
 // GET request to create a new help request
 router.get('/create', isAuthorised, helpRequestsController.help_request_create_get);
 
@@ -47,9 +50,20 @@ router.post('/edit/:id', [isAuthorised, helpRequestEditValidation], (req, res, n
     helpRequestsController.help_request_update_post(req, res, next)
 });
 
+// POST request to complete TODO: temporary solution until Complete screen is implemented
+router.post('/complete/:id', [isAuthorised, helpRequestEditValidation], (req, res, next) => {
+    helpRequestsController.help_request_update_post(req, res, next)
+});
+
+
 // POST request to create a new help request
 router.post('/create', [isAuthorised, helpRequestCreateValidation], (req, res, next) => {
     helpRequestsController.help_request_create_post(req, res, next)
+});
+
+// post request to edit a snapshot for the resident
+router.post('/snapshot/:id', [isAuthorised], (req, res, next) => {
+    helpRequestsController.help_request_edit_snapshot(req, res, next)
 });
 
 module.exports = router;
