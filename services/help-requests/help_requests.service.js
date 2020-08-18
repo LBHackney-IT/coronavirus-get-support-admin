@@ -235,32 +235,44 @@ class HelpRequestsService {
     async createVulnerabilitySnapshot(query, userName) {
         try {
             let data = [];
-
-
-            const inhId = query.Id;
-            const firstName = query.FirstName;
-            const lastName = query.LastName;
-            const postcode = query.Postcode;
-
             const request = {
-                firstName: firstName,
-                lastName: lastName,
+                firstName: query.firstName,
+                lastName: query.lastName,
                 dob: {},
-                postcode: postcode,
-                systemIds: [INH_SYSTEM_PREFIX + inhId],
+                postcode: query.postcode,
+                systemIds: [INH_SYSTEM_PREFIX + query.inhId],
                 createdBy: userName
             };
-
-
-            const updatedData = JSON.stringify(request);
-
-            await HelpRequestModel.createVulnerabilitySnapshot(updatedData)
+            const createData = JSON.stringify(request);
+            await HelpRequestModel.createVulnerabilitySnapshot(createData)
               .then ( (result) => {
                   data = result.data;
               });
-
             return data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
+
+    /**
+     * @description
+     * @returns {Promise<*>}
+     */
+    async findVulnerabilitySnapshot(query, userName) {
+        try {
+            let data = [];
+            const request = {
+                systemIds: [INH_SYSTEM_PREFIX + query.inhId],
+                firstName: query.firstName,
+                lastName: query.lastName
+            };
+            const findData = JSON.stringify(request);
+            await HelpRequestModel.findVulnerabilitySnapshot(findData)
+              .then ( (result) => {
+                  data = result.data;
+              });
+            return data;
         } catch (err) {
             console.log(err);
         }

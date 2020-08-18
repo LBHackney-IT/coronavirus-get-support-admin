@@ -135,8 +135,33 @@ module.exports = {
             return next(error);
         }
 
-    }, 
+    },
 
+
+    /**
+     * @description Render a specific help request complete page
+     * @param req {object} Express req object
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_complete: async (req, res, next) => {
+        try {
+            if(req.query.haserrors) {
+                res.locals.query = req.query;
+                return res.render('help-requests/help-request-complete.njk');
+            } else {
+                await HelpRequestsService.getHelpRequest(req.params.id)
+                  .then(result => {
+                      res.locals.hasupdated = req.query.hasupdated;
+                      res.render('help-requests/help-request-complete.njk', {query: result, hasupdated: req.query.hasupdated});
+                  })
+            }
+        } catch (err) {
+            const error = new Error(err);
+            return next(error);
+        }
+    },
 
     /**
      * @description Render a new help request form
@@ -188,10 +213,17 @@ module.exports = {
                           querystring.stringify(req.body) +
                           "&message=" + SERVER_ERROR_MSG);
                     }
-                    // res.render('help-requests/help-request-create-success.njk', {query: result}
+                    console.log("Resident created successfully with ID: ", result.data.Id)
+                    query.id = result.data.Id
                 })
-                .then(result => {
-                    HelpRequestsService.createVulnerabilitySnapshot(query, userName)
+                .then(() => {
+                    const requestModel = {
+                        inhId: query.id,
+                        firstName: query.FirstName,
+                        lastName: query.LastName,
+                        postcode: query.postcode
+                    }
+                    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
                         .then(result => {
                             return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
                         })
@@ -249,13 +281,14 @@ module.exports = {
     },
 
     /**
-     * @description Create a vulnerability snapshot
+     * @description Requests to edits a vulnerability snapshot for a resident
+     *
      * @param req {object} Express req object
      * @param res {object} Express res object
      * @param next {object} Express next object
      * @returns {Promise<*>}
      */
-    help_request_snapshot_post: async (req, res, next) => {
+    help_request_edit_snapshot: async (req, res, next) => {
         res.locals.query = req.body
         res.locals.isAdmin = req.auth.isAdmin
 
@@ -263,9 +296,24 @@ module.exports = {
             const query = req.body
             const userName = req.auth.name
 
-            await HelpRequestsService.createVulnerabilitySnapshot(query, userName)
+            const requestModel = {
+                inhId: query.id,
+                firstName: query.firstName,
+                lastName: query.lastName,
+                postcode: query.postcode
+            }
+            await HelpRequestsService.findVulnerabilitySnapshot(requestModel, userName)
             .then(result => {
-                return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
+                if(result.snapshots && result.snapshots.length > 0) {
+                    console.log("Snapshot found, fore resident {} {}", query.firstName, query.lastName);
+                    console.log(`Snapshot found, for resident ${query.firstName}  ${query.lastName}. Opening...`);
+                } else {
+                    console.log(`Snapshot not found, for resident ${query.firstName}  ${query.lastName}. Creating...`);
+                    HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
+                      .then(snapshot => {
+                          return res.redirect(SNAPSHOT_URL + "/snapshots/" + snapshot.id);
+                      })
+                }
             })
         } catch (err) {
             const error = new Error(err)
