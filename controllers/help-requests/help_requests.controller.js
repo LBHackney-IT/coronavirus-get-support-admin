@@ -8,6 +8,8 @@ const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldError
 
 const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again later"
 
+const SNAPSHOT_URL = process.env.SNAPSHOT_URL
+
 module.exports = {
 
      /**
@@ -173,10 +175,10 @@ module.exports = {
                 "&descriptionHtml=" + descriptionHtml
             );
         } else {
-            try {
-                const query = req.body;
-                const userName = req.auth.name
 
+            const query = req.body;
+            const userName = req.auth.name
+            try {
                 await HelpRequestsService.createHelpRequest(query, userName)
                 .then(result => {
                     if(result.isError === true){
@@ -186,13 +188,17 @@ module.exports = {
                           querystring.stringify(req.body) +
                           "&message=" + SERVER_ERROR_MSG);
                     }
-                    res.render('help-requests/help-request-create-success.njk', {query: result});
+                    // res.render('help-requests/help-request-create-success.njk', {query: result}
                 })
+                .then(result => {
+                    HelpRequestsService.createVulnerabilitySnapshot(query, userName)
+                        .then(result => {
+                            return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
+                        })
+                });
 
             } catch (err) {
-                
                 const error = new Error(err);
-
                 return next(error);
             }
         }
@@ -240,5 +246,30 @@ module.exports = {
                 return next(error);
             }
         }
-    }       
+    },
+
+    /**
+     * @description Create a vulnerability snapshot
+     * @param req {object} Express req object
+     * @param res {object} Express res object
+     * @param next {object} Express next object
+     * @returns {Promise<*>}
+     */
+    help_request_snapshot_post: async (req, res, next) => {
+        res.locals.query = req.body
+        res.locals.isAdmin = req.auth.isAdmin
+
+        try {
+            const query = req.body
+            const userName = req.auth.name
+
+            await HelpRequestsService.createVulnerabilitySnapshot(query, userName)
+            .then(result => {
+                return res.redirect(SNAPSHOT_URL + "/snapshots/" + result.id);
+            })
+        } catch (err) {
+            const error = new Error(err)
+            return next(error)
+        }
+    }
 };

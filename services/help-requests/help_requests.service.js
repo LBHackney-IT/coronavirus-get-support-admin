@@ -1,6 +1,7 @@
 const HelpRequestModel = require('../../models/help-requests/help_request.model');
 const notesHelper = require('../../helpers/notes');
 const dateHelper = require('../../helpers/date');
+const INH_SYSTEM_PREFIX = "inh-"
 
 class HelpRequestsService {
 
@@ -225,6 +226,44 @@ class HelpRequestsService {
             console.log(err);
         }
     }
-}
 
+
+    /**
+     * @description
+     * @returns {Promise<*>}
+     */
+    async createVulnerabilitySnapshot(query, userName) {
+        try {
+            let data = [];
+
+
+            const inhId = query.Id;
+            const firstName = query.FirstName;
+            const lastName = query.LastName;
+            const postcode = query.Postcode;
+
+            const request = {
+                firstName: firstName,
+                lastName: lastName,
+                dob: {},
+                postcode: postcode,
+                systemIds: [INH_SYSTEM_PREFIX + inhId],
+                createdBy: userName
+            };
+
+
+            const updatedData = JSON.stringify(request);
+
+            await HelpRequestModel.createVulnerabilitySnapshot(updatedData)
+              .then ( (result) => {
+                  data = result.data;
+              });
+
+            return data;
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
 module.exports = new HelpRequestsService;
