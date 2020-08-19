@@ -17,7 +17,8 @@
     "build:dist": "node bin/check-nvmrc.js && gulp build:dist --destination 'dist' && npm run test:build:dist",
     "test": "gulp test",
     "cypress:open": "cypress open",
-    "stub-test-requests": "node cypress/FakeHelpRequestApi.js"
+    "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
+    "cypress:run": "cypress run"
   },
   "author": "Emma Lewis emma.lewis@hackney.gov.uk",
   "license": "ISC",
