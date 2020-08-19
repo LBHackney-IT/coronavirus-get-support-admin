@@ -83,6 +83,8 @@ module.exports = {
         res.locals.query = req.body;
 
         const postcode = req.body.postcode;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
         const id = req.body.id;
 
         const errors = validator.validationResult(req);
@@ -105,7 +107,7 @@ module.exports = {
                 /**
                  * @param postcode: string - matching full or partial postcode
                  */
-                await HelpRequestsService.getAllHelpRequests({postcode: postcode})
+                await HelpRequestsService.getAllHelpRequests({postcode: postcode, FirstName: firstName, LastName: lastName})
                 .then(result => {
                     data = result;
 

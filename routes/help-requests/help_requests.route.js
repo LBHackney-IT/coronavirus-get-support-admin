@@ -41,7 +41,7 @@ router.get('/create', isAuthorised, helpRequestsController.help_request_create_g
 
 
 // POST request to get all help requests by postcode
-router.post('/search', [isAuthorised, addressValidation], (req, res, next) => {
+router.post('/search', [isAuthorised], (req, res, next) => {
     helpRequestsController.search_help_requests_post(req, res, next)
 });
 
