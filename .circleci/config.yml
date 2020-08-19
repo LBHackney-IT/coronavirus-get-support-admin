@@ -25,6 +25,8 @@ jobs:
           command: |
             export HELP_REQUESTS_API_URL=http://localhost:8080/help-requests
             export HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks
+            export FOOD_REQUESTS_API_KEY=${FOOD_REQUESTS_API_KEY}
+            export FOOD_REQUESTS_API_URL=${FOOD_REQUESTS_API_URL}
             export HELP_REQUESTS_API_KEY=
             export ADDRESSES_API_URL=${ADDRESSES_API_URL}
             export ADDRESSES_API_KEY=${ADDRESSES_API_KEY}
