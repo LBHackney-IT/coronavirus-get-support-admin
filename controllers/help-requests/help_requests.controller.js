@@ -69,7 +69,10 @@ const handleUpdate = (req, res, query, userName) => {
  * Compose notes from snapshot data
  */
 const composeNotesFromSnapshot = (snapshot) => {
-    return `Snapshot: Assets: ${snapshot.assets.map(x=>x.name).join(', ')}. Vulnerabilities  ${snapshot.vulnerabilities.map(x=>x.name).join(', ')}. Notes:  ${snapshot.notes}`
+    const assets = snapshot.assets.map(x=>x.name).join(', ') || 'N/A'
+    const vulnerabilities = snapshot.vulnerabilities.map(x=>x.name).join(', ') || 'N/A'
+    const notes = snapshot.notes ||  'N/A'
+    return `Snapshot: Assets: ${assets}. Vulnerabilities  ${vulnerabilities}. Notes:  ${notes}`
 }
 module.exports = {
      /**
