@@ -17,6 +17,30 @@ jobs:
       - run:
           name: Run unit tests
           command: npm run test
+      - run:
+          name: Run integration tests
+          command: |
+            export HELP_REQUESTS_API_URL=http://localhost:8080/help-requests
+            export HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks
+            export HELP_REQUESTS_API_KEY=
+            export ADDRESSES_API_URL=${ADDRESSES_API_URL}
+            export ADDRESSES_API_KEY=${ADDRESSES_API_KEY}
+            export TOKEN_NAME=${TOKEN_NAME}
+            export HACKNEY_JWT_SECRET=${HACKNEY_JWT_SECRET}
+            export AUTHORISED_USER_GROUP=abc
+            export AUTHORISED_ADMIN_GROUP=abc
+            export LOCAL=true
+            export LOCAL_USER_NAME='Joe Bloggs'
+            export LOCAL_IS_ADMIN=true
+            export MANAGE_FOOD_REQUESTS_ENABLED=false
+            export MANAGE_HELP_REQUESTS_ENABLED=true
+            export PAPERTRAIL_API_TOKEN=${PAPERTRAIL_API_TOKEN}
+            export TOKEN_NAME=${TOKEN_NAME}
+            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
+      - store_artifacts:
+          path: ~/repo/cypress/screenshots
+      - store_artifacts:
+          path: ~/repo/cypress/videos
 
 workflows:
   version: 2

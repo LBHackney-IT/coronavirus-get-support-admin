@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp dev",
-    "start:mock-api": "HELP_REQUESTS_API_URL=http://localhost:8080/help-requests HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks gulp dev",
+    "start-test-mode": "HELP_REQUESTS_API_URL=http://localhost:8080/help-requests HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks gulp dev",
     "heroku": "gulp copy-assets && node app.js",
     "pre-release": "node bin/check-nvmrc.js && ./bin/pre-release.sh",
     "release": "node bin/check-nvmrc.js && ./bin/release.sh",
@@ -18,7 +18,8 @@
     "test": "gulp test",
     "cypress:open": "cypress open",
     "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "int-test": "npm-run-all -p stub-test-requests start-test-mode cypress:run"
   },
   "author": "Emma Lewis emma.lewis@hackney.gov.uk",
   "license": "ISC",
@@ -37,6 +38,7 @@
     "lbh-frontend": "3.0.0",
     "morgan": "^1.10.0",
     "notifications-node-client": "^4.7.2",
+    "npm-run-all": "^4.1.5",
     "nunjucks": "^3.2.0",
     "querystring": "^0.2.0",
     "winston": "^3.2.1"
