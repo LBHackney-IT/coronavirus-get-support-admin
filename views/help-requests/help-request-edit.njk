@@ -82,11 +82,13 @@
                     "items": [
                         {
                         "value": "yes",
-                        "text": "Yes"
+                        "text": "Yes",
+                        "checked": true if query.initial_callback_completed == 'yes'
                         },
                         {
                         "value": "no",
-                        "text": "No"
+                        "text": "No",
+                        "checked": true if query.initial_callback_completed == 'no'
                         }
                         ],
                         "formGroup": {
@@ -548,11 +550,13 @@
                     "items": [
                         {
                         "value": "yes",
-                        "text": "Yes"
+                        "text": "Yes",
+                        "checked": true if query.callback_required == 'yes'
                         },
                         {
                         "value": "no",
-                        "text": "No"
+                        "text": "No",
+                        "checked": true if query.callback_required == 'no'
                         }
                         ],
                         "formGroup": {
