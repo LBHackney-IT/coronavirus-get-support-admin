@@ -18,7 +18,7 @@
     "test": "gulp test",
     "cypress:open": "cypress open",
     "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --browser firefox",
     "int-test": "npm-run-all -p stub-test-requests start-test-mode cypress:run"
   },
   "author": "Emma Lewis emma.lewis@hackney.gov.uk",
