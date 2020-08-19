@@ -72,7 +72,7 @@ const composeNotesFromSnapshot = (snapshot) => {
     const assets = snapshot.assets.map(x=>x.name).join(', ') || 'N/A'
     const vulnerabilities = snapshot.vulnerabilities.map(x=>x.name).join(', ') || 'N/A'
     const notes = snapshot.notes ||  'N/A'
-    return `Snapshot: Assets: ${assets}. Vulnerabilities  ${vulnerabilities}. Notes:  ${notes}`
+    return `Snapshot: #Assets: ${assets}. #Vulnerabilities  ${vulnerabilities}. #Notes:  ${notes}`
 }
 module.exports = {
      /**
