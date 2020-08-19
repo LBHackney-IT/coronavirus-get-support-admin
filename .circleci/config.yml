@@ -35,7 +35,7 @@ jobs:
             export LOCAL=true
             export LOCAL_USER_NAME='Joe Bloggs'
             export LOCAL_IS_ADMIN=true
-            export MANAGE_FOOD_REQUESTS_ENABLED=false
+            export MANAGE_FOOD_REQUESTS_ENABLED=true
             export MANAGE_HELP_REQUESTS_ENABLED=true
             export PAPERTRAIL_API_TOKEN=${PAPERTRAIL_API_TOKEN}
             export TOKEN_NAME=${TOKEN_NAME}
