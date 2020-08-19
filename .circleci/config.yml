@@ -16,14 +16,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install --frozen-lockfile
+          command: CYPRESS_CACHE_FOLDER=~/repo/cypress_cache npm install --frozen-lockfile
       - run:
           name: Run unit tests
           command: npm run test
-      - aws-cli/setup:
-          aws-access-key-id: CYPRESS_AWS_ACCESS_KEY_ID
-          aws-secret-access-key: CYPRESS_AWS_SECRET_ACCESS_KEY
-          aws-region: CYPRESS_AWS_REGION
       - run:
           name: Run integration tests
           command: |
