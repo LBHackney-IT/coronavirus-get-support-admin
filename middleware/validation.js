@@ -1,4 +1,4 @@
-const { check } = require('express-validator');
+const { check, oneOf } = require('express-validator');
 
 const searchValidation = [
   check("postcode", "Enter a postcode")
@@ -13,6 +13,15 @@ const searchValidation = [
     .if(
       check("searchby").contains('id'))
     .notEmpty().isInt()
+]
+
+const searchResidentValidation = [
+  oneOf(
+    [
+      check('firstName').notEmpty(),
+      check('lastName').notEmpty(),
+      check('postcode').notEmpty()
+    ], 'Enter at least one name or a postcode')
 ]
 
 const addressValidation = [
@@ -133,11 +142,21 @@ const helpRequestEditValidation = [
     .notEmpty() 
 ]
 
+
+const helpRequestCompleteValidation = [
+  check("callback_required", "Select yes if a follow up call is required.")
+      .trim()
+      .escape()
+      .notEmpty()
+]
+
 module.exports = {
   searchValidation,
+  searchResidentValidation,
   addressValidation,
   foodRequestValidation,
   deliveryLimitValidation,
   helpRequestCreateValidation,
-  helpRequestEditValidation
+  helpRequestEditValidation,
+  helpRequestCompleteValidation
 }

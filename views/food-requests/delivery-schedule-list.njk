@@ -23,6 +23,7 @@
                 })}}
 
             {% if deliveryData | length %}
+            <div class="govuk-grid-column-one-half text-align-right">
                 <form action="/food-requests/delivery-schedules/confirmed" method="post">
                     <input type="hidden" name="delivery_limit" value="{{query.delivery_limit}}">
 

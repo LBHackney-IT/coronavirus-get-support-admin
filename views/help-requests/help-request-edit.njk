@@ -38,6 +38,16 @@
 
     {% if query.Id %}
 
+    <form action="/help-requests/snapshot/{{query.Id}}" method="post">
+       <input type="hidden" name="id" value="{{query.Id}}">
+       <input type="hidden" name="FirstName" value="{{query.FirstName}}">
+       <input type="hidden" name="LastName" value="{{query.LastName}}">
+       <input type="hidden" name="postcode" value="{{query.PostCode}}">
+       <button type="submit" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
+           Go to Snapshot
+       </button>
+    </form>
+
     <form action="/help-requests/edit/{{query.Id}}" method="post">
         <input type="hidden" name="Id" value="{{query.Id}}">
         <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
@@ -55,7 +65,7 @@
                 {{query.AddressSecondLine}} <br />
                 {{query.AddressThirdLine}} <br />
                 {{query.PostCode}} <br />
-                ({{query.Ward}})
+                {{query.Ward}}
             </p>
         </div>
 
@@ -72,11 +82,13 @@
                     "items": [
                         {
                         "value": "yes",
-                        "text": "Yes"
+                        "text": "Yes",
+                        "checked": true if query.initial_callback_completed == 'yes'
                         },
                         {
                         "value": "no",
-                        "text": "No"
+                        "text": "No",
+                        "checked": true if query.initial_callback_completed == 'no'
                         }
                         ],
                         "formGroup": {
@@ -92,7 +104,7 @@
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
                 <h5 class="govuk-accordion__section-heading">
-                    <span class="govuk-accordion__section-button" id="resident-bio-heading">
+                    <span class="govuk-accordion__section-button" id="default-example-heading-1">
                     Resident Bio
                     </span>
                 </h5>
@@ -264,7 +276,7 @@
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
                 <h5 class="govuk-accordion__section-heading">
-                    <span class="govuk-accordion__section-button" id="help-needed-heading">
+                    <span class="govuk-accordion__section-button" id="default-example-heading-2">
                     Help needed
                     </span>
                 </h5>
@@ -335,7 +347,7 @@
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="support-network-heading">
+                        <span class="govuk-accordion__section-button" id="default-example-heading-1">
                         Support network
                         </span>
                     </h5>
@@ -415,7 +427,7 @@
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="privacy-heading">
+                        <span class="govuk-accordion__section-button" id="default-example-heading-1">
                         Privacy
                         </span>
                     </h5>
@@ -456,7 +468,7 @@
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header">
                     <h5 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="additional-information-heading">
+                        <span class="govuk-accordion__section-button" id="default-example-heading-1">
                         Additional Information
                         </span>
                     </h5>
@@ -538,11 +550,13 @@
                     "items": [
                         {
                         "value": "yes",
-                        "text": "Yes"
+                        "text": "Yes",
+                        "checked": true if query.callback_required == 'yes'
                         },
                         {
                         "value": "no",
-                        "text": "No"
+                        "text": "No",
+                        "checked": true if query.callback_required == 'no'
                         }
                         ],
                         "formGroup": {

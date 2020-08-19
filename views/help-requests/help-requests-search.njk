@@ -1,7 +1,7 @@
 {% from 'lbh-input/macro.njk' import lbhInput %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
-
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
@@ -11,22 +11,77 @@
   }) }}
 
   <h1 class="lbh-heading-h1">Resident lookup</h1>
+  <p class="lbh-body-m">Search for resident by postcode <strong>or</strong> name to see if we've helped them before.</p>
+
+ {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
+    }) }}
+ {% endif %}
 
   <form action="/help-requests/search" method="post">
-    <h3 class="lbh-heading-h3">Postcode:</h3>
-      {{ lbhInput({
-        "id": "postcode",
-        "name": "postcode",
-        "value": query.postcode,
-        "classes": "govuk-input--width-10",
-        "formGroup": {
-          "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
-        },
-        "errorMessage": {
-          "text": query.error_postcode
-        } if query.error_postcode else null
-      }) }}
 
+    <div class="govuk-grid-row row-margin-top-m">
+        <div class="govuk-grid-column-one-third">
+
+         <label class="govuk-label" for="postcode">Postcode</label>
+
+          {{ lbhInput({
+            "id": "postcode",
+            "name": "postcode",
+            "value": query.postcode,
+            "classes": "govuk-input--width-10",
+            "formGroup": {
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
+            },
+            "errorMessage": {
+              "text": query.error_postcode
+            } if query.error_postcode else null
+          }) }}
+
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+
+         <label class="govuk-label" for="firstName">First name</label>
+
+          {{ lbhInput({
+            "id": "firstName",
+            "name": "firstName",
+            "value": query.firstName,
+            "classes": "govuk-input--width-12",
+            "formGroup": {
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
+            },
+            "errorMessage": {
+              "text": query.error_firstName
+            } if query.error_firstName else null
+          }) }}
+
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+
+         <label class="govuk-label" for="lastName">Last name</label>
+
+          {{ lbhInput({
+            "id": "lastName",
+            "name": "lastName",
+            "value": query.lastName,
+            "classes": "govuk-input--width-12",
+            "formGroup": {
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
+            },
+            "errorMessage": {
+              "text": query.error_lastName
+            } if query.error_lastName else null
+          }) }}
+
+        </div>
+
+    </div>
     <button class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
       Search
     </button>

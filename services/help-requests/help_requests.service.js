@@ -225,6 +225,56 @@ class HelpRequestsService {
             console.log(err);
         }
     }
-}
 
+
+    /**
+     * @description
+     * @returns {Promise<*>}
+     */
+    async createVulnerabilitySnapshot(query, userName) {
+        try {
+            let data = [];
+            const request = {
+                firstName: query.firstName,
+                lastName: query.lastName,
+                dob: {},
+                postcode: query.postcode,
+                systemIds: [query.inhId.toString()],
+                createdBy: userName
+            };
+            const createData = JSON.stringify(request);
+            await HelpRequestModel.createVulnerabilitySnapshot(createData)
+              .then ( (result) => {
+                  data = result.data;
+              });
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    /**
+     * @description
+     * @returns {Promise<*>}
+     */
+    async findVulnerabilitySnapshot(query) {
+        try {
+            let data = [];
+            const request = {
+                systemIds: [query.inhId.toString()],
+                firstName: query.firstName,
+                lastName: query.lastName
+            };
+            const findData = JSON.stringify(request);
+            await HelpRequestModel.findVulnerabilitySnapshot(findData)
+              .then ( (result) => {
+                  data = result.data;
+              });
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
 module.exports = new HelpRequestsService;
