@@ -32,7 +32,7 @@ describe("search help requests", () => {
 
   it("requires a valid postcode to retrieve help request in the area", () => {
     postcode = " ";
-    cy.get("input").type(postcode);
+    cy.get("#postcode").type(postcode);
     cy.get("button").click();
     cy.get("div > form > div > span").then((el) => {
       assert.include(el.text(), "Enter a valid postcode");

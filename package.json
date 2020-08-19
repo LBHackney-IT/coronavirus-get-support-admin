@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp dev",
-    "start-test-mode": "HELP_REQUESTS_API_URL=http://localhost:8080/help-requests HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks gulp dev",
+    "start-test-mode": "TEST_MODE=true SNAPSHOT_URL=http://localhost:5000/help-requests HELP_REQUESTS_API_URL=http://localhost:8080/help-requests HELP_REQUESTS_CALLBACK_API_URL=http://localhost:8080/help-requests/callbacks gulp dev",
     "heroku": "gulp copy-assets && node app.js",
     "pre-release": "node bin/check-nvmrc.js && ./bin/pre-release.sh",
     "release": "node bin/check-nvmrc.js && ./bin/release.sh",

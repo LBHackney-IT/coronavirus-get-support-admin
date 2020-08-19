@@ -12,7 +12,7 @@ describe("view residents to contact", () => {
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "BORIS JOHNSON",
+      capitalisedFullName: "Boris Johnson",
     };
     GivenAResidentDoesNotExist(resident);
     WhenICreateARecordForTheResident(resident);
@@ -28,7 +28,7 @@ describe("view residents to contact", () => {
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "DAVID BECKHAM",
+      capitalisedFullName: "David Beckham",
     };
     let newName = "Victoria";
     GivenAResidentExists(resident);
@@ -45,7 +45,7 @@ describe("view residents to contact", () => {
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "JOHN BECKHAM",
+      capitalisedFullName: "John Beckham",
     };
     GivenAResidentExists(resident);
     WhenICompleteACallbackRequest(resident);
@@ -57,7 +57,7 @@ describe("view residents to contact", () => {
     cy.url().should("include", "/help-requests");
     cy.get("table > tbody > tr > td > a").first().click();
     cy.url().should("include", "/help-requests/search");
-    cy.get("input").type(resident.postcode);
+    cy.get("#postcode").type(resident.postcode);
     cy.get(".lbh-heading-h1").should("contain", "Resident lookup");
     cy.get("form > button").click();
     cy.get("table").should("not.contain", resident.capitalisedFullName);
@@ -75,16 +75,14 @@ describe("view residents to contact", () => {
     cy.get("#address-finder").click();
     cy.get("#address-div").should("contain", "Select address");
     cy.get("#address-select").select(resident.address);
-    cy.get('[type="checkbox"]').check("accessing food");
-    cy.get('[type="checkbox"]').check("family");
-    cy.get('[type="radio"]').check("0");
     cy.get('[type="radio"]').check("yes");
-    cy.get('[type="radio"]').check("yes");
-    cy.get('[type="radio"]').check("yes");
-    cy.get("button").contains("Save").click();
+    cy.get("button").contains("Next").click();
+    // this does not really go to dashboard but we have an issue with Cypres being unable to test cross origins
     expect(
-      cy.get(".govuk-panel__body").should("contain", "Creation successful")
+      cy.get("h1").should("contain", "Manage support for resident")
     );
+
+
   }
   function ThenTheyWillAppearInTheCallbackList(resident) {
     cy.get(".lbh-header__title-link").click();
@@ -99,7 +97,7 @@ describe("view residents to contact", () => {
     cy.get("table > tbody > tr > td > a").first().click();
     cy.url().should("include", "/help-requests/search");
     cy.get(".lbh-heading-h1").should("contain", "Resident lookup");
-    cy.get("input").type(resident.postcode);
+    cy.get("#postcode").type(resident.postcode);
     cy.get("form > button").click();
     cy.get("table").should("contain", resident.capitalisedFullName);
   }

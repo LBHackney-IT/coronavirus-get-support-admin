@@ -9,6 +9,7 @@ const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldError
 const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again later"
 
 const SNAPSHOT_URL = process.env.SNAPSHOT_URL
+const TEST_MODE = process.env.TEST_MODE
 
 /**
  * Common functionality to handle a snapshot creation
@@ -25,6 +26,11 @@ const handleSnapshotCreation = (query, userName, res) => {
 
     HelpRequestsService.createVulnerabilitySnapshot(requestModel, userName)
       .then(result => {
+          // temporary solution to overcome cypress issue of testing cross sites
+          if(TEST_MODE){
+              return res.redirect(SNAPSHOT_URL);
+          }
+
           if (!result) {
               return next(new Error("Could not create Snapshot for resident, but the resident form has been saved"));
           }

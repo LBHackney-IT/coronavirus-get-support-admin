@@ -15,12 +15,17 @@ let savedResidents = [];
 let callBackList = [];
 let callBackResponse = [];
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 app.post("/help-requests", (req, res) => {
   let resident = req.body;
   setRecordStatus(resident);
   savedResidents.push(resident);
   callBackList = savedResidents;
-  res.status(200).send(JSON.stringify({ id: req.body.id }));
+  resident.Id = getRandomInt(99);
+  res.status(200).send(JSON.stringify(resident));
   savedResidents = [];
 });
 
