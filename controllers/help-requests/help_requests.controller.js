@@ -95,7 +95,7 @@ module.exports = {
             return res.redirect(
               "/help-requests/search?" +
                 querystring.stringify(extractedErrors) +
-                "&" +
+                "&haserrors=true&" +
                 querystring.stringify(req.body) +
                 "&descriptionHtml=" + descriptionHtml
             );

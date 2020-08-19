@@ -1,7 +1,7 @@
 {% from 'lbh-input/macro.njk' import lbhInput %}
 {% from 'lbh-radios/macro.njk' import lbhRadios %}
 {% from "lbh-back-link/macro.njk" import lbhBackLink %}
-
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
 {% extends "../layouts/base.njk" %}
 
 {% block content %}
@@ -12,6 +12,14 @@
 
   <h1 class="lbh-heading-h1">Resident lookup</h1>
   <p class="lbh-body-m">Search for resident by postcode <strong>or</strong> name to see if we've helped them before.</p>
+
+ {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
+    }) }}
+ {% endif %}
 
   <form action="/help-requests/search" method="post">
 
@@ -26,7 +34,7 @@
             "value": query.postcode,
             "classes": "govuk-input--width-10",
             "formGroup": {
-              "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
             },
             "errorMessage": {
               "text": query.error_postcode
@@ -45,7 +53,7 @@
             "value": query.firstName,
             "classes": "govuk-input--width-12",
             "formGroup": {
-              "classes": "govuk-form-group--error lbh-form-group" if query.error_firstName else ''
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
             },
             "errorMessage": {
               "text": query.error_firstName
@@ -64,7 +72,7 @@
             "value": query.lastName,
             "classes": "govuk-input--width-12",
             "formGroup": {
-              "classes": "govuk-form-group--error lbh-form-group" if query.error_lastName else ''
+              "classes": "govuk-form-group--error lbh-form-group" if query.haserrors else ''
             },
             "errorMessage": {
               "text": query.error_lastName

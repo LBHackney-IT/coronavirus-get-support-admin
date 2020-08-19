@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { helpRequestCreateValidation, helpRequestEditValidation, addressValidation } = require('../../middleware/validation');
+const { helpRequestCreateValidation, helpRequestEditValidation, searchResidentValidation } = require('../../middleware/validation');
 const helpRequestsController = require('../../controllers/help-requests/help_requests.controller');
 const {isAuthorised}= require('../../middleware/auth');
 
@@ -41,7 +41,7 @@ router.get('/create', isAuthorised, helpRequestsController.help_request_create_g
 
 
 // POST request to get all help requests by postcode
-router.post('/search', [isAuthorised], (req, res, next) => {
+router.post('/search', [isAuthorised, searchResidentValidation], (req, res, next) => {
     helpRequestsController.search_help_requests_post(req, res, next)
 });
 
