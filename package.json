@@ -16,7 +16,7 @@
     "release-to-branch": "node bin/check-nvmrc.js && ./bin/release-to-branch.sh",
     "build:dist": "node bin/check-nvmrc.js && gulp build:dist --destination 'dist' && npm run test:build:dist",
     "test": "gulp test",
-    "cypress:open": "cypress open",
+    "cypress:open": "cypress open --browser firefox",
     "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
     "cypress:run": "cypress run --browser firefox",
     "int-test": "npm-run-all -p stub-test-requests start-test-mode cypress:run"

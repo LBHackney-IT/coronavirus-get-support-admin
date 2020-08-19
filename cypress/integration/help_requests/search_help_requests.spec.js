@@ -26,12 +26,12 @@ describe("search help requests", () => {
     cy.get("input").type(postcode);
     cy.get("button").click();
     cy.get("h3").then((el) => {
-      assert.include(el.text(), `No records found with postcode: ${postcode}`);
+      assert.include(el.text(), `No records found`);
     });
   });
 
   it("requires a valid postcode to retrieve help request in the area", () => {
-    postcode = "dfaw32";
+    postcode = " ";
     cy.get("input").type(postcode);
     cy.get("button").click();
     cy.get("div > form > div > span").then((el) => {
