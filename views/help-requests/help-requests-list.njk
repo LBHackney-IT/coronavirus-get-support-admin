@@ -27,8 +27,7 @@
                     isSecondary: true,
                     href: "/help-requests/search"
                 })}}
-                    </div>
-            <div class="govuk-grid-column-one-half text-align-right">
+
                 {{ lbhButton({
                     text: "Add new resident",
                     href: "/help-requests/create"
@@ -39,7 +38,7 @@
         {{ HelpRequestDataList(helpRequestsData) }}
 
     {% else %}
-        <h3 class="lbh-heading-h3">No records found with postcode: {{postcode}}</h3>
+        <h3 class="lbh-heading-h3">No records found</h3>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
@@ -48,8 +47,7 @@
                     isSecondary: true,
                     href: "/help-requests/search"
                 })}}
-            </div>
-            <div class="govuk-grid-column-one-half text-align-right">
+
                 {{ lbhButton({
                     text: "Add new resident",
                     href: "/help-requests/create"

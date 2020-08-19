@@ -66,7 +66,7 @@ describe("view residents to contact", () => {
   //     });
 
   //   cy.scrollTo("#btn-bottom-panel");
-  //   cy.get(".text-align-right > .govuk-button").click({ force: true });
+  //   cy.get(".govuk-button").click({ force: true });
   // });
 
   function GivenAResidentDoesNotExist(resident) {

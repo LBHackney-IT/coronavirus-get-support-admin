@@ -19,7 +19,7 @@ describe("manage exceptions", () => {
     cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn")
       .click()
       .then((el) => {
-        cy.get(".text-align-right > .govuk-button").contains(
+        cy.get(".govuk-button").contains(
           "Update all records"
         );
       });

@@ -21,10 +21,8 @@
                     isSecondary: true,
                     href: "/food-requests/delivery-schedules"
                 })}}
-            </div>
 
             {% if deliveryData | length %}
-            <div class="govuk-grid-column-one-half text-align-right">
                 <form action="/food-requests/delivery-schedules/confirmed" method="post">
                     <input type="hidden" name="delivery_limit" value="{{query.delivery_limit}}">
 
@@ -32,8 +30,8 @@
                     Confirm delivery report
                     </button>
                 </form>
-            </div>
             {% endif %}
+            </div>
         </div>
 
         <table class="govuk-table  lbh-table">
