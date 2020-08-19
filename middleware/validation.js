@@ -21,7 +21,7 @@ const searchResidentValidation = [
       check('firstName').notEmpty(),
       check('lastName').notEmpty(),
       check('postcode').notEmpty()
-    ], 'Either one of First Name, Last Name and Postcode should be provided')
+    ], 'Enter at least one name or a postcode')
 ]
 
 const addressValidation = [
