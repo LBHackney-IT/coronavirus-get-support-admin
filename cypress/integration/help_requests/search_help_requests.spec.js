@@ -23,19 +23,18 @@ describe("search help requests", () => {
 
   it("does not error when there are no requests from a valid postcode", () => {
     postcode = "E4";
-    cy.get("input").type(postcode);
+    cy.get("#postcode").type(postcode);
     cy.get("button").click();
     cy.get("h3").then((el) => {
       assert.include(el.text(), `No records found`);
     });
   });
 
-  it("requires a valid postcode to retrieve help request in the area", () => {
+  it("requires either name or a postcode to proceed to search", () => {
     postcode = " ";
-    cy.get("#postcode").type(postcode);
     cy.get("button").click();
-    cy.get("div > form > div > span").then((el) => {
-      assert.include(el.text(), "Enter a valid postcode");
+    cy.get(".govuk-error-summary__body > p").then((el) => {
+      assert.include(el.text(), "Enter at least one name or a postcode");
     });
   });
 });
