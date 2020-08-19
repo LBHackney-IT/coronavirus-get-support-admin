@@ -142,6 +142,14 @@ const helpRequestEditValidation = [
     .notEmpty() 
 ]
 
+
+const helpRequestCompleteValidation = [
+  check("callback_required", "Select yes if a follow up call is required.")
+      .trim()
+      .escape()
+      .notEmpty()
+]
+
 module.exports = {
   searchValidation,
   searchResidentValidation,
@@ -149,5 +157,6 @@ module.exports = {
   foodRequestValidation,
   deliveryLimitValidation,
   helpRequestCreateValidation,
-  helpRequestEditValidation
+  helpRequestEditValidation,
+  helpRequestCompleteValidation
 }
