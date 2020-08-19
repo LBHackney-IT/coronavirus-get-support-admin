@@ -239,7 +239,7 @@ class HelpRequestsService {
                 lastName: query.lastName,
                 dob: {},
                 postcode: query.postcode,
-                systemIds: [query.inhId],
+                systemIds: [query.inhId.toString()],
                 createdBy: userName
             };
             const createData = JSON.stringify(request);
@@ -258,11 +258,11 @@ class HelpRequestsService {
      * @description
      * @returns {Promise<*>}
      */
-    async findVulnerabilitySnapshot(query, userName) {
+    async findVulnerabilitySnapshot(query) {
         try {
             let data = [];
             const request = {
-                systemIds: [query.inhId],
+                systemIds: [query.inhId.toString()],
                 firstName: query.firstName,
                 lastName: query.lastName
             };
