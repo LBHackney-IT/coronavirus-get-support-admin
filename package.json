@@ -19,7 +19,7 @@
     "cypress:open": "cypress open --browser firefox",
     "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
     "cypress:run": "cypress run --browser firefox",
-    "int-test": "npm-run-all -p start-test-mode cypress:run"
+    "int-test": "start-server-and-test start-test-mode http://localhost:5000 cypress:run"
   },
   "author": "Emma Lewis emma.lewis@hackney.gov.uk",
   "license": "ISC",
@@ -93,6 +93,7 @@
     "vinyl-named-with-path": "^1.0.0",
     "vinyl-paths": "^2.1.0",
     "webpack-stream": "^5.2.1",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.2",
+    "start-server-and-test": "^1.11.0"
   }
 }
