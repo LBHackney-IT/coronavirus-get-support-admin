@@ -21,6 +21,14 @@ jobs:
           name: Run unit tests
           command: npm run test
       - run:
+            name: Run mock Api for integration tests
+            command: yarn stub-test-requests
+            background: true
+      - run:
+            name: Run test server for integration tests
+            command: start-test-mode
+            background: true
+      - run:
           name: Run integration tests
           command: |
             export HELP_REQUESTS_API_URL=http://localhost:8080/help-requests
@@ -41,7 +49,7 @@ jobs:
             export MANAGE_HELP_REQUESTS_ENABLED=true
             export PAPERTRAIL_API_TOKEN=${PAPERTRAIL_API_TOKEN}
             export TOKEN_NAME=${TOKEN_NAME}
-            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn run int-test
+            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache yarn cypress:run
       - store_artifacts:
           path: ~/repo/cypress/screenshots
       - store_artifacts:
