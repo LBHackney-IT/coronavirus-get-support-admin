@@ -27,7 +27,6 @@
         "descriptionHtml": query.descriptionHtml
     }) }}
     {% endif %}
-
     <form action="/help-requests/create" method="post">
         <input type="hidden" name="building_number" id="building_number" value="{{query.building_number}}">
         <input type="hidden" name="uprn" id="uprn" value="{{query.uprn}}">
@@ -228,7 +227,6 @@
                 "text": query.error_consent_to_share
             } if query.error_consent_to_share else null
         }) }}
-
 
 
         {% include '../partials/help-request-create-cta-btns.njk' %}
