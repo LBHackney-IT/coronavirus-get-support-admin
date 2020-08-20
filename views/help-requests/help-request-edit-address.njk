@@ -1,0 +1,65 @@
+{% from 'lbh-button/macro.njk' import lbhButton %}
+{% from 'lbh-fieldset/macro.njk' import lbhFieldset %}
+{% from 'lbh-input/macro.njk' import lbhInput %}
+{% from 'lbh-radios/macro.njk' import lbhRadios %}
+{% from "lbh-select/macro.njk" import lbhSelect %}
+{% from "lbh-date-input/macro.njk" import lbhDateInput %}
+{% from "lbh-textarea/macro.njk" import lbhTextarea %}
+{% from "lbh-back-link/macro.njk" import lbhBackLink %}
+{% from "lbh-error-summary/macro.njk" import lbhErrorSummary %}
+{% from "lbh-panel/macro.njk" import lbhPanel %}
+
+{% extends "../layouts/base.njk" %}
+
+{% block content %}
+
+    {{ lbhBackLink({
+        "href": "/help-requests/edit/" + query.Id,
+        "text": "Back"
+    }) }}
+
+    <h1 class="lbh-heading-h1">Change address</h1>
+
+
+    {% if query.haserrors %}
+    {{ lbhErrorSummary({
+        "titleText": "There is a problem",
+        "descriptionText": query.message,
+        "descriptionHtml": query.descriptionHtml
+    }) }}
+    {% endif %}
+
+    {% if query.Id %}
+
+
+    <div class="govuk-grid-column-full-with row-margin-top-m">
+        <h3 class="lbh-heading-h3">Current Address</h3>
+        <p class="lbh-body-s">
+            {{query.AddressFirstLine}}, {{query.AddressSecondLine}}, {{query.PostCode}}
+        </p>
+    </div>
+    
+
+    <form action="/help-requests/address/{{query.Id}}" method="post" class="row-margin-top-l">
+        <input type="hidden" name="Id" value="{{query.Id}}">
+        <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
+        <input type="hidden" name="AddressSecondLine" value="{{query.AddressSecondLine}}">
+        <input type="hidden" name="PostCode" value="{{query.PostCode}}">
+
+        {% include '../partials/address-lookup.njk' %}
+
+        {% include '../partials/help-request-edit-cta-btns.njk' %}
+    </form>
+
+
+    {% else %}
+    <h2 class="lbh-heading-h2">Sorry, no record found with that id.</h2>
+
+    {{ lbhButton({
+        text: "New search",
+        isSecondary: true,
+        href: "/help-requests"
+    })}}
+    {% endif %}
+
+{% endblock %}

@@ -36,6 +36,9 @@ router.get('/edit/:id', isAuthorised, helpRequestsController.help_request_get);
 // GET request to display the help request complete page
 router.get('/complete/:id', isAuthorised, helpRequestsController.help_request_complete_get);
 
+// GET request to display the help request address page
+router.get('/address/:id', isAuthorised, helpRequestsController.help_request_edit_address_get);
+
 // GET request to create a new help request
 router.get('/create', isAuthorised, helpRequestsController.help_request_create_get);
 
@@ -59,6 +62,11 @@ router.post('/complete/:id', [isAuthorised, helpRequestCompleteValidation], (req
 // POST request to create a new help request
 router.post('/create', [isAuthorised, helpRequestCreateValidation], (req, res, next) => {
     helpRequestsController.help_request_create_post(req, res, next)
+});
+
+// POST request to change a resident address
+router.post('/address/:id', [isAuthorised, addressValidation], (req, res, next) => {
+    helpRequestsController.help_request_edit_address_post(req, res, next)
 });
 
 // post request to edit a snapshot for the resident

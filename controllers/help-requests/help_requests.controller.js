@@ -238,6 +238,31 @@ module.exports = {
     },
 
     /**
+     * Get the edit address page
+     */
+    help_request_edit_address_get: async (req, res, next) => {
+        try {
+
+            if(req.query.haserrors) {
+                res.locals.query = req.query;
+
+                return res.render('help-requests/help-request-edit-address.njk');
+
+            } else {
+                await HelpRequestsService.getHelpRequest(req.params.id)
+                .then(result => {
+                    res.locals.hasupdated = req.query.hasupdated;
+                    res.render('help-requests/help-request-edit-address.njk', {query: result, hasupdated: req.query.hasupdated});
+                })
+            }
+
+        } catch (err) {
+            return next(new Error(err));
+        }
+
+    },
+
+    /**
      * @description Render a new help request form
      * @param req {object} Express req object 
      * @param res {object} Express res object
@@ -349,6 +374,60 @@ module.exports = {
                       updateRequest.callback_required = query.callback_required
                       updateRequest.initial_callback_completed = 'yes'
                       handleUpdate(req, res, updateRequest, userName)
+                  })
+
+
+
+            } catch (err) {
+                return next(new Error(err));
+            }
+        }
+    },
+
+
+    /**
+     * Submit the change of address form
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    help_request_edit_address_post: async (req, res, next) => {
+        res.locals.query = req.body;
+
+        const errors = validator.validationResult(req);
+
+        if (!errors.isEmpty()) {
+            handleFormErrors(req, res, errors, "/help-requests/address/"+req.body.Id)
+        } else {
+
+            try {
+                const query = req.body;
+                const userName = req.auth.name
+
+                // prepare partial update
+                await HelpRequestsService.getHelpRequest(req.params.id)
+                  .then(originalRecord => {
+                      // keep the original record and update only address fields
+                      let updateRequest = originalRecord
+                      updateRequest.address_first_line = query.address_first_line
+                      updateRequest.address_second_line = query.address_second_line
+                      updateRequest.address_third_line = query.address_third_line
+                      updateRequest.postcode = query.postcode
+                      updateRequest.building_number = query.building_number
+                      updateRequest.uprn = query.uprn
+                      updateRequest.ward = query.ward
+                      updateRequest.gazetteer = query.gazetteer
+
+                      HelpRequestsService.patchHelpRequestAddress(query, userName)
+                        .then(result => {
+                            if(result.isError === true){
+                                return res.redirect('/help-requests/address/' + query.Id + "/?haserrors=true&message="+ SERVER_ERROR_MSG +
+                                  "&" + querystring.stringify(req.body));
+                            }
+                            return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
+                        })
                   })
 
 
