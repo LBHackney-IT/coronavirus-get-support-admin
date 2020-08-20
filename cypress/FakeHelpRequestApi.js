@@ -21,7 +21,7 @@ app.post("/help-requests", (req, res) => {
   let resident = req.body;
   setRecordStatus(resident);
   savedResidents.push(resident);
-  resident.Id = getRandomInt(99);
+  resident.Id = getRandomInt(99) + 1;
   console.log("Saving resident: ", resident)
   res.status(200).send(resident);
 });
@@ -50,7 +50,22 @@ app.get("/help-requests/:id", (req, res) => {
   return res.status(200).send(found);
 });
 app.patch("/help-requests/:id", (req, res) => {
-  return res.status(200).send(JSON.stringify(params));
+  let found = savedResidents.filter(x=>x.Id == req.params.id)[0];
+  if(found){
+    let index = savedResidents.indexOf(found)
+    console.log("Replacing item at index: " + index)
+    // update some of the fields
+    found.FirstName = req.body.FirstName
+    found.LastName = req.body.LastName
+    found.CallbackRequired = req.body.CallbackRequired
+    found.AddressFirstLine = req.body.AddressFirstLine
+    found.AddressSecondLine = req.body.AddressSecondLine
+    found.PostCode = req.body.PostCode
+    savedResidents[index] = found
+  } else {
+    console.log("Item not found with id: ", req.params.id)
+  }
+  return res.status(200).send(found);
 
 });
 function setRecordStatus(resident, savedResidents) {

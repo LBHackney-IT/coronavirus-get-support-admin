@@ -74,10 +74,14 @@ describe("view residents to contact", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
+    cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn").click();
+    cy.get(
+      ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
+    ).then((el) => {
+      assert.include(el.text(), "Has the callback being completed");
+    });
     cy.get("#change-address").click();
-
-    cy.scrollTo("#btn-bottom-panel");
-    cy.get(".govuk-button").click({ force: true });
+    cy.get('.lbh-heading-h1').should('contain', 'Change address')
   });
 
   function GivenAResidentDoesNotExist(resident) {
