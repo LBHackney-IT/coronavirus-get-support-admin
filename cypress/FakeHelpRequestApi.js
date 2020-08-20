@@ -36,7 +36,7 @@ app.get("/help-requests", (req, res) => {
 
 app.get("/help-requests/callbacks", (req, res) => {
   console.log("Get callbacks")
-  let callbacksToDo = savedResidents.filter(x=>x.InitialCallbackCompleted == true && x.CallbackRequired == false)
+  let callbacksToDo = savedResidents.filter(x=>x.InitialCallbackCompleted == false || x.CallbackRequired == true)
   res.status(200).send(callbacksToDo);
 });
 
