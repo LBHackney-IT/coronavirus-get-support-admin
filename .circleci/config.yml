@@ -21,12 +21,12 @@ jobs:
           name: Run unit tests
           command: npm run test
       - run:
-          name: Run mock Api for integration tests
-          command: npm run stub-test-requests
-          background: true
-      - run:
           name: Run test server for integration tests
           command: npm run start-test-mode
+          background: true
+      - run:
+          name: Run mock Api for integration tests
+          command: npm run stub-test-requests
           background: true
       - run:
           name: Run integration tests
@@ -49,6 +49,7 @@ jobs:
             export MANAGE_HELP_REQUESTS_ENABLED=true
             export PAPERTRAIL_API_TOKEN=${PAPERTRAIL_API_TOKEN}
             export TOKEN_NAME=${TOKEN_NAME}
+            sleep 15 # let's wait a bit for the server to start fully
             CYPRESS_CACHE_FOLDER=~/repo/cypress_cache npm run cypress:run
       - store_artifacts:
           path: ~/repo/cypress/screenshots
