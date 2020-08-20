@@ -54,6 +54,7 @@ app.patch("/help-requests/:id", (req, res) => {
     found.FirstName = req.body.FirstName
     found.LastName = req.body.LastName
     found.CallbackRequired = req.body.CallbackRequired
+    found.InitialCallbackCompleted = req.body.InitialCallbackCompleted
     found.AddressFirstLine = req.body.AddressFirstLine
     found.AddressSecondLine = req.body.AddressSecondLine
     found.PostCode = req.body.PostCode
