@@ -49,8 +49,7 @@ jobs:
             export MANAGE_HELP_REQUESTS_ENABLED=true
             export PAPERTRAIL_API_TOKEN=${PAPERTRAIL_API_TOKEN}
             export TOKEN_NAME=${TOKEN_NAME}
-            sleep 30 # let's wait a bit for the server to start fully
-            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache npm run cypress:run
+            CYPRESS_CACHE_FOLDER=~/repo/cypress_cache npm run int-test
       - store_artifacts:
           path: ~/repo/cypress/screenshots
       - store_artifacts:
