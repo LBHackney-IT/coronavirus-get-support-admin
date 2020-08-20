@@ -65,8 +65,8 @@ describe("view residents to contact", () => {
          cy.get("#FirstName").type("Donald");
        });
 
-     cy.scrollTo("#btn-bottom-panel");
-     cy.get(".govuk-button").click({ force: true });
+     cy.get("#update-btn").click({ force: true });
+     cy.get('.govuk-panel__title').should('contain', 'Updated succesfully');
    });
 
 

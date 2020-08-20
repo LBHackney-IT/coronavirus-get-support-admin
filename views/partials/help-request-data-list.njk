@@ -19,7 +19,7 @@
                 </td>
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">
-                    <a href="/help-requests/edit/{{item.Id}}" class="js-cta-btn">View</a>
+                    <a href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
                 </td>
             </tr>
         {% endfor %}
