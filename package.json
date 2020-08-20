@@ -19,7 +19,7 @@
     "cypress:open": "cypress open --browser firefox",
     "stub-test-requests": "node cypress/FakeHelpRequestApi.js",
     "cypress:run": "cypress run --browser firefox",
-    "int-test": "npm-run-all -p stub-test-requests start-test-mode cypress:run"
+    "int-test": "npm-run-all -p start-test-mode cypress:run"
   },
   "author": "Emma Lewis emma.lewis@hackney.gov.uk",
   "license": "ISC",

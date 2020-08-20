@@ -21,10 +21,6 @@ jobs:
           name: Run unit tests
           command: npm run test
       - run:
-          name: Run test server for integration tests
-          command: npm run start-test-mode
-          background: true
-      - run:
           name: Run mock Api for integration tests
           command: npm run stub-test-requests
           background: true
