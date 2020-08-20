@@ -22,25 +22,21 @@ app.post("/help-requests", (req, res) => {
   setRecordStatus(resident);
   savedResidents.push(resident);
   resident.Id = getRandomInt(99) + 1;
-  console.log("Saving resident: ", resident)
+  console.log("Saving resident: ", resident.Id)
   res.status(200).send(resident);
 });
 
 app.get("/help-requests", (req, res) => {
   const postcode = req.query.postcode;
-  if (postcode == "E8 1DY") {
-    res.status(200).send(JSON.stringify(savedResidents));
-  } else if (postcode == "E9 1DY") {
-    res.status(200).send(JSON.stringify([residenE91DY]));
-  } else if (postcode == "E1 6PB") {
-    res.status(200).send(JSON.stringify(residenE16PB));
-  } else {
-    res.status(200).send(JSON.stringify([]));
-  }
+  console.log("Filter resident by Postcode: ", postcode)
+  let filterByPostcodeResults = savedResidents.filter(x=>x.PostCode == postcode);
+  res.status(200).send(filterByPostcodeResults);
+
 });
 
 app.get("/help-requests/callbacks", (req, res) => {
-  res.status(200).send(JSON.stringify(savedResidents));
+  console.log("Get callbacks")
+  res.status(200).send(savedResidents);
 });
 
 app.get("/help-requests/:id", (req, res) => {
