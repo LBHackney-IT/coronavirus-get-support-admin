@@ -42,32 +42,43 @@ describe("view residents to contact", () => {
   });
   */
 
-  // it("allow you to edit", () => {
-  //   cy.get('a[href*="help-requests"]').click();
-  //   cy.url().should("include", "/help-requests");
-  //   cy.get('a[href*="/help-requests/callbacks"]').click();
-  //   cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn").click();
-  //   cy.get(
-  //     ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
-  //   ).then((el) => {
-  //     assert.include(el.text(), "Has the callback being completed");
-  //   });
-  //   cy.get("#initial_callback_completed-2").click();
-  //   // open accordion
-  //   cy.get("#resident-bio-heading")
-  //     .click({
-  //       force: true,
-  //       waitForAnimations: true,
-  //       animationDistanceThreshold: 50,
-  //     })
-  //     .then((el) => {
-  //       assert.include(el.text(), "Resident Bio");
-  //       cy.get("#FirstName").type("Donald");
-  //     });
+   it("allow you to edit", () => {
+     cy.get('a[href*="help-requests"]').click();
+     cy.url().should("include", "/help-requests");
+     cy.get('a[href*="/help-requests/callbacks"]').click();
+     cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn").click();
+     cy.get(
+       ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
+     ).then((el) => {
+       assert.include(el.text(), "Has the callback being completed");
+     });
+     cy.get("#initial_callback_completed-2").click();
+     // open accordion
+     cy.get("#resident-bio-heading")
+       .click({
+         force: true,
+         waitForAnimations: true,
+         animationDistanceThreshold: 50,
+       })
+       .then((el) => {
+         assert.include(el.text(), "Resident Bio");
+         cy.get("#FirstName").type("Donald");
+       });
 
-  //   cy.scrollTo("#btn-bottom-panel");
-  //   cy.get(".govuk-button").click({ force: true });
-  // });
+     cy.scrollTo("#btn-bottom-panel");
+     cy.get(".govuk-button").click({ force: true });
+   });
+
+
+  it("allow you to change address", () => {
+    cy.get('a[href*="help-requests"]').click();
+    cy.url().should("include", "/help-requests");
+    cy.get('a[href*="/help-requests/callbacks"]').click();
+    cy.get("#change-address").click();
+
+    cy.scrollTo("#btn-bottom-panel");
+    cy.get(".govuk-button").click({ force: true });
+  });
 
   function GivenAResidentDoesNotExist(resident) {
     cy.get("table > tbody > tr > td > a").first().click({});

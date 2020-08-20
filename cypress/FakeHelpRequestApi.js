@@ -12,8 +12,6 @@ const residenE16PB = require("./fixtures/resident_E16PB.json");
 const { query } = require("../middleware/logger");
 const { post } = require("request");
 let savedResidents = [];
-let callBackList = [];
-let callBackResponse = [];
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -23,10 +21,9 @@ app.post("/help-requests", (req, res) => {
   let resident = req.body;
   setRecordStatus(resident);
   savedResidents.push(resident);
-  callBackList = savedResidents;
   resident.Id = getRandomInt(99);
-  res.status(200).send(JSON.stringify(resident));
-  savedResidents = [];
+  console.log("Saving resident: ", resident)
+  res.status(200).send(resident);
 });
 
 app.get("/help-requests", (req, res) => {
@@ -43,32 +40,18 @@ app.get("/help-requests", (req, res) => {
 });
 
 app.get("/help-requests/callbacks", (req, res) => {
-  callBackList.forEach((savedResident) => {
-    let dateofRecordCreation = new Date(
-      moment(savedResident.DateTimeRecorded)
-    ).getDate();
-    let today = new Date().getDate();
-    if (
-      today == dateofRecordCreation &&
-      savedResident.RecordStatus == "MASTER"
-    ) {
-      callBackResponse.push(savedResident);
-    }
-  });
-  res.status(200).send(JSON.stringify(callBackResponse));
-  callBackResponse = [];
-  callBackList = [];
+  res.status(200).send(JSON.stringify(savedResidents));
 });
 
 app.get("/help-requests/:id", (req, res) => {
-  if (req.params.id == 47) {
-    return res.status(200).send(JSON.stringify(residenE91DY));
-  }
+  console.log("Requesting resident with ID: ", req.params.id)
+  let found = savedResidents.filter(x=>x.Id == req.params.id)[0];
+
+  return res.status(200).send(found);
 });
 app.patch("/help-requests/:id", (req, res) => {
-  if (req.params.id == 47) {
-    return res.status(200).send(JSON.stringify(residenE91DY));
-  }
+  return res.status(200).send(JSON.stringify(params));
+
 });
 function setRecordStatus(resident, savedResidents) {
   resident.RecordStatus = "MASTER";
