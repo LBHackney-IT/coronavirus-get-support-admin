@@ -21,13 +21,13 @@ jobs:
           name: Run unit tests
           command: npm run test
       - run:
-            name: Run mock Api for integration tests
-            command: yarn stub-test-requests
-            background: true
+          name: Run mock Api for integration tests
+          command: yarn stub-test-requests
+          background: true
       - run:
-            name: Run test server for integration tests
-            command: start-test-mode
-            background: true
+          name: Run test server for integration tests
+          command: start-test-mode
+          background: true
       - run:
           name: Run integration tests
           command: |
