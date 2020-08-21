@@ -50,7 +50,7 @@ describe("view residents to contact", () => {
      cy.get(
        ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
      ).then((el) => {
-       assert.include(el.text(), "Has the callback being completed");
+       assert.include(el.text(), "Has the callback been completed");
      });
      cy.get("#initial_callback_completed-2").click();
      // open accordion
@@ -78,7 +78,7 @@ describe("view residents to contact", () => {
     cy.get(
       ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
     ).then((el) => {
-      assert.include(el.text(), "Has the callback being completed");
+      assert.include(el.text(), "Has the callback been completed");
     });
     cy.get("#change-address").click();
     cy.get('.lbh-heading-h1').should('contain', 'Change address')
