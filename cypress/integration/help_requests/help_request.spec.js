@@ -22,8 +22,8 @@ describe("view residents to contact", () => {
     let resident = {
       firstName: "David",
       lastName: "Beckham",
-      postcode: "E9 1DY",
-      address: "THE HACKNEY SERVICE CENTRE, 1 HILLMAN STREET, E8 1DY",
+      postcode: "E8 2DY",
+      address: "FLAT 100, HINDLE HOUSE, E8 2DY",
       contactNumber: "999",
       birthDay: "01",
       brithMonth: "01",
@@ -39,7 +39,7 @@ describe("view residents to contact", () => {
     let resident = {
       firstName: "John",
       lastName: "Beckham",
-      postcode: "E1 6PB",
+      postcode: "E1 6PA",
       address: "BISHOPSGATE GOODS YARD, 40 SHOREDITCH HIGH STREET, E1 6PA",
       contactNumber: "999",
       birthDay: "01",
@@ -64,7 +64,7 @@ describe("view residents to contact", () => {
   }
 
   function WhenICreateARecordForTheResident(resident) {
-    cy.get('a[href*="/help-requests/create"]').click();
+    cy.visit('/help-requests/create')
     cy.get("#FirstName").type(resident.firstName);
     cy.get("#LastName").type(resident.lastName);
     cy.get("#ContactTelephoneNumber").type(resident.contactNumber);
@@ -92,6 +92,8 @@ describe("view residents to contact", () => {
     expect(cy.contains(`${resident.capitalisedFullName}`));
   }
   function GivenAResidentExists(resident) {
+    WhenICreateARecordForTheResident(resident);
+    cy.visit("/");
     cy.get("table > tbody > tr > td > a").first().click({});
     cy.url().should("include", "/help-requests");
     cy.get("table > tbody > tr > td > a").first().click();
@@ -103,7 +105,6 @@ describe("view residents to contact", () => {
   }
   function WhenIEditTheResidentRecord(newName) {
     cy.get("td > a").click();
-    cy.url().should("include", "help-requests/edit/47");
     cy.get("#resident-bio-heading").click();
     cy.get("#FirstName").clear();
     cy.get("#FirstName").type(newName);
@@ -114,7 +115,7 @@ describe("view residents to contact", () => {
   }
 
   function WhenICompleteACallbackRequest(resident) {
-    cy.get('a[href*="help-requests/edit/47"]').click();
+    cy.get("table > tbody > tr > td > a").first().click({});
     cy.get("#initial_callback_completed").check("yes");
     cy.get("#callback_required-2").check("no");
     cy.get("button").contains("Update").click();

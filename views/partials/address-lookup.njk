@@ -1,0 +1,62 @@
+        <input type="hidden" name="building_number" id="building_number" value="{{query.building_number}}">
+        <input type="hidden" name="uprn" id="uprn" value="{{query.uprn}}">
+        <input type="hidden" name="ward" id="ward" value="{{query.ward}}">
+        <input type="hidden" name="gazetteer" id="gazetteer" value="{{query.gazetteer}}">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Search address by postcode</h3>
+
+                    {{ lbhInput({
+                        "id": "lookup_postcode",
+                        "name": "lookup_postcode",
+                        "value": query.lookup_postcode,
+                        "classes": "govuk-input--width-10",
+                        "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_postcode else ''
+                        },
+                        "errorMessage": {
+                        "text": query.error_postcode
+                        } if query.error_postcode else null
+                    }) }}
+
+                    {{ lbhButton({
+                        element: "button",
+                        text: "Search",
+                        type: "button",
+                        attributes: {"id": "address-finder", "data-api-url": addresses_api_url, "data-api-key": addresses_api_key}
+                    })}}
+
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <h3 class="lbh-heading-h3">Selected address</h3>
+                {{ lbhInput({
+                    "id": "address_first_line",
+                    "name": "address_first_line",
+                    "value": query.address_first_line,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+
+                {{ lbhInput({
+                    "id": "address_second_line",
+                    "name": "address_second_line",
+                    "value": query.address_second_line,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+
+                {{ lbhInput({
+                    "id": "address_third_line",
+                    "name": "address_third_line",
+                    "value": query.address_third_line,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+
+                {{ lbhInput({
+                    "id": "postcode",
+                    "name": "postcode",
+                    "value": query.postcode,
+                    "attributes": {"readonly": "readonly"}
+                }) }}
+
+            </div>
+        </div>

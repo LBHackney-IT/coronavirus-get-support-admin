@@ -131,7 +131,12 @@ class HelpRequestsService {
                 DobDay: query.DobDay,
                 DobMonth: query.DobMonth,
                 DobYear: query.DobYear,
+                AddressFirstLine: query.address_first_line,
+                AddressSecondLine: query.address_second_line,
+                AddressThirdLine: query.address_third_line,
+                PostCode: query.postcode,
                 Uprn: query.uprn,
+                Ward: query.ward,
                 GettingInTouchReason: query.GettingInTouchReason || '',
                 HelpWithAccessingFood: query.what_coronavirus_help.includes('accessing food') && true || false,
                 HelpWithDebtAndMoney: query.what_coronavirus_help.includes('debt and money') && true || false,
@@ -163,6 +168,43 @@ class HelpRequestsService {
     }
 
 
+
+    /**
+     * @description Patch the help request address fields
+     * @param query {object} Updated record data
+     * @param userName Person who made the update
+     * @returns {Promise<*>}
+     */
+    async patchHelpRequestAddress(query, userName) {
+        try {
+            let data = [];
+
+            const id = query.Id;
+
+            const updatedFields = {
+                AddressFirstLine: query.address_first_line,
+                AddressSecondLine: query.address_second_line,
+                AddressThirdLine: query.address_third_line,
+                PostCode: query.postcode,
+                Uprn: query.uprn,
+                Ward: query.ward
+            }
+
+            const updatedData = JSON.stringify(updatedFields);
+
+            await HelpRequestModel.updateHelpRequest(id, updatedData)
+              .then ( (result) => {
+                  data = result;
+              });
+
+            return data;
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
     /**
      * @description Create a new help request
      * @param query {object} Record data
@@ -180,7 +222,7 @@ class HelpRequestsService {
             let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '');
             caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
 
-            const updatedFields = {
+            const createFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
                 CallbackRequired: query.CallbackRequired == 'yes' && true || false,
                 FirstName: query.FirstName,
@@ -191,6 +233,8 @@ class HelpRequestsService {
                 AddressSecondLine: query.address_second_line || "",
                 AddressThirdLine: query.address_third_line || "",
                 PostCode: query.postcode,
+                Uprn: query.uprn,
+                Ward: query.ward,
                 EmailAddress: query.EmailAddress,
                 DobDay: query.DobDay,
                 DobMonth: query.DobMonth,
@@ -212,9 +256,9 @@ class HelpRequestsService {
                 DateTimeRecorded: new Date()
             }
 
-            const updatedData = JSON.stringify(updatedFields);
+            const createData = JSON.stringify(createFields);
 
-            await HelpRequestModel.createHelpRequest(updatedData)
+            await HelpRequestModel.createHelpRequest(createData)
             .then ( (result) => {
                 data = result;
             });

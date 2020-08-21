@@ -25,10 +25,13 @@ const searchResidentValidation = [
 ]
 
 const addressValidation = [
-  check("postcode", "Enter a postcode")
-    .trim().escape().notEmpty(),
-  check("postcode", "Enter a valid postcode")
-    .if(check("postcode").notEmpty()).isPostalCode("GB")
+  check('lookup_postcode', 'Select a new address to update the current address').notEmpty(),
+  check("address_first_line", "Enter the first line of the address")
+    .if(check("lookup_postcode").exists()).trim().escape().notEmpty(),
+  check("postcode", "Enter the postode")
+    .if(check("lookup_postcode").exists()).trim().escape().notEmpty(),
+  check("uprn", "Enter the UPRN")
+    .if(check("lookup_postcode").exists()).trim().escape().notEmpty()
 ]
 
 const foodRequestValidation = [
