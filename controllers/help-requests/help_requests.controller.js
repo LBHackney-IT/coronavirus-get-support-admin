@@ -2,7 +2,7 @@
 
 const validator = require('express-validator');
 const querystring = require('querystring');
-
+const notesHelper = require('../../helpers/notes');
 const HelpRequestsService = require('../../services/help-requests/help_requests.service');
 const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldErrors');
 
@@ -182,7 +182,7 @@ module.exports = {
                 await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
                     res.locals.hasupdated = req.query.hasupdated;
-                    if(result.CaseNotes.startsWith('[')){
+                    if(notesHelper.isJSON(result.CaseNotes)){
                         result.jsonCaseNotes = JSON.parse(result.CaseNotes)
                     }
                     res.render('help-requests/help-request-edit.njk', {query: result, hasupdated: req.query.hasupdated});

@@ -1,10 +1,22 @@
+
+// https://github.com/douglascrockford/JSON-js/blob/master/json2.js
+const isJSON = (text) => {
+    if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+    replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+        return true
+    }
+    return false
+}
+
+
 const appendNote = (author, newNote, noteHistory, ) => {
     const noteDate = new Date().toGMTString();
     let updatedNotes = noteHistory;
 
     if(newNote && newNote.trim().length) {
 
-        if(noteHistory.length > 0 && noteHistory.startsWith('[')){
+        if(isJSON(noteHistory)){
             // handle json (new format)
             let newItem = {
                 author: author,
@@ -23,6 +35,7 @@ const appendNote = (author, newNote, noteHistory, ) => {
     return updatedNotes;
 }
 
+
 module.exports = {
-    appendNote
+    appendNote, isJSON
 }
