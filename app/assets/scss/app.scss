@@ -33,6 +33,18 @@ html.lbh-template > body.lbh-template__body * {
   }
 }
 
+.note-container {
+  .note-header {
+    font-weight: bold;
+  }
+  .note-date {
+    color: #626a6e;
+  }
+  background-color: #f3f3f3;
+  margin-bottom: 20px;
+  padding: 1em;
+}
+
 
 .row-margin-top-s {
   margin-top: 20px !important;

@@ -343,11 +343,7 @@
                                 }) }}
                             </div>
                         </div>
-
-                        <h3 class="lbh-heading-h3">Case note history (read only):</h3>
-                        <input type="hidden" name="CaseNotes_{{item.Id}}" id="CaseNotes_{{item.Id}}" value="{{item.CaseNotes}}">
-                        <textarea readonly class="govuk-textarea lbh-textarea" rows="20">{{item.CaseNotes}}
-                        </textarea>
+                        {% include '../partials/case-notes-history.njk' %}
                     </fieldset>
 
                 </div>
