@@ -219,8 +219,7 @@ class HelpRequestsService {
 
             const currentSupport = Array.isArray(query.CurrentSupport) ? query.CurrentSupport.join() : query.CurrentSupport;
 
-            let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '');
-            caseNotes = notesHelper.appendNote(userName, query.NewCaseNote, caseNotes);
+            let caseNotes = notesHelper.appendNote(userName, recordCreatedCaseNoteText, '[]');
 
             const createFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,

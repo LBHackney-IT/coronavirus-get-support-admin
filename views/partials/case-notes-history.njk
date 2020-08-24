@@ -1,0 +1,14 @@
+<h3 class="lbh-heading-h3">Case note history:</h3>
+<input type="hidden" name="CaseNotes" value="{{query.CaseNotes}}">
+
+{% if query.jsonCaseNotes %}
+    {% for item in query.jsonCaseNotes %}
+    <div class="note-container">
+    <span class="lbh-body-m note-header">{{item.author}}</span> <span class="lbh-body-m note-date">{{item.noteDate}}</span>
+    <p class="lbh-body-m">{{item.note}}</p>
+    </div>
+    {% endfor %}
+{% else %}
+     <p class="lbh-body-m">{{query.CaseNotes}}</p>
+{% endif %}
+
