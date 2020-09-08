@@ -197,6 +197,7 @@ class HelpRequestModel {
               .then(response => {
                   data = response
               }).catch(err => {
+                  console.log('The snapshot API connection errored with:' + err)
                   data = handleAPIErrors(err, 'Axios catch Error at HelpRequestModel: ${endpoint}')
                   data.isError = true
               })
