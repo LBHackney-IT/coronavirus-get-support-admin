@@ -2,6 +2,16 @@
 {% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 
 {% block head %}
+  {% if GA_UA %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_UA }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ GA_UA }}');
+    </script>
+  {% endif %}
+
    <link rel="stylesheet" type="text/css" href="/app.css">
 {% endblock %}
 
