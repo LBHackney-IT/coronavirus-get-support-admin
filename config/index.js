@@ -10,7 +10,8 @@ module.exports = {
     local: process.env.LOCAL,
     local_user_name: process.env.LOCAL_USER_NAME,
     local_is_admin: process.env.LOCAL_IS_ADMIN || false,
-    
+    ga_ua: process.env.GA_UA,
+
     help_requests_enabled: process.env.MANAGE_HELP_REQUESTS_ENABLED || false,
     food_requests_enabled: process.env.MANAGE_FOOD_REQUESTS_ENABLED || false,
 

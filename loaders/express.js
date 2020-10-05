@@ -63,7 +63,8 @@ module.exports = {
             express: app
         })
         .addGlobal('addresses_api_url', config.addresses_api_url)
-        .addGlobal('addresses_api_key',  config.addresses_api_key);
+        .addGlobal('addresses_api_key',  config.addresses_api_key)
+        .addGlobal('GA_UA', config.ga_ua);
 
         app.set('views', path.join(__dirname, 'views'));
 
