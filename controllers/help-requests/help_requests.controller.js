@@ -191,7 +191,7 @@ module.exports = {
                 await HelpRequestsService.getHelpRequest(req.params.id)
                 .then(result => {
                     res.locals.hasupdated = req.query.hasupdated;
-                    if(notesHelper.isJSON(result.CaseNotes)){
+                    if(result.CaseNotes && notesHelper.isJSON(result.CaseNotes)){
                         result.jsonCaseNotes = JSON.parse(result.CaseNotes)
                     }
                     res.render('help-requests/help-request-edit.njk', {query: result, hasupdated: req.query.hasupdated});
