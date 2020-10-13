@@ -107,10 +107,15 @@ const helpRequestCreateValidation = [
   check("consent_to_share", "Select yes if we can share the information in this form with organisations offering help.")
     .trim()
     .escape()
-    .notEmpty() 
+    .notEmpty(),
+  check("HelpNeeded", "Select what type of help is needed")
+    .trim().escape().notEmpty(),
+
 ]
 
 const helpRequestEditValidation = [
+  check("HelpNeeded", "Select what type of help is needed")
+    .trim().escape().notEmpty(),
   check("what_coronavirus_help", "Select what you need help with.")
     .notEmpty(),
   check("CurrentSupport", "Select who is helping you at the moment.")
