@@ -122,6 +122,7 @@ class HelpRequestsService {
 
             const updatedFields = {
                 InitialCallbackCompleted: query.initial_callback_completed == 'yes' && true || false,
+                HelpNeeded: query.HelpNeeded || '',
                 CallbackRequired: query.callback_required == 'yes' && true || false,
                 FirstName: query.FirstName,
                 LastName: query.LastName,
@@ -223,6 +224,7 @@ class HelpRequestsService {
 
             const createFields = {
                 InitialCallbackCompleted: query.InitialCallbackCompleted == 'yes' && true || false,
+                HelpNeeded: query.HelpNeeded || '',
                 CallbackRequired: query.CallbackRequired == 'yes' && true || false,
                 FirstName: query.FirstName,
                 LastName: query.LastName,

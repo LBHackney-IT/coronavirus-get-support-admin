@@ -105,7 +105,16 @@ module.exports = {
     all_callbacks_get: async (req, res, next) => {
         try {
 
-            await HelpRequestsService.getAllCallbacks({master: true})
+            let params = {
+                master: true
+            }
+
+            // Add the view filter params E.g. HelpNeeded = Shielding
+            if (req.query.HelpNeeded) {
+                params.HelpNeeded = req.query.HelpNeeded;
+            }
+
+            await HelpRequestsService.getAllCallbacks(params)
             .then(result => {
                 res.render('help-requests/help-requests-callbacks-list.njk', {helpRequestsData: result});
             })

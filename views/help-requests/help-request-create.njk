@@ -168,6 +168,42 @@
                 "text": query.error_consent_to_share
             } if query.error_consent_to_share else null
         }) }}
+        
+        <hr />
+        
+        {{ lbhRadios({
+            "fieldset": {
+                "legend": {
+                "text": "What type of help is needed?"
+                }
+            },
+            "id": "HelpNeeded",
+            "name": "HelpNeeded",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                "value": "Help Request",
+                "text": "Help Request",
+                "checked": true if query.HelpNeeded and "Help Request" in query.HelpNeeded else false
+                },
+                {
+                "value": "Shielding",
+                "text": "Shielding",
+                "checked": true if query.HelpNeeded and "Shielding" in query.HelpNeeded else false
+                },
+                {
+                "value": "Welfare Call",
+                "text": "Welfare Call",
+                "checked": true if query.HelpNeeded and "Welfare Call" in query.HelpNeeded else false
+                }
+            ],
+            "formGroup": {
+            "classes": "govuk-form-group--error lbh-form-group" if query.error_HelpNeeded else ''
+            },
+            "errorMessage": {
+            "text": query.error_HelpNeeded
+            } if query.error_HelpNeeded else null
+        }) }}
 
 
         {% include '../partials/help-request-create-cta-btns.njk' %}
