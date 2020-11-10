@@ -8,12 +8,12 @@ describe("view residents to contact", () => {
       firstName: "Boris 2.0",
       lastName: "Johnson",
       postcode: "E8 1DY",
-      address: "THE HACKNEY SERVICE CENTRE, 1 HILLMAN STREET, E8 1DY",
+      address: "HACKNEY SERVICE CENTRE, 1 HILLMAN STREET, E8 1DY",
       contactNumber: "999",
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "Boris 2.0 Johnson",
+      capitalisedFullName: "Boris 2.0 Johnson"
     };
     GivenAResidentDoesNotExist(resident);
     WhenICreateARecordForTheResident(resident);
@@ -42,52 +42,59 @@ describe("view residents to contact", () => {
   });
   */
 
-   it("allow you to edit", () => {
-     cy.get('a[href*="help-requests"]').click();
-     cy.url().should("include", "/help-requests");
-     cy.get('a[href*="/help-requests/callbacks"]').click();
-     cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn").click();
-     cy.get(
-       ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
-     ).then((el) => {
-       assert.include(el.text(), "Has the callback been completed");
-     });
-     cy.get("#initial_callback_completed-2").click();
-     // open accordion
-     cy.get("#resident-bio-heading")
-       .click({
-         force: true,
-         waitForAnimations: true,
-         animationDistanceThreshold: 50,
-       })
-       .then((el) => {
-         assert.include(el.text(), "Resident Bio");
-         cy.get("#FirstName").type("Donald");
-       });
+  it("allow you to edit", () => {
+    cy.get('a[href*="help-requests"]').click();
+    cy.url().should("include", "/help-requests");
+    cy.get('a[href*="/help-requests/callbacks"]').click();
+    cy.get("[data-testid=view-button]")
+      .first()
+      .click();
+    cy.get(".govuk-fieldset__legend")
+      .first()
+      .should("contain", "Has the callback been completed");
 
-     cy.get("#update-btn").click({ force: true });
-     cy.get('.govuk-panel__title').should('contain', 'Updated succesfully');
-   });
+    cy.get("#initial_callback_completed-2").click({ force: true });
+    // open accordion
+    cy.get("#resident-bio-heading")
+      .click({
+        force: true,
+        waitForAnimations: true,
+        animationDistanceThreshold: 50
+      })
+      .then(el => {
+        assert.include(el.text(), "Resident Bio");
+        cy.get("#FirstName")
+        .type("Donald", { force: true });
+      });
 
+    cy.get("#update-btn").click({ force: true });
+    cy.get(".govuk-panel__title").should("contain", "Updated succesfully");
+  });
 
   it("allow you to change address", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get(":nth-child(1) > :nth-child(4) > .js-cta-btn").click();
-    cy.get(
-      ":nth-child(9) > .govuk-form-group > .govuk-fieldset > .govuk-fieldset__legend"
-    ).then((el) => {
-      assert.include(el.text(), "Has the callback been completed");
-    });
+    cy.get("[data-testid=view-button]")
+      .first()
+      .click();
+    cy.get(".govuk-fieldset__legend")
+      .first()
+      .should("contain", "Has the callback been completed");
+
+    cy.get("#initial_callback_completed-2").click({ force: true });
     cy.get("#change-address").click();
-    cy.get('.lbh-heading-h1').should('contain', 'Change address')
+    cy.get(".lbh-heading-h1").should("contain", "Change address");
   });
 
   function GivenAResidentDoesNotExist(resident) {
-    cy.get("table > tbody > tr > td > a").first().click({});
+    cy.get("table > tbody > tr > td > a")
+      .first()
+      .click({});
     cy.url().should("include", "/help-requests");
-    cy.get("table > tbody > tr > td > a").first().click();
+    cy.get("table > tbody > tr > td > a")
+      .first()
+      .click();
     cy.url().should("include", "/help-requests/search");
     cy.get("#postcode").type(resident.postcode);
     cy.get(".lbh-heading-h1").should("contain", "Resident lookup");
@@ -100,23 +107,26 @@ describe("view residents to contact", () => {
     cy.get("#FirstName").type(resident.firstName);
     cy.get("#LastName").type(resident.lastName);
     cy.get("#ContactTelephoneNumber").type(resident.contactNumber);
-    cy.get("#DobDay").type(resident.birthDay);
-    cy.get("#DobMonth").type(resident.brithMonth);
-    cy.get("#DobYear").type(resident.birthYear);
-    cy.get("#lookup_postcode").type(resident.postcode);
-    cy.get("#address-finder").click();
+    cy.get("#DobDay").type(resident.birthDay, { force: true });
+    cy.get("#DobMonth").type(resident.brithMonth, { force: true });
+    cy.get("#DobYear").type(resident.birthYear, { force: true });
+    cy.get("#lookup_postcode").type(resident.postcode, { force: true });
+    cy.get("#address-finder").click({ force: true });
     cy.get("#address-div").should("contain", "Select address");
-    cy.get("#address-select").select(resident.address);
-    cy.get('[type="radio"]').check("yes");
-    cy.get("button").contains("Next").click();
+    cy.get("#address-select").select("0", { force: true });
+    cy.get("#consent_to_share").check("yes", { force: true });
+    cy.get("#HelpNeeded").check("Help Request", { force: true });
+    cy.get("button")
+      .contains("Next")
+      .click({ force: true });
     // this does not really go to dashboard but we have an issue with Cypres being unable to test cross origins
-    expect(
-      cy.get("h1").should("contain", "Manage support for resident")
-    );
+    expect(cy.get("h1").should("contain", "Manage support for resident"));
   }
   function ThenTheyWillAppearInTheCallbackList(resident) {
     cy.get(".lbh-header__title-link").click();
-    cy.get("table > tbody > tr > td > a").first().click({});
+    cy.get("table > tbody > tr > td > a")
+      .first()
+      .click({});
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="help-requests/callbacks"]').click();
     expect(cy.contains(`${resident.capitalisedFullName}`));

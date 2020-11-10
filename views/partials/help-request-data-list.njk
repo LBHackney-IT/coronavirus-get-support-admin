@@ -21,7 +21,7 @@
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">{{item.HelpNeeded}}</td>
                 <td class="govuk-table__cell">
-                    <a href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
+                    <a data-testid="view-button"  href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
                 </td>
             </tr>
         {% endfor %}

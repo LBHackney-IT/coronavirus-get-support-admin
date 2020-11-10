@@ -1,4 +1,4 @@
-describe("view residents to contact", () => {
+describe("help requests", () => {
   beforeEach(() => {
     cy.visit("/");
   });
@@ -39,8 +39,8 @@ describe("view residents to contact", () => {
     let resident = {
       firstName: "John",
       lastName: "Beckham",
-      postcode: "E1 6PA",
-      address: "BISHOPSGATE GOODS YARD, 40 SHOREDITCH HIGH STREET, E1 6PA",
+      postcode: "E8 2AB",
+      address: "63 DALSTON LANE,  HACKNEY,  LONDON, E8 2AB",
       contactNumber: "999",
       birthDay: "01",
       brithMonth: "01",
@@ -75,15 +75,15 @@ describe("view residents to contact", () => {
     cy.get("#DobDay").type(resident.birthDay, { force: true });
     cy.get("#DobMonth").type(resident.brithMonth, { force: true });
     cy.get("#DobYear").type(resident.birthYear, { force: true });
-    cy.get("#lookup_postcode").type(resident.postcode);
+    cy.get("#lookup_postcode").type(resident.postcode, { force: true });
     cy.get("#address-finder").click({ force: true });
     cy.get("#address-div").should("contain", "Select address");
-    cy.get("#address-select").select("0");
-    cy.get("#consent_to_share").check("yes");
-    cy.get("#HelpNeeded").check("Help Request");
+    cy.get("#address-select").select("0", { force: true });
+    cy.get("#consent_to_share").check("yes", { force: true });
+    cy.get("#HelpNeeded").check("Help Request", { force: true });
     cy.get("button")
       .contains("Next")
-      .click();
+      .click({ force: true });
     // this does not really go to dashboard but we have an issue with Cypres being unable to test cross origins
     expect(cy.get("h1").should("contain", "Manage support for resident"));
   }
@@ -113,13 +113,15 @@ describe("view residents to contact", () => {
     cy.get("table").should("contain", resident.capitalisedFullName);
   }
   function WhenIEditTheResidentRecord(newName) {
-    cy.get("td > a").click();
-    cy.get("#resident-bio-heading").click();
-    cy.get("#FirstName").clear();
-    cy.get("#FirstName").type(newName);
+    cy.get("[data-testid=view-button]")
+      .first()
+      .click();
+    cy.get("#resident-bio-heading").click({ force: true });
+    cy.get("#FirstName").clear({ force: true });
+    cy.get("#FirstName").type(newName, { force: true });
     cy.get("button")
       .contains("Update")
-      .click();
+      .click({ force: true });
   }
   function ThenTheyWillBeUpdated() {
     expect(cy.contains("Updated succesfully"));
@@ -129,11 +131,11 @@ describe("view residents to contact", () => {
     cy.get("table > tbody > tr > td > a")
       .first()
       .click({});
-    cy.get("#initial_callback_completed").check("yes");
+    cy.get("#initial_callback_completed").check("yes", { force: true });
     cy.get("#callback_required-2").check("no");
     cy.get("button")
       .contains("Update")
-      .click();
+      .click({ force: true });
   }
   function ThenItWillBeRemovedFromTheCallbackList(resident) {
     cy.get(".lbh-header__title-link").click();
