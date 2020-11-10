@@ -14,9 +14,9 @@ describe("help requests", () => {
       birthYear: "1975",
       capitalisedFullName: "Boris Johnson"
     };
-    GivenAResidentDoesNotExist(resident);
-    WhenICreateARecordForTheResident(resident);
-    ThenTheyWillAppearInTheCallbackList(resident);
+    cy.GivenAResidentDoesNotExist(resident);
+    cy.WhenICreateARecordForTheResident(resident);
+    cy.ThenTheyWillAppearInTheCallbackList(resident);
   });
   it("can edit an existing resident record", () => {
     let resident = {
@@ -52,52 +52,8 @@ describe("help requests", () => {
     ThenItWillBeRemovedFromTheCallbackList(resident);
   });
 
-  function GivenAResidentDoesNotExist(resident) {
-    cy.get("table > tbody > tr > td > a")
-      .first()
-      .click({});
-    cy.url().should("include", "/help-requests");
-    cy.get("table > tbody > tr > td > a")
-      .first()
-      .click();
-    cy.url().should("include", "/help-requests/search");
-    cy.get("#postcode").type(resident.postcode);
-    cy.get(".lbh-heading-h1").should("contain", "Resident lookup");
-    cy.get("form > button").click();
-    cy.get("table").should("not.contain", resident.capitalisedFullName);
-  }
-
-  function WhenICreateARecordForTheResident(resident) {
-    cy.visit("/help-requests/create");
-    cy.get("#FirstName").type(resident.firstName);
-    cy.get("#LastName").type(resident.lastName);
-    cy.get("#ContactTelephoneNumber").type(resident.contactNumber);
-    cy.get("#DobDay").type(resident.birthDay, { force: true });
-    cy.get("#DobMonth").type(resident.brithMonth, { force: true });
-    cy.get("#DobYear").type(resident.birthYear, { force: true });
-    cy.get("#lookup_postcode").type(resident.postcode, { force: true });
-    cy.get("#address-finder").click({ force: true });
-    cy.get("#address-div").should("contain", "Select address");
-    cy.get("#address-select").select("0", { force: true });
-    cy.get("#consent_to_share").check("yes", { force: true });
-    cy.get("#HelpNeeded").check("Help Request", { force: true });
-    cy.get("button")
-      .contains("Next")
-      .click({ force: true });
-    // this does not really go to dashboard but we have an issue with Cypres being unable to test cross origins
-    expect(cy.get("h1").should("contain", "Manage support for resident"));
-  }
-  function ThenTheyWillAppearInTheCallbackList(resident) {
-    cy.get(".lbh-header__title-link").click();
-    cy.get("table > tbody > tr > td > a")
-      .first()
-      .click({});
-    cy.url().should("include", "/help-requests");
-    cy.get('a[href*="help-requests/callbacks"]').click();
-    expect(cy.contains(`${resident.capitalisedFullName}`));
-  }
   function GivenAResidentExists(resident) {
-    WhenICreateARecordForTheResident(resident);
+    cy.WhenICreateARecordForTheResident(resident);
     cy.visit("/");
     cy.get("table > tbody > tr > td > a")
       .first()
