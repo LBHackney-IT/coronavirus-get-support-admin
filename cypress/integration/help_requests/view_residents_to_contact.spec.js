@@ -8,7 +8,7 @@ describe("view residents to contact", () => {
       firstName: "Boris 2.0",
       lastName: "Johnson",
       postcode: "E8 1DY",
-      address: "HACKNEY SERVICE CENTRE, 1 HILLMAN STREET, E8 1DY",
+      address: "Somewhere, over the rainbow, E8 1DY",
       contactNumber: "999",
       birthDay: "01",
       brithMonth: "01",
@@ -63,8 +63,7 @@ describe("view residents to contact", () => {
       })
       .then(el => {
         assert.include(el.text(), "Resident Bio");
-        cy.get("#FirstName")
-        .type("Donald", { force: true });
+        cy.get("#FirstName").type("Donald", { force: true });
       });
 
     cy.get("#update-btn").click({ force: true });
