@@ -1,0 +1,54 @@
+{
+  "data": {
+    "address": [
+      {
+        "line1": "Somewhere",
+        "line2": "over the rainbow",
+        "line3": " HACKNEY",
+        "line4": " LONDON",
+        "town": "LONDON",
+        "postcode": "E8 1DY",
+        "UPRN": 123456789,
+        "addressKey": "12345679",
+        "usrn": 123456789,
+        "addressStatus": "Approved",
+        "unitName": "",
+        "buildingName": "HACKNEY TOWN HALL",
+        "buildingNumber": "",
+        "street": "over the rainbow"
+      },
+      {
+        "line1": "Edge",
+        "line2": "of glory",
+        "line3": " HACKNEY",
+        "line4": " LONDON",
+        "town": "LONDON",
+        "postcode": "E8 2DY",
+        "UPRN": 123456789,
+        "addressKey": "12345679",
+        "usrn": 123456789,
+        "addressStatus": "Approved",
+        "unitName": "",
+        "buildingName": "HACKNEY TOWN HALL",
+        "buildingNumber": "",
+        "street": "over the rainbow"
+      },
+      {
+        "line1": "moment of truth",
+        "line2": "HACKNEY",
+        "line3": " HACKNEY",
+        "line4": " LONDON",
+        "town": "LONDON",
+        "postcode": "E8 2AB",
+        "UPRN": 123456789,
+        "addressKey": "12345679",
+        "usrn": 123456789,
+        "addressStatus": "Approved",
+        "unitName": "",
+        "buildingName": "HACKNEY TOWN HALL",
+        "buildingNumber": "",
+        "street": "moment of truth"
+      }
+    ]
+  }
+}
