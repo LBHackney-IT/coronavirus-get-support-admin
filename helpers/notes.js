@@ -13,14 +13,15 @@ const appendNote = (author, newNote, noteHistory) => {
   let updatedNotes = noteHistory;
 
   if (newNote && newNote.trim().length) {
-    if (isJSON(noteHistory)) {
+    if (isJSON(noteHistory) || !noteHistory) {
       // handle json (new format)
       let newItem = {
         author: author,
         noteDate: noteDate,
         note: newNote
       };
-      let jsonNoteHistory = JSON.parse(noteHistory) || [];
+      const jsonNoteHistory = !noteHistory ? [] : JSON.parse(noteHistory);
+
       jsonNoteHistory.push(newItem);
       updatedNotes = JSON.stringify(jsonNoteHistory);
     } else {
