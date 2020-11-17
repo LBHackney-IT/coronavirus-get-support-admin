@@ -339,8 +339,28 @@
                     "items": [
                         {
                             "value": "accessing food",
-                            "text": "Accessing food",
+                            "text": "Accessing food via voluntary sector",
                             "checked": true if query.what_coronavirus_help and "accessing food" in query.what_coronavirus_help else false
+                        },
+                        {
+                            "value": "food via supermarket",
+                            "text": "Accessing food via priority supermarket delivery",
+                            "checked": true if query.what_coronavirus_help and "food via supermarket" in query.what_coronavirus_help else false
+                        },
+                        {
+                            "value": "nss form support",
+                            "text": "Support completing NSS form",
+                            "checked": true if query.what_coronavirus_help and "nss form support" in query.what_coronavirus_help else false
+                        },
+                        {
+                            "value": "shielding guidance",
+                            "text": "General guidance about Shielding",
+                            "checked": true if query.what_coronavirus_help and "shielding guidance" in query.what_coronavirus_help else false
+                        },
+                        {
+                            "value": "no needs",
+                            "text": "No needs identified",
+                            "checked": true if query.what_coronavirus_help and "no needs" in query.what_coronavirus_help else false
                         },
                         {
                             "value": "debt and money",
