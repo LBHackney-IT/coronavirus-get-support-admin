@@ -84,8 +84,7 @@ Addresses.prototype.getAddressData = function(postcode, buildingNumber, page) {
     queryString += "&gazetteer=local";
   }
 
-  queryString +="&format=detailed";
-
+  queryString += "&format=detailed";
 
   xhttp.open("GET", this.API_URL + queryString, true);
   xhttp.setRequestHeader("x-api-key", this.API_KEY);
@@ -108,7 +107,7 @@ Addresses.prototype.processAddresses = function() {
         '" data-postcode="' +
         this.addresses[i].postcode +
         '" data-uprn="' +
-        this.addresses[i].uprn +
+        this.addresses[i].UPRN +
         '" data-gazetteer="' +
         this.addresses[i].gazetteer +
         '" data-ward="' +
@@ -125,8 +124,8 @@ Addresses.prototype.processAddresses = function() {
     if (this.allowManualEntry) {
       innerHTML +=
         '</select><p class="lbh-body-m">Or <a href="" class="lbh-link" id="manual-address-button">enter address manually</a>';
-    };
-    
+    }
+
     var select = document.getElementById("address-div");
     if (select == null) {
       select = document.createElement("div");
@@ -142,7 +141,8 @@ Addresses.prototype.processAddresses = function() {
       .getElementById("address-select")
       .addEventListener("change", this.populateChosenAddress.bind(this));
   } else {
-    var html = '<p class="lbh-body-m">No addresses found, please check your details and try again</p>';
+    var html =
+      '<p class="lbh-body-m">No addresses found, please check your details and try again</p>';
 
     if (this.allowManualEntry) {
       html =
