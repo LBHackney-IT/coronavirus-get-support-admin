@@ -113,6 +113,7 @@ class HelpRequestsService {
     try {
       let data = [];
 
+      query.what_coronavirus_help = query.what_coronavirus_help || [];
       const id = query.Id;
       const currentSupport = Array.isArray(query.CurrentSupport)
         ? query.CurrentSupport.join()

@@ -1,78 +1,123 @@
-const { check, oneOf } = require('express-validator');
+const { check, oneOf } = require("express-validator");
 
 const searchValidation = [
   check("postcode", "Enter a postcode")
-    .if(
-      check("searchby").contains('postcode'))
-    .trim().escape().notEmpty(),
+    .if(check("searchby").contains("postcode"))
+    .trim()
+    .escape()
+    .notEmpty(),
   check("postcode", "Enter a valid postcode")
-    .if(
-      check("searchby").contains('postcode'))
-    .notEmpty().isPostalCode("GB"),
+    .if(check("searchby").contains("postcode"))
+    .notEmpty()
+    .isPostalCode("GB"),
   check("id", "Enter a valid Annex ID")
-    .if(
-      check("searchby").contains('id'))
-    .notEmpty().isInt()
-]
+    .if(check("searchby").contains("id"))
+    .notEmpty()
+    .isInt()
+];
 
 const searchResidentValidation = [
   oneOf(
     [
-      check('firstName').notEmpty(),
-      check('lastName').notEmpty(),
-      check('postcode').notEmpty()
-    ], 'Enter at least one name or a postcode')
-]
+      check("firstName").notEmpty(),
+      check("lastName").notEmpty(),
+      check("postcode").notEmpty()
+    ],
+    "Enter at least one name or a postcode"
+  )
+];
 
 const addressValidation = [
-  check('lookup_postcode', 'Select a new address to update the current address').notEmpty(),
+  check(
+    "lookup_postcode",
+    "Select a new address to update the current address"
+  ).notEmpty(),
   check("address_first_line", "Enter the first line of the address")
-    .if(check("lookup_postcode").exists()).trim().escape().notEmpty(),
+    .if(check("lookup_postcode").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("postcode", "Enter the postode")
-    .if(check("lookup_postcode").exists()).trim().escape().notEmpty(),
+    .if(check("lookup_postcode").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("uprn", "Enter the UPRN")
-    .if(check("lookup_postcode").exists()).trim().escape().notEmpty()
-]
+    .if(check("lookup_postcode").exists())
+    .trim()
+    .escape()
+    .notEmpty()
+];
 
 const foodRequestValidation = [
   check("OngoingFoodNeed", "Choose an option")
-    .trim().escape().notEmpty(),
+    .trim()
+    .escape()
+    .notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
-    .trim().escape().isInt({min: 1, max: 31}),
+    .trim()
+    .escape()
+    .isInt({ min: 1, max: 31 }),
   check("last_confirmed_food_delivery_month", "Enter a month")
-    .trim().escape().isInt({min: 1, max: 12}),
+    .trim()
+    .escape()
+    .isInt({ min: 1, max: 12 }),
   check("last_confirmed_food_delivery_year", "Enter a year")
-    .trim().escape().isLength({min: 4, max: 4}).isInt(),
+    .trim()
+    .escape()
+    .isLength({ min: 4, max: 4 })
+    .isInt(),
   check("FirstName", "Enter the first name")
-    .if(check("FirstName").exists()).trim().escape().notEmpty(),
+    .if(check("FirstName").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("LastName", "Enter the last name")
-    .if(check("LastName").exists()).trim().escape().notEmpty(),
+    .if(check("LastName").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("AddressFirstLine", "Enter the first line of the address")
-    .if(check("AddressFirstLine").exists()).trim().escape().notEmpty(),
+    .if(check("AddressFirstLine").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("Postcode", "Enter the postode")
-    .if(check("Postcode").exists()).trim().escape().notEmpty(),
+    .if(check("Postcode").exists())
+    .trim()
+    .escape()
+    .notEmpty(),
   check("Uprn", "Enter the UPRN")
-    .if(check("Uprn").exists()).trim().escape().notEmpty()
-]
+    .if(check("Uprn").exists())
+    .trim()
+    .escape()
+    .notEmpty()
+];
 
 const deliveryLimitValidation = [
   check("delivery_limit", "Enter a delivery limit greater than 0")
-    .trim().escape().notEmpty().isInt({min: 1})
-]
+    .trim()
+    .escape()
+    .notEmpty()
+    .isInt({ min: 1 })
+];
 
 const helpRequestCreateValidation = [
-  check("InitialCallbackCompleted", "Select if the initial callback has been completed.")
-    .notEmpty(),
-  check("CallbackRequired", "Select if a follow up callback is required.")
-    .notEmpty(),
-  check("what_coronavirus_help", "Select what you need help with.")
-    .notEmpty(),
-  check("CurrentSupport", "Select who is helping you at the moment.")
-    .notEmpty(),
-  check("FirstName", "Enter your first name.")
-      .notEmpty(),
-  check("LastName", "Enter your last name.")
-    .notEmpty(),
+  check(
+    "InitialCallbackCompleted",
+    "Select if the initial callback has been completed."
+  ).notEmpty(),
+  check(
+    "CallbackRequired",
+    "Select if a follow up callback is required."
+  ).notEmpty(),
+  check("what_coronavirus_help", "Select what you need help with.").notEmpty(),
+  check(
+    "CurrentSupport",
+    "Select who is helping you at the moment."
+  ).notEmpty(),
+  check("FirstName", "Enter your first name.").notEmpty(),
+  check("LastName", "Enter your last name.").notEmpty(),
   check("address_first_line", "Enter the first line of the address")
     .trim()
     .escape()
@@ -96,34 +141,51 @@ const helpRequestCreateValidation = [
     .trim()
     .escape()
     .notEmpty(),
-  check("ContactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+  check(
+    "ContactTelephoneNumber",
+    "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
+  )
     .trim()
     .escape()
     .notEmpty(),
-  check("NumberOfChildrenUnder18", "Select the number of children under 18 in your household.")
+  check(
+    "NumberOfChildrenUnder18",
+    "Select the number of children under 18 in your household."
+  )
     .trim()
     .escape()
     .notEmpty(),
-  check("consent_to_share", "Select yes if we can share the information in this form with organisations offering help.")
+  check(
+    "consent_to_share",
+    "Select yes if we can share the information in this form with organisations offering help."
+  )
     .trim()
     .escape()
     .notEmpty(),
   check("HelpNeeded", "Select what type of help is needed")
-    .trim().escape().notEmpty(),
-
-]
+    .trim()
+    .escape()
+    .notEmpty()
+];
 
 const helpRequestEditValidation = [
   check("HelpNeeded", "Select what type of help is needed")
-    .trim().escape().notEmpty(),
-  check("what_coronavirus_help", "Select what you need help with.")
+    .trim()
+    .escape()
     .notEmpty(),
-  check("CurrentSupport", "Select who is helping you at the moment.")
-    .notEmpty(),
-  check("FirstName", "Enter your first name.")
-      .notEmpty(),
-  check("LastName", "Enter your last name.")
-    .notEmpty(),
+  oneOf(
+    [
+      check("what_coronavirus_help").notEmpty(),
+      check("initial_callback_completed").custom(value => value === "no")
+    ],
+    "Select that the initial callback has not been completed or select what you need help with."
+  ),
+  check(
+    "CurrentSupport",
+    "Select who is helping you at the moment."
+  ).notEmpty(),
+  check("FirstName", "Enter your first name.").notEmpty(),
+  check("LastName", "Enter your last name.").notEmpty(),
   check("DobDay", "Enter a day of birth")
     .trim()
     .escape()
@@ -136,27 +198,35 @@ const helpRequestEditValidation = [
     .trim()
     .escape()
     .notEmpty(),
-  check("ContactTelephoneNumber", "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192.")
+  check(
+    "ContactTelephoneNumber",
+    "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
+  )
     .trim()
     .escape()
     .notEmpty(),
-  check("NumberOfChildrenUnder18", "Select the number of children under 18 in your household.")
+  check(
+    "NumberOfChildrenUnder18",
+    "Select the number of children under 18 in your household."
+  )
     .trim()
     .escape()
     .notEmpty(),
-  check("consent_to_share", "Select yes if we can share the information in this form with organisations offering help.")
+  check(
+    "consent_to_share",
+    "Select yes if we can share the information in this form with organisations offering help."
+  )
     .trim()
     .escape()
-    .notEmpty() 
-]
-
+    .notEmpty()
+];
 
 const helpRequestCompleteValidation = [
   check("callback_required", "Select yes if a follow up call is required.")
-      .trim()
-      .escape()
-      .notEmpty()
-]
+    .trim()
+    .escape()
+    .notEmpty()
+];
 
 module.exports = {
   searchValidation,
@@ -167,4 +237,4 @@ module.exports = {
   helpRequestCreateValidation,
   helpRequestEditValidation,
   helpRequestCompleteValidation
-}
+};
