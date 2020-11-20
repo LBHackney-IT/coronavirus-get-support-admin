@@ -175,15 +175,14 @@ const helpRequestEditValidation = [
     .notEmpty(),
   oneOf(
     [
-      check("what_coronavirus_help").notEmpty(),
+      [
+        check("what_coronavirus_help").notEmpty(),
+        check("CurrentSupport").notEmpty()
+      ],
       check("initial_callback_completed").custom(value => value === "no")
     ],
-    "Select that the initial callback has not been completed or select what you need help with."
+    "Select that the initial callback has not been completed or select what you need help with and who is helping you at the moment."
   ),
-  check(
-    "CurrentSupport",
-    "Select who is helping you at the moment."
-  ).notEmpty(),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
   check("DobDay", "Enter a day of birth")
