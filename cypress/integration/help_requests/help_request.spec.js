@@ -88,6 +88,14 @@ describe("help requests", () => {
       .first()
       .click({});
     cy.get("#initial_callback_completed").check("yes", { force: true });
+    cy.get("#NumberOfChildrenUnder18").check("0", { force: true });
+    cy.get(".govuk-accordion__open-all").click({ force: true });
+    cy.get("#CurrentSupport > .govuk-checkboxes__item > input")
+      .first()
+      .check({ force: true });
+    cy.get("#what_coronavirus_help > .govuk-checkboxes__item > input")
+      .first()
+      .check({ force: true });
     cy.get("#callback_required-2").check("no");
     cy.get("button")
       .contains("Update")
