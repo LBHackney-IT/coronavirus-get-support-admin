@@ -111,11 +111,6 @@ const helpRequestCreateValidation = [
     "CallbackRequired",
     "Select if a follow up callback is required."
   ).notEmpty(),
-  check("what_coronavirus_help", "Select what you need help with.").notEmpty(),
-  check(
-    "CurrentSupport",
-    "Select who is helping you at the moment."
-  ).notEmpty(),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
   check("address_first_line", "Enter the first line of the address")
@@ -149,13 +144,6 @@ const helpRequestCreateValidation = [
     .escape()
     .notEmpty(),
   check(
-    "NumberOfChildrenUnder18",
-    "Select the number of children under 18 in your household."
-  )
-    .trim()
-    .escape()
-    .notEmpty(),
-  check(
     "consent_to_share",
     "Select yes if we can share the information in this form with organisations offering help."
   )
@@ -177,11 +165,15 @@ const helpRequestEditValidation = [
     [
       [
         check("what_coronavirus_help").notEmpty(),
-        check("CurrentSupport").notEmpty()
+        check("CurrentSupport").notEmpty(),
+        check("NumberOfChildrenUnder18")
+          .trim()
+          .escape()
+          .notEmpty()
       ],
       check("initial_callback_completed").custom(value => value === "no")
     ],
-    "Select that the initial callback has not been completed or select what you need help with and who is helping you at the moment."
+    "Select that the initial callback has not been completed or select what you need help with, who is helping you at the moment and the number of children under 18 in your household."
   ),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
@@ -200,13 +192,6 @@ const helpRequestEditValidation = [
   check(
     "ContactTelephoneNumber",
     "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
-  )
-    .trim()
-    .escape()
-    .notEmpty(),
-  check(
-    "NumberOfChildrenUnder18",
-    "Select the number of children under 18 in your household."
   )
     .trim()
     .escape()

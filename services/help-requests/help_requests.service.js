@@ -273,37 +273,59 @@ class HelpRequestsService {
         DobYear: query.DobYear,
         GettingInTouchReason: query.GettingInTouchReason || "",
         HelpWithAccessingFood:
-          (query.what_coronavirus_help.includes("accessing food") && true) ||
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("accessing food") &&
+            true) ||
           false,
         HelpWithAccessingSupermarketFood:
-          (query.what_coronavirus_help.includes("food via supermarket") &&
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("food via supermarket") &&
             true) ||
           false,
         HelpWithCompletingNssForm:
-          (query.what_coronavirus_help.includes("nss form support") && true) ||
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("nss form support") &&
+            true) ||
           false,
         HelpWithShieldingGuidance:
-          (query.what_coronavirus_help.includes("shielding guidance") &&
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("shielding guidance") &&
             true) ||
           false,
         HelpWithNoNeedsIdentified:
-          (query.what_coronavirus_help.includes("no needs") && true) || false,
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("no needs") &&
+            true) ||
+          false,
         HelpWithDebtAndMoney:
-          (query.what_coronavirus_help.includes("debt and money") && true) ||
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("debt and money") &&
+            true) ||
           false,
         HelpWithHealth:
-          (query.what_coronavirus_help.includes("health") && true) || false,
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("health") &&
+            true) ||
+          false,
         HelpWithMentalHealth:
-          (query.what_coronavirus_help.includes("mental health") && true) ||
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("mental health") &&
+            true) ||
           false,
         HelpWithHousing:
-          (query.what_coronavirus_help.includes("housing") && true) || false,
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("housing") &&
+            true) ||
+          false,
         HelpWithAccessingInternet:
-          (query.what_coronavirus_help.includes("technology support") &&
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("technology support") &&
             true) ||
           false,
         HelpWithSomethingElse:
-          (query.what_coronavirus_help.includes("something else") && true) ||
+          (query.what_coronavirus_help &&
+            query.what_coronavirus_help.includes("something else") &&
+            true) ||
           false,
         CurrentSupport: currentSupport || "",
         CurrentSupportFeedback: query.CurrentSupportFeedback || "",
