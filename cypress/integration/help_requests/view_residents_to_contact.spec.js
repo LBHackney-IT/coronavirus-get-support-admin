@@ -13,45 +13,19 @@ describe("view residents to contact", () => {
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "Boris 2.0 Johnson"
+      capitalisedFullName: "Boris 2.0 Johnson",
     };
     cy.GivenAResidentDoesNotExist(resident);
     cy.WhenICreateARecordForTheResident(resident);
     cy.ThenTheyWillAppearInTheCallbackList(resident);
   });
-  it("can edit an existing resident record", () => {});
-  //when they dont find an entry for the resident, the agent will create an entry for them
-  //how do they navigate to that page form the page above, test are disconnected
-  // it("can create a new record for the resident", () => {});
-
-  /** 
-   * It is missing data setup: it should first create a new record then search by postcode to verify it exists in the callback table.
-   * We will come back to this
-   * 
-  it("can retrieve callbacks", () => {
-      cy.get('a[href*="help-requests"]').click();
-    cy.url().should("include", "/help-requests");
-    cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get("h1").then((el) => {
-      assert.include(el.text(), "Callback list");
-    });
-    cy.get("div > table > tbody > tr > td").then((el) => {
-      assert.include(el.text(), "RONALD REAGAN");
-      assert.include(el.text(), "DOLLY PARTON");
-    });
-  });
-  */
 
   it("allow you to edit", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get("[data-testid=view-button]")
-      .first()
-      .click();
-    cy.get(".govuk-fieldset__legend")
-      .first()
-      .should("contain", "Has the callback been completed");
+    cy.get("[data-testid=view-button]").first().click();
+    cy.contains("Has the callback been completed");
 
     cy.get("#initial_callback_completed-2").click({ force: true });
     // open accordion
@@ -59,9 +33,9 @@ describe("view residents to contact", () => {
       .click({
         force: true,
         waitForAnimations: true,
-        animationDistanceThreshold: 50
+        animationDistanceThreshold: 50,
       })
-      .then(el => {
+      .then((el) => {
         assert.include(el.text(), "Resident Bio");
         cy.get("#FirstName").type("Donald", { force: true });
       });
@@ -74,12 +48,8 @@ describe("view residents to contact", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get("[data-testid=view-button]")
-      .first()
-      .click();
-    cy.get(".govuk-fieldset__legend")
-      .first()
-      .should("contain", "Has the callback been completed");
+    cy.get("[data-testid=view-button]").first().click();
+    cy.contains("Has the callback been completed");
 
     cy.get("#initial_callback_completed-2").click({ force: true });
     cy.get("#change-address").click();
