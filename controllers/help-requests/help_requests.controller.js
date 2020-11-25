@@ -4,6 +4,8 @@ const validator = require('express-validator');
 const querystring = require('querystring');
 const notesHelper = require('../../helpers/notes');
 const HelpRequestsService = require('../../services/help-requests/help_requests.service');
+const HelpRequestCallService = require('../../services/help-requests/help_request_call.service');
+
 const { mapFieldErrors, mapDescriptionHtml } = require('../../helpers/fieldErrors');
 
 const SERVER_ERROR_MSG = "Sorry, there is a problem with the service. Try again later"
@@ -61,16 +63,43 @@ const handleFormErrors = (req, res, errors, path) => {
  * Handle common update help request functionality.
  */
 const handleUpdate = (req, res, query, userName) => {
-    HelpRequestsService.updateHelpRequest(query, userName)
-      .then(result => {
-          if(result.isError === true){
-              return res.redirect('/help-requests/edit/' + query.Id + "/?haserrors=true&message="+ SERVER_ERROR_MSG +
-                "&" + querystring.stringify(req.body));
-          }
-          return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
-      })
+    try{
+        HelpRequestsService.updateHelpRequest(query, userName)
+          .then(result => {
+              if(result.isError === true){
+                  return res.redirect('/help-requests/edit/' + query.Id + "/?haserrors=true&message="+ SERVER_ERROR_MSG +
+                    "&" + querystring.stringify(req.body));
+              }
+              return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
+          })
+    } catch(err){
+        console.log(err)
+    }
 }
-
+const handleHelpRequestUpdate = async (query, userName) => {
+    try{
+       await HelpRequestsService.updateHelpRequest(query, userName)
+          .then(result => {
+              if(result.isError === true){
+                  return true
+              }
+          })
+    } catch(err){
+        console.log(err)
+    }
+}
+const handleCallCreation = async (query) => {
+    try{
+        await HelpRequestCallService.createHelpRequestCall(query)
+        .then(result => {
+            if(result.isError === true){
+                return true
+            }
+        });
+    } catch(err){
+        console.log(err)
+    }
+}
 /**
  * Compose notes from snapshot data
  */
@@ -347,9 +376,16 @@ module.exports = {
             try {
                 const query = req.body;
                 const userName = req.auth.name
-
-                await handleUpdate(req, res, query, userName)
-
+                let callCreationError
+                if(query.CallOutcome){
+                    callCreationError = await handleCallCreation(query)
+                }
+                const handleUpdateError = await handleHelpRequestUpdate(query, userName)
+                if(callCreationError == true || handleUpdateError == true){
+                    return res.redirect('/help-requests/edit/' + query.Id + "/?haserrors=true&message="+ SERVER_ERROR_MSG +
+                    "&" + querystring.stringify(req.body));
+                }
+                return res.redirect('/help-requests/edit/' + query.Id + "/?hasupdated=true");
             } catch (err) {
                 return next(new Error(err));
             }
