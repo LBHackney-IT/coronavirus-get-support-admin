@@ -34,6 +34,7 @@ jobs:
             export HELP_REQUESTS_API_KEY=
             export ADDRESSES_API_URL=${ADDRESSES_API_URL}
             export ADDRESSES_API_KEY=${ADDRESSES_API_KEY}
+            export ADDRESSES_API_TOKEN=${ADDRESSES_API_TOKEN}
             export TOKEN_NAME=${TOKEN_NAME}
             export HACKNEY_JWT_SECRET=${HACKNEY_JWT_SECRET}
             export AUTHORISED_USER_GROUP=abc
