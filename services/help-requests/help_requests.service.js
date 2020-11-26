@@ -95,6 +95,12 @@ class HelpRequestsService {
 
         // Remove empty values.
         data.what_coronavirus_help = what_coronavirus_help.filter(item => item);
+
+        const formattedCreationDate = dateHelper.convertDate(
+          data.DateTimeRecorded
+        );
+
+        data.creation_date = formattedCreationDate.concatenated;
       });
 
       return data;

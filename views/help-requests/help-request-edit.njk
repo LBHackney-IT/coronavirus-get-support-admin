@@ -57,20 +57,54 @@
         <input type="hidden" name="Uprn" value="{{query.Uprn}}">
         <input type="hidden" name="Ward" value="{{query.Ward}}">
 
-
-        <div class="govuk-grid-column-full">
-            <p class="lbh-body-m">
-                <strong>Address</strong><br />
-                {{query.AddressFirstLine}} <br />
-                {{query.AddressSecondLine}} <br />
-                {{query.AddressThirdLine}} <br />
-                {{query.PostCode}} <br />
-                {{query.Ward}}
-            </p>
-            <p>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <p class="lbh-body-m">
+                    <strong>Address</strong><br />
+                    {{query.AddressFirstLine}} <br />
+                    {{query.AddressSecondLine}} <br />
+                    {{query.AddressThirdLine}} <br />
+                    {{query.PostCode}} <br />
+                    {{query.Ward}}
+                </p>
                 <a id="change-address" href="/help-requests/address/{{query.Id}}" class="lbh-link">Change address</a>
-            </p>
+            </div>
         </div>
+
+        <span hidden=true>
+        {% set voicemails = [] %}
+                {% for call in query.HelpRequestCalls %}
+                    {%if call.CallOutcome.includes('voicemail') %}
+                        {{ voicemails.push(call) }}
+                    {% endif %}
+                {% endfor %}
+            {% set lastCall = query.HelpRequestCalls|last  %}
+        </span>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <p class="lbh-body-m">
+                    <strong>Calls status</strong><br />
+                    Requested date: {{query.creation_date}} <br />
+                    Number of calls: {{query.HelpRequestCalls|length}} <br />
+                    Voicemails left: {{voicemails|length}} <br />
+                    Follow up call: 
+                    {%if query.callbackRequired %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                    <br />
+                    Rescheduled call:    
+                    {%if lastCall and lastCall.CallOutcome.includes('call_rescheduled') %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                    <br />
+                </p>
+            </div>
+        </div>
+
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
