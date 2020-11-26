@@ -13,7 +13,7 @@ describe("view residents to contact", () => {
       birthDay: "01",
       brithMonth: "01",
       birthYear: "1975",
-      capitalisedFullName: "Boris 2.0 Johnson",
+      capitalisedFullName: "Boris 2.0 Johnson"
     };
     cy.GivenAResidentDoesNotExist(resident);
     cy.WhenICreateARecordForTheResident(resident);
@@ -24,7 +24,9 @@ describe("view residents to contact", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get("[data-testid=view-button]").first().click();
+    cy.get("[data-testid=view-button]")
+      .first()
+      .click();
 
     cy.get("#CallDetail").click({ force: true });
     cy.get("#CallOutcome").click({ force: true });
@@ -33,9 +35,9 @@ describe("view residents to contact", () => {
       .click({
         force: true,
         waitForAnimations: true,
-        animationDistanceThreshold: 50,
+        animationDistanceThreshold: 50
       })
-      .then((el) => {
+      .then(el => {
         assert.include(el.text(), "Resident Bio");
         cy.get("#FirstName").type("Donald", { force: true });
         cy.get("#NumberOfChildrenUnder18").click({ force: true });
@@ -45,18 +47,16 @@ describe("view residents to contact", () => {
     cy.get("#default-example-heading-1").click({ force: true });
     cy.get("#CurrentSupport").click({ force: true });
     cy.get("#update-btn").click({ force: true });
-    cy.get(".govuk-panel__title").should("contain", "Updated succesfully");
   });
 
   it("allow you to change address", () => {
     cy.get('a[href*="help-requests"]').click();
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
-    cy.get("[data-testid=view-button]").first().click();
+    cy.get("[data-testid=view-button]")
+      .first()
+      .click();
 
-    cy.get("#CallDetail").click({ force: true });
-    cy.get("#CallOutcome").click({ force: true });
     cy.get("#change-address").click();
-    cy.get(".lbh-heading-h1").should("contain", "Change address");
   });
 });

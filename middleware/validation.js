@@ -13,7 +13,7 @@ const searchValidation = [
   check("id", "Enter a valid Annex ID")
     .if(check("searchby").contains("id"))
     .notEmpty()
-    .isInt(),
+    .isInt()
 ];
 
 const searchResidentValidation = [
@@ -21,10 +21,10 @@ const searchResidentValidation = [
     [
       check("firstName").notEmpty(),
       check("lastName").notEmpty(),
-      check("postcode").notEmpty(),
+      check("postcode").notEmpty()
     ],
     "Enter at least one name or a postcode"
-  ),
+  )
 ];
 
 const addressValidation = [
@@ -46,11 +46,14 @@ const addressValidation = [
     .if(check("lookup_postcode").exists())
     .trim()
     .escape()
-    .notEmpty(),
+    .notEmpty()
 ];
 
 const foodRequestValidation = [
-  check("OngoingFoodNeed", "Choose an option").trim().escape().notEmpty(),
+  check("OngoingFoodNeed", "Choose an option")
+    .trim()
+    .escape()
+    .notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
     .trim()
     .escape()
@@ -88,7 +91,7 @@ const foodRequestValidation = [
     .if(check("Uprn").exists())
     .trim()
     .escape()
-    .notEmpty(),
+    .notEmpty()
 ];
 
 const deliveryLimitValidation = [
@@ -96,7 +99,7 @@ const deliveryLimitValidation = [
     .trim()
     .escape()
     .notEmpty()
-    .isInt({ min: 1 }),
+    .isInt({ min: 1 })
 ];
 
 const helpRequestCreateValidation = [
@@ -113,9 +116,18 @@ const helpRequestCreateValidation = [
   check("postcode", "Enter a real postcode, like E8 1EA.")
     .if(check("postcode").notEmpty())
     .isPostalCode("GB"),
-  check("DobDay", "Enter a day of birth").trim().escape().notEmpty(),
-  check("DobMonth", "Enter a month of birth").trim().escape().notEmpty(),
-  check("DobYear", "Enter a year of birth").trim().escape().notEmpty(),
+  check("DobDay", "Enter a day of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobMonth", "Enter a month of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobYear", "Enter a year of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
   check(
     "ContactTelephoneNumber",
     "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
@@ -133,7 +145,7 @@ const helpRequestCreateValidation = [
   check("HelpNeeded", "Select what type of help is needed")
     .trim()
     .escape()
-    .notEmpty(),
+    .notEmpty()
 ];
 
 const helpRequestEditValidation = [
@@ -146,17 +158,36 @@ const helpRequestEditValidation = [
       [
         check("what_coronavirus_help").notEmpty(),
         check("CurrentSupport").notEmpty(),
-        check("NumberOfChildrenUnder18").trim().escape().notEmpty(),
+        check("NumberOfChildrenUnder18")
+          .trim()
+          .escape()
+          .notEmpty()
       ],
-      check("initial_callback_completed").custom((value) => value === "no"),
+      check("CallOutcome").custom(
+        value =>
+          value === "refused_to_engage" ||
+          value === "call_rescheduled" ||
+          value === "voicemail" ||
+          value === "no_answer_machine" ||
+          value === "wrong_number"
+      )
     ],
     "Select what you need help with, who is helping you at the moment and the number of children under 18 in your household."
   ),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
-  check("DobDay", "Enter a day of birth").trim().escape().notEmpty(),
-  check("DobMonth", "Enter a month of birth").trim().escape().notEmpty(),
-  check("DobYear", "Enter a year of birth").trim().escape().notEmpty(),
+  check("DobDay", "Enter a day of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobMonth", "Enter a month of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
+  check("DobYear", "Enter a year of birth")
+    .trim()
+    .escape()
+    .notEmpty(),
   check(
     "ContactTelephoneNumber",
     "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
@@ -170,7 +201,7 @@ const helpRequestEditValidation = [
   )
     .trim()
     .escape()
-    .notEmpty(),
+    .notEmpty()
 ];
 
 module.exports = {
@@ -180,5 +211,5 @@ module.exports = {
   foodRequestValidation,
   deliveryLimitValidation,
   helpRequestCreateValidation,
-  helpRequestEditValidation,
+  helpRequestEditValidation
 };
