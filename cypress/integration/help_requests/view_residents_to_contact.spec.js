@@ -25,9 +25,9 @@ describe("view residents to contact", () => {
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
     cy.get("[data-testid=view-button]").first().click();
-    cy.contains("Has the callback been completed");
 
-    cy.get("#initial_callback_completed-2").click({ force: true });
+    cy.get("#CallDetail").click({ force: true });
+    cy.get("#CallOutcome").click({ force: true });
     // open accordion
     cy.get("#resident-bio-heading")
       .click({
@@ -38,8 +38,12 @@ describe("view residents to contact", () => {
       .then((el) => {
         assert.include(el.text(), "Resident Bio");
         cy.get("#FirstName").type("Donald", { force: true });
+        cy.get("#NumberOfChildrenUnder18").click({ force: true });
       });
-
+    cy.get("#default-example-heading-2").click({ force: true });
+    cy.get("#what_coronavirus_help").click({ force: true });
+    cy.get("default-example-heading-1").click({ force: true });
+    cy.get("#CurrentSupport").click({ force: true });
     cy.get("#update-btn").click({ force: true });
     cy.get(".govuk-panel__title").should("contain", "Updated succesfully");
   });
@@ -49,9 +53,9 @@ describe("view residents to contact", () => {
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="/help-requests/callbacks"]').click();
     cy.get("[data-testid=view-button]").first().click();
-    cy.contains("Has the callback been completed");
 
-    cy.get("#initial_callback_completed-2").click({ force: true });
+    cy.get("#CallDetail").click({ force: true });
+    cy.get("#CallOutcome").click({ force: true });
     cy.get("#change-address").click();
     cy.get(".lbh-heading-h1").should("contain", "Change address");
   });

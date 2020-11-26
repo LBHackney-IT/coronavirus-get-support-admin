@@ -15,7 +15,8 @@ class HelpRequestCallService {
         : query.CallOutcome;
 
       const createFields = {
-        CallType: "outbound",
+        CallDirection: "outbound",
+        CallType: query.HelpNeeded,
         CallOutcome: CallOutcome,
         DateTime: new Date(),
       };

@@ -123,12 +123,21 @@ class HelpRequestsService {
         query.NewCaseNote,
         query.CaseNotes
       );
+      let initialCallBack = false
+      let callbackRequired = true
+
+      if(query.CallOutcome == "callback_complete"){
+        initialCallBack = true
+        callbackRequired = false
+      }else if(Array.isArray(query.CallOutcome) && query.CallOutcome.length == 2 && query.CallOutcome.includes("follow_up_requested") &&  query.CallOutcome.includes("callback_complete")){
+        initialCallBack = true
+        callbackRequired = true
+      } 
 
       const updatedFields = {
-        InitialCallbackCompleted:
-          (query.initial_callback_completed == "yes" && true) || false,
+        InitialCallbackCompleted:initialCallBack,
         HelpNeeded: query.HelpNeeded || "",
-        CallbackRequired: (query.callback_required == "yes" && true) || false,
+        CallbackRequired: callbackRequired,
         FirstName: query.FirstName,
         LastName: query.LastName,
         ContactTelephoneNumber: query.ContactTelephoneNumber || "",
@@ -253,10 +262,9 @@ class HelpRequestsService {
       );
 
       const createFields = {
-        InitialCallbackCompleted:
-          (query.InitialCallbackCompleted == "yes" && true) || false,
+        InitialCallbackCompleted: false,
         HelpNeeded: query.HelpNeeded || "",
-        CallbackRequired: (query.CallbackRequired == "yes" && true) || false,
+        CallbackRequired: true,
         FirstName: query.FirstName,
         LastName: query.LastName,
         ContactTelephoneNumber: query.ContactTelephoneNumber || "",
