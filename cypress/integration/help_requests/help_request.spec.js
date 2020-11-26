@@ -72,7 +72,7 @@ describe("help requests", () => {
     cy.get("#NumberOfChildrenUnder18").click({ force: true });
     cy.get("#default-example-heading-2").click({ force: true });
     cy.get("#what_coronavirus_help").click({ force: true });
-    cy.get("default-example-heading-1").click({ force: true });
+    cy.get("#default-example-heading-1").click({ force: true });
     cy.get("#CurrentSupport").click({ force: true });
     cy.get("button").contains("Update").click({ force: true });
   }

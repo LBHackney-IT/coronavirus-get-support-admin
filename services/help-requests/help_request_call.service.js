@@ -13,12 +13,16 @@ class HelpRequestCallService {
       const CallOutcome = Array.isArray(query.CallOutcome)
         ? query.CallOutcome.join()
         : query.CallOutcome;
-
+      const CallDirection = query.CallDirection
+        ? query.CallDirection
+        : "outbound";
+      const CallType = query.CallType ? query.CallType : query.HelpNeeded;
+      const date = new Date();
       const createFields = {
-        CallDirection: "outbound",
-        CallType: query.HelpNeeded,
+        CallDirection: CallDirection,
+        CallType: CallType,
         CallOutcome: CallOutcome,
-        DateTime: new Date(),
+        CallDateTime: date,
       };
 
       const createData = JSON.stringify(createFields);

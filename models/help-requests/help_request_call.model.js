@@ -19,8 +19,7 @@ class HelpRequestCallModel {
         "Content-Length": helpRequestCalldata.length,
         "x-api-key": config.help_requests_api_key,
       };
-      console.log(id);
-      console.log(helpRequestCalldata);
+
       await axios
         .post(
           config.help_requests_api_url + "/" + id + "/calls",

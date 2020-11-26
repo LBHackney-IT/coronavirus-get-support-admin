@@ -85,9 +85,9 @@
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
-                            "value": "Test & Trace",
-                            "text": "Test & Trace",
-                            "checked": true if query.HelpNeeded and "Test & Trace" in query.HelpNeeded else false
+                            "value": "Welfare Call",
+                            "text": "Welfare Call",
+                            "checked": true if query.HelpNeeded and "Welfare Call" in query.HelpNeeded else false
                         },
                         {
                             "value": "Shielding",
@@ -95,14 +95,14 @@
                             "checked": true if query.HelpNeeded and "Shielding" in query.HelpNeeded else false
                         },
                         {
-                            "value": "Welfare Call",
-                            "text": "Welfare Call",
-                            "checked": true if query.HelpNeeded and "Welfare Call" in query.HelpNeeded else false
-                        },
-                        {
                             "value": "Help Request",
                             "text": "Help Request",
                             "checked": true if query.HelpNeeded and "Help Request" in query.HelpNeeded else false
+                        },
+                         {
+                            "value": "Contact Tracing",
+                            "text": "Contact Tracing",
+                            "checked": true if query.HelpNeeded and "Contact Tracing" in query.HelpNeeded else false
                         }
                     ],
                     "formGroup": {

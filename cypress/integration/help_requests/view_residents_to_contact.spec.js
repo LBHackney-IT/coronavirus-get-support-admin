@@ -42,7 +42,7 @@ describe("view residents to contact", () => {
       });
     cy.get("#default-example-heading-2").click({ force: true });
     cy.get("#what_coronavirus_help").click({ force: true });
-    cy.get("default-example-heading-1").click({ force: true });
+    cy.get("#default-example-heading-1").click({ force: true });
     cy.get("#CurrentSupport").click({ force: true });
     cy.get("#update-btn").click({ force: true });
     cy.get(".govuk-panel__title").should("contain", "Updated succesfully");

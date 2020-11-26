@@ -38,10 +38,38 @@
                                 "text": query.error_CallOutcome
                             } if query.error_CallOutcome else null
                         }) }} 
+                        <div class="display-call-attempted">
+                        
+                    {{ lbhRadios({
+                        "hint": {
+                            "text": "Who made the initial contact"
+                        },
+                        "idPrefix": "CallDirection",
+                        "name": "CallDirection",
+                        "items": [
+                            {
+                                "value": "outbound",
+                                "text": "I contacted the resident",
+                                "checked": false
+                            },
+                            {
+                                "value": "inbound",
+                                "text": "The resident contacted me",
+                                "checked": false
+                            }
+                        ],
+                        "formGroup": {
+                            "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+                        },
+                        "errorMessage": {
+                            "text": query.error_CurrentSupport
+                        } if query.error_CurrentSupport else null
+                    })}} 
+                </div>
                     </div>
                 </div>
             {% endset -%}
-               {% set callAttempted %}
+            {% set callAttempted %}
             <div class="display-call-attempted">
                  {{ lbhCheckboxes({
                     "hint": {
@@ -75,36 +103,75 @@
                 })}} 
             </div>
             {% endset -%}
-            
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Call details"
-                        }
+    
+            {{ lbhRadios({
+                "fieldset": {
+                    "legend": {
+                    "text": "Call details"
+                    }
+                },
+                "hint": {
+                    "text": "What type of help was given?"
+                },
+                "idPrefix": "CallType",
+                "name": "CallType",
+                "items": [
+                    {
+                        "value": "Contact Tracing",
+                        "text": "Contact Tracing",
+                        "checked": false
                     },
-                    "idPrefix": "CallDetail",
-                    "name": "CallDetail",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                            "value": "spoke_to_resident",
-                            "text": "Spoke to a resident",
-                            "checked": false,
-                             "conditional": { html: spokeToResident}
-                        },
-                        {
-                            "value": "call_attempted",
-                            "text": "Call attempted/no answer",
-                            "checked": false,
-                            "conditional": { html: callAttempted}
-                        }
-                        ],
-                        "formGroup": {
-                            "classes": "govuk-form-group--error lbh-form-group" if query.error_CallDetail else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_CallDetail
-                        } if query.error_CallDetail else null
-                    }) }}
+                    {
+                        "value": "Shielding",
+                        "text": "Shielding",
+                        "checked": false
+                    },
+                    {
+                        "value": "Welfare Call",
+                        "text": "Welfare Call",
+                        "checked": false
+                    },
+                    {
+                        "value": "Help Request",
+                        "text": "Help Request",
+                        "checked": false
+                    }
+                ],
+                "formGroup": {
+                    "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+                },
+                "errorMessage": {
+                    "text": query.error_CurrentSupport
+                } if query.error_CurrentSupport else null
+            })}} 
+    
+            {{ lbhRadios({
+                "hint": {
+                    "text": "Did you reach the resident?"
+                },
+                "idPrefix": "CallDetail",
+                "name": "CallDetail",
+                "classes": "govuk-radios--inline",
+                "items": [
+                    {
+                        "value": "spoke_to_resident",
+                        "text": "Spoke to a resident",
+                        "checked": false,
+                            "conditional": { html: spokeToResident}
+                    },
+                    {
+                        "value": "call_attempted",
+                        "text": "Call attempted/no answer",
+                        "checked": false,
+                        "conditional": { html: callAttempted}
+                    }
+                    ],
+                    "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CallDetail else ''
+                    },
+                    "errorMessage": {
+                    "text": query.error_CallDetail
+                    } if query.error_CallDetail else null
+                }) }}
             </div>
         </div>
