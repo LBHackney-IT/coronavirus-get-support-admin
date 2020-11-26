@@ -17,6 +17,7 @@ module.exports = {
 
     addresses_api_url: process.env.ADDRESSES_API_URL,
     addresses_api_key: process.env.ADDRESSES_API_KEY,
+    addresses_api_token: process.env.ADDRESSES_API_TOKEN,
 
     food_requests_api_url: process.env.FOOD_REQUESTS_API_URL,
     food_requests_api_key: process.env.FOOD_REQUESTS_API_KEY,

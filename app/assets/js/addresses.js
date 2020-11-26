@@ -7,6 +7,7 @@ function Addresses() {
   this.addresses = [];
   this.addressFinderButton = document.getElementById("address-finder");
   this.API_KEY = null;
+  this.API_TOKEN = null;
   this.API_URL = null;
   this.postcode = document.getElementById("lookup_postcode");
   this.buildingNumber = document.getElementById("building_number");
@@ -16,6 +17,7 @@ function Addresses() {
 Addresses.prototype.init = function() {
   if (this.addressFinderButton) {
     this.API_KEY = this.addressFinderButton.getAttribute("data-api-key");
+    this.API_TOKEN = this.addressFinderButton.getAttribute("data-api-token");
     this.API_URL = this.addressFinderButton.getAttribute("data-api-url");
     this.addressFinderButton.addEventListener(
       "click",
@@ -88,6 +90,7 @@ Addresses.prototype.getAddressData = function(postcode, buildingNumber, page) {
 
   xhttp.open("GET", this.API_URL + queryString, true);
   xhttp.setRequestHeader("x-api-key", this.API_KEY);
+  xhttp.setRequestHeader("Authorization", `Bearer ${this.API_TOKEN}`);
   xhttp.send();
 };
 
