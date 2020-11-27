@@ -115,6 +115,11 @@
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
+                        "value": "Contact Tracing",
+                        "text": "Contact Tracing",
+                        "checked": true if query.HelpNeeded and "Contact Tracing" in query.HelpNeeded else false
+                        },
+                        {
                         "value": "Help Request",
                         "text": "Help Request",
                         "checked": true if query.HelpNeeded and "Help Request" in query.HelpNeeded else false
