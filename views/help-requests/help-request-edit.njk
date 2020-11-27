@@ -73,12 +73,14 @@
 
         <span hidden=true>
         {% set voicemails = [] %}
+        {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
                     {%if call.CallOutcome.includes('voicemail') %}
                         {{ voicemails.push(call) }}
                     {% endif %}
                 {% endfor %}
             {% set lastCall = query.HelpRequestCalls|last  %}
+        {% endif %}
         </span>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
