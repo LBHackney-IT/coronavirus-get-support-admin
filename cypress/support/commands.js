@@ -37,7 +37,7 @@ const addResident = resident => {
   cy.get("#address-div").should("contain", "Select address");
   cy.get("#address-select").select("0", { force: true });
   cy.get("#consent_to_share").check("yes", { force: true });
-  cy.get("#HelpNeeded").check("Help Request", { force: true });
+  cy.get("#HelpNeeded-2").check("Help Request", { force: true });
   cy.get("button")
     .contains("Next")
     .click({ force: true });
