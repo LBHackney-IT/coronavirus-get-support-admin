@@ -110,9 +110,9 @@ const handleHelpRequestUpdate = async (query, userName) => {
     console.log(err);
   }
 };
-const handleCallCreation = async query => {
+const handleCallCreation = async (query, userName) => {
   try {
-    await HelpRequestCallService.createHelpRequestCall(query).then(result => {
+    await HelpRequestCallService.createHelpRequestCall(query, userName).then(result => {
       if (result.isError === true) {
         return true;
       }
@@ -419,7 +419,7 @@ module.exports = {
         const userName = req.auth.name;
         let callCreationError;
         if (query.CallOutcome) {
-          callCreationError = await handleCallCreation(query);
+          callCreationError = await handleCallCreation(query, userName);
         }
         const handleUpdateError = await handleHelpRequestUpdate(
           query,

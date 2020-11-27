@@ -7,7 +7,7 @@ class HelpRequestCallService {
    * @param userName Person who created the record
    * @returns {Promise<*>}
    */
-  async createHelpRequestCall(query) {
+  async createHelpRequestCall(query, userName) {
     try {
       let data = [];
       const CallOutcome = Array.isArray(query.CallOutcome)
@@ -18,11 +18,16 @@ class HelpRequestCallService {
         : "outbound";
       const CallType = query.CallType ? query.CallType : query.HelpNeeded;
       const date = new Date();
+      const Caller =
+        CallDirection === "outbound"
+          ? userName
+          : `${query.FirstName} ${query.LastName}`;
       const createFields = {
         CallDirection: CallDirection,
         CallType: CallType,
         CallOutcome: CallOutcome,
         CallDateTime: date,
+        Caller
       };
 
       const createData = JSON.stringify(createFields);
