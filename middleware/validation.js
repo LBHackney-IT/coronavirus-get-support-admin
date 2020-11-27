@@ -157,9 +157,9 @@ const helpRequestEditValidation = [
       [
         check("CallOutcome").custom(
           (value) =>
-            value === "voicemail" ||
-            value === "no_answer_machine" ||
-            value === "wrong_number"
+            value.includes("voicemail") ||
+            value.includes("no_answer_machine") ||
+            value.includes("wrong_number")
         ),
         check("CallType", "specify the type of help the call was regarding")
           .trim()
@@ -187,6 +187,21 @@ const helpRequestEditValidation = [
             value === "refused_to_engage" ||
             value === "follow_up_requested" ||
             value === "call_rescheduled"
+        ),
+        check("CallType", "specify the type of help the call was regarding")
+          .trim()
+          .escape()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
+      ],
+      [
+        check("CallOutcome").custom(
+          (value) =>
+            value.includes("callback_complete") ||
+            value.includes("follow_up_requested")
         ),
         check("CallType", "specify the type of help the call was regarding")
           .trim()
