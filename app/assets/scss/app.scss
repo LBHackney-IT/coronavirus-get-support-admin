@@ -194,6 +194,11 @@ textarea[readonly] {
     transform: rotate(360deg);
   }
 }
+
 label[for="HelpNeeded-3"] {
   margin-right: 18px;
+}
+
+.redText {
+  color: red;
 }
