@@ -4210,7 +4210,7 @@ x.\:-moz-any-link {
   margin-bottom: 0; }
 
 html.lbh-template > body.lbh-template__body * {
-  font-family: 'Open Sans', sans-serif; }
+  font-family: "Open Sans", sans-serif; }
 
 #address-lookup-fieldset {
   display: none; }
@@ -4305,7 +4305,7 @@ textarea[readonly] {
   opacity: 0;
   z-index: -1; }
   .is-loading #loader_overlay {
-    opacity: .85;
+    opacity: 0.85;
     z-index: 100; }
 
 #loader_spinner {
@@ -4336,3 +4336,9 @@ textarea[readonly] {
     transform: rotate(0deg); }
   100% {
     transform: rotate(360deg); } }
+
+label[for="HelpNeeded-3"] {
+  margin-right: 18px; }
+
+.redText {
+  color: red; }

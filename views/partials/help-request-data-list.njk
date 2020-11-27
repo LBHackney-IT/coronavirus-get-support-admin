@@ -6,6 +6,7 @@
         <th scope="col" class="govuk-table__header">Address</th>
         <th scope="col" class="govuk-table__header">Requested Date</th>
         <th scope="col" class="govuk-table__header">Type</th>
+        <th scope="col" class="govuk-table__header">Unsuccessful call attempts</th>
         <th scope="col" class="govuk-table__header"></th>
         </tr>
     </thead>
@@ -20,6 +21,15 @@
                 </td>
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">{{item.HelpNeeded}}</td>
+                <span hidden=true>{% set unsuccessfulCalls = [] %}
+                {% for call in item.HelpRequestCalls %}
+                    {%if call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail') %}
+                        {{ unsuccessfulCalls.push(call) }}
+                    {% endif %}
+                {% endfor %}
+                </span>
+                {% set redText = "redText" if unsuccessfulCalls|length>4 %}
+                <td class="govuk-table__cell {{redText}}">{{unsuccessfulCalls|length}}</td>
                 <td class="govuk-table__cell">
                     <a data-testid="view-button"  href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
                 </td>
