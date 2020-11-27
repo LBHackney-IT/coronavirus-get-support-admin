@@ -165,6 +165,10 @@ const helpRequestEditValidation = [
           .trim()
           .escape()
           .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
       ],
       [
         check("CallOutcome").custom(
@@ -176,6 +180,10 @@ const helpRequestEditValidation = [
             value === "wrong_number"
         ),
         check("CallType", "specify the type of help the call was regarding")
+          .trim()
+          .escape()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
           .trim()
           .escape()
           .notEmpty(),
