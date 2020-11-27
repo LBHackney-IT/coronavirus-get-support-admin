@@ -1,0 +1,202 @@
+<div class="govuk-grid-row">
+    {% set callMade %}
+        {% set spokeToResident %}
+            <div class="govuk-grid-row">
+                <div class="display-spoke-to-resident">
+                    {{ lbhCheckboxes({
+                        "hint": {
+                            "text": "Select a call outcome"
+                        },
+                        "idPrefix": "CallOutcome",
+                        "name": "CallOutcome",
+                        "items": [
+                            {
+                                "value": "callback_complete",
+                                "text": "Callback complete",
+                                "checked": false
+                            },
+                            {
+                                "value": "refused_to_engage",
+                                "text": "Refused to engage",
+                                "checked": false
+                            },
+                            {
+                                "value": "follow_up_requested",
+                                "text": "Follow up requested",
+                                "checked":false 
+                            },
+                            {
+                                "value": "call_rescheduled",
+                                "text": "Call rescheduled",
+                                "checked": false
+                            }
+                        ],
+                        "formGroup": {
+                            "classes": "govuk-form-group--error lbh-form-group" if query.error_CallOutcome else ''
+                        },
+                        "errorMessage": {
+                            "text": query.error_CallOutcome
+                        } if query.error_CallOutcome else null
+                    }) }} 
+                    <div class="display-call-attempted">
+                    
+                    {{ lbhRadios({
+                        "hint": {
+                            "text": "Who made the initial contact"
+                        },
+                        "idPrefix": "CallDirection",
+                        "name": "CallDirection",
+                        "items": [
+                            {
+                                "value": "outbound",
+                                "text": "I contacted the resident",
+                                "checked": false
+                            },
+                            {
+                                "value": "inbound",
+                                "text": "The resident contacted me",
+                                "checked": false
+                            }
+                        ],
+                        "formGroup": {
+                            "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+                        },
+                        "errorMessage": {
+                            "text": query.error_CurrentSupport
+                        } if query.error_CurrentSupport else null
+                    })}} 
+                    </div>
+                </div>
+            </div>
+        {% endset -%}
+        {% set callAttempted %}
+            <div class="display-call-attempted">
+                {{ lbhCheckboxes({
+                    "hint": {
+                        "text": "Select a call outcome"
+                    },
+                    "idPrefix": "CallOutcome",
+                    "name": "CallOutcome",
+                    "items": [
+                        {
+                            "value": "voicemail",
+                            "text": "Voicemail left",
+                            "checked": false
+                        },
+                        {
+                            "value": "wrong_number",
+                            "text": "Wrong number",
+                            "checked": false
+                        },
+                        {
+                            "value": "no_answer_machine",
+                            "text": "No answer machine",
+                            "checked":false
+                        }
+                    ],
+                    "formGroup": {
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+                    },
+                    "errorMessage": {
+                        "text": query.error_CurrentSupport
+                    } if query.error_CurrentSupport else null
+                })}} 
+            </div>
+        {% endset -%}
+
+        {{ lbhRadios({
+            "hint": {
+                "text": "What type of help was given in the call?"
+            },
+            "idPrefix": "CallType",
+            "name": "CallType",
+            "items": [
+                {
+                    "value": "Contact Tracing",
+                    "text": "Contact Tracing",
+                    "checked": false
+                },
+                {
+                    "value": "Shielding",
+                    "text": "Shielding",
+                    "checked": false
+                },
+                {
+                    "value": "Welfare Call",
+                    "text": "Welfare Call",
+                    "checked": false
+                },
+                {
+                    "value": "Help Request",
+                    "text": "Help Request",
+                    "checked": false
+                }
+            ],
+            "formGroup": {
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+            },
+            "errorMessage": {
+                "text": query.error_CurrentSupport
+            } if query.error_CurrentSupport else null
+        })}} 
+
+        {{ lbhRadios({
+            "hint": {
+                "text": "What was the outcome of the call?"
+            },
+            "idPrefix": "CallDetail",
+            "name": "CallDetail",
+            "classes": "govuk-radios--inline",
+            "items": [
+                {
+                    "value": "spoke_to_resident",
+                    "text": "Spoke to a resident",
+                    "checked": false,
+                    "conditional": { html: spokeToResident}
+                },
+                {
+                    "value": "call_attempted",
+                    "text": "Call attempted/no answer",
+                    "checked": false,
+                    "conditional": { html: callAttempted}
+                }
+                ],
+                "formGroup": {
+                    "classes": "govuk-form-group--error lbh-form-group" if query.error_CallDetail else ''
+                },
+                "errorMessage": {
+                "text": query.error_CallDetail
+                } if query.error_CallDetail else null
+        }) }}
+    {% endset -%}
+    <div class="govuk-grid-column-one-half">
+        {{ lbhRadios({
+            "fieldset": {
+                "legend": {
+                "text": "Did you call the resident?"
+                }
+            },
+            "idPrefix": "CallMade",
+            "name": "CallMade",
+            "items": [
+                {
+                    "value": "yes",
+                    "text": "yes",
+                    "checked": false,
+                    "conditional" : {html: callMade}
+                },
+                {
+                    "value": "no",
+                    "text": "no",
+                    "checked": false
+                }
+            ],
+            "formGroup": {
+                "classes": "govuk-form-group--error lbh-form-group" if query.error_CurrentSupport else ''
+            },
+            "errorMessage": {
+                "text": query.error_CurrentSupport
+            } if query.error_CurrentSupport else null
+        })}} 
+    </div>
+</div>

@@ -20,10 +20,10 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-tag/tag";
 @import "node_modules/lbh-frontend/lbh/components/lbh-tabs/tabs";
 @import "node_modules/lbh-frontend/lbh/components/lbh-textarea/textarea";
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
 
 html.lbh-template > body.lbh-template__body * {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 #address-lookup-fieldset {
   display: none;
@@ -44,7 +44,6 @@ html.lbh-template > body.lbh-template__body * {
   margin-bottom: 20px;
   padding: 1em;
 }
-
 
 .row-margin-top-s {
   margin-top: 20px !important;
@@ -73,7 +72,6 @@ html.lbh-template > body.lbh-template__body * {
   margin-top: 50px;
 }
 
-
 .govuk-accordion {
   &__section-header {
     background-color: #f8f8f8;
@@ -82,11 +80,11 @@ html.lbh-template > body.lbh-template__body * {
     &.is-master {
       background-color: lbh-colour("lbh-a03");
     }
-    
+
     &.is-duplicate {
       background-color: lbh-colour("lbh-h04");
     }
-    
+
     &.is-exception {
       background-color: lbh-colour("lbh-f04");
     }
@@ -107,11 +105,11 @@ html.lbh-template > body.lbh-template__body * {
   &.is-master {
     background: lbh-colour("lbh-a03");
   }
-  
+
   &.is-duplicate {
     background: lbh-colour("lbh-h04");
   }
-  
+
   &.is-exception {
     background: lbh-colour("lbh-f04");
   }
@@ -135,7 +133,6 @@ textarea[readonly] {
 }
 
 .js-enabled {
-
   .govuk-accordion {
     border-bottom: none;
 
@@ -145,7 +142,6 @@ textarea[readonly] {
     }
   }
 }
-
 
 #loader_overlay {
   position: fixed;
@@ -159,7 +155,7 @@ textarea[readonly] {
   z-index: -1;
 
   .is-loading & {
-    opacity: .85;
+    opacity: 0.85;
     z-index: 100;
   }
 }
@@ -182,11 +178,22 @@ textarea[readonly] {
 }
 
 @-webkit-keyframes loader_spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes loader_spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+label[for="HelpNeeded-3"] {
+  margin-right: 18px;
 }

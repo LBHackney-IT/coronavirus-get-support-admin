@@ -74,40 +74,10 @@
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
+                {{lbhRadios({
                     "fieldset": {
                         "legend": {
-                        "text": "Has the callback been completed?"
-                        }
-                    },
-                    "id": "initial_callback_completed",
-                    "name": "initial_callback_completed",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.initial_callback_completed == 'yes'
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.initial_callback_completed == 'no'
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_initial_callback_completed else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_initial_callback_completed
-                        } if query.error_initial_callback_completed else null
-                    }) }}
-            </div>
-            <div class="govuk-grid-column-one-half">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "What type of help is needed?"
+                        "text": "Call type required"
                         }
                     },
                     "id": "HelpNeeded",
@@ -115,23 +85,28 @@
                     "classes": "govuk-radios--inline",
                     "items": [
                         {
-                        "value": "Help Request",
-                        "text": "Help Request",
-                        "checked": true if query.HelpNeeded and "Help Request" in query.HelpNeeded else false
+                            "value": "Contact Tracing",
+                            "text": "Contact Tracing",
+                            "checked": true if query.HelpNeeded and "Contact Tracing" in query.HelpNeeded else false
                         },
                         {
-                        "value": "Shielding",
-                        "text": "Shielding",
-                        "checked": true if query.HelpNeeded and "Shielding" in query.HelpNeeded else false
+                            "value": "Shielding",
+                            "text": "Shielding",
+                            "checked": true if query.HelpNeeded and "Shielding" in query.HelpNeeded else false
                         },
                         {
-                        "value": "Welfare Call",
-                        "text": "Welfare Call",
-                        "checked": true if query.HelpNeeded and "Welfare Call" in query.HelpNeeded else false
+                            "value": "Help Request",
+                            "text": 'Help Request',
+                            "checked": true if query.HelpNeeded and "Help Request" in query.HelpNeeded else false
+                        },
+                        {
+                            "value": "Welfare Call",
+                            "text": "Welfare Call",
+                            "checked": true if query.HelpNeeded and "Welfare Call" in query.HelpNeeded else false
                         }
                     ],
                     "formGroup": {
-                    "classes": "govuk-form-group--error lbh-form-group" if query.error_help_needed else ''
+                        "classes": "govuk-form-group--error lbh-form-group" if query.error_help_needed else ''
                     },
                     "errorMessage": {
                     "text": query.error_help_needed
@@ -139,7 +114,7 @@
                 }) }}
             </div>
         </div>
-            
+        {% include '../partials/help-request-call-details.njk' %} 
         <div class="govuk-accordion myClass lbh-accordion" data-module="govuk-accordion" id="default-example" data-attribute="value">
             <div class="govuk-accordion__section ">
                 <div class="govuk-accordion__section-header" id="resident-bio-heading">
@@ -591,40 +566,7 @@
         }) }}
 
         {% include '../partials/case-notes-history.njk' %}
-
-        <hr>
-
-            <div class="govuk-grid-column-full-with">
-                {{ lbhRadios({
-                    "fieldset": {
-                        "legend": {
-                        "text": "Follow up call required?"
-                        }
-                    },
-                    "id": "callback_required",
-                    "name": "callback_required",
-                    "classes": "govuk-radios--inline",
-                    "items": [
-                        {
-                        "value": "yes",
-                        "text": "Yes",
-                        "checked": true if query.callback_required == 'yes'
-                        },
-                        {
-                        "value": "no",
-                        "text": "No",
-                        "checked": true if query.callback_required == 'no'
-                        }
-                        ],
-                        "formGroup": {
-                        "classes": "govuk-form-group--error lbh-form-group" if query.error_callback_required else ''
-                        },
-                        "errorMessage": {
-                        "text": query.error_callback_required
-                        } if query.error_callback_required else null
-                }) }}
-        </div>
-
+        
         <hr>
 
         {% include '../partials/help-request-edit-cta-btns.njk' %}
