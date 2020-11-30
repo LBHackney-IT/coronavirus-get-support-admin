@@ -74,7 +74,7 @@
             <div class="govuk-grid-column-full">
                 <p class="lbh-body-m">
                     <strong>Contact telephone: </strong> {{ query.ContactTelephoneNumber}} <br />
-                    <strong>Contact mobile: </strong> {{ query.ContactMobileNumber}}
+                    {%if query.ContactMobileNumber %}<strong>Contact mobile: </strong> {{ query.ContactMobileNumber}}{%endif%}
                 </p>
             </div>
         </div>
