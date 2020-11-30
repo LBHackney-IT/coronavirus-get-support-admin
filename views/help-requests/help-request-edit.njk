@@ -73,13 +73,17 @@
 
         <span hidden=true>
         {% set voicemails = [] %}
+        {% set followup = false %}
         {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
                     {%if call.CallOutcome.includes('voicemail') %}
                         {{ voicemails.push(call) }}
                     {% endif %}
+                    {%if call.CallOutcome.includes('follow_up_requested') %}
+                        {% set followup=true %}
+                    {% endif %}
                 {% endfor %}
-            {% set lastCall = query.HelpRequestCalls|last  %}
+            {% set lastCall = query.HelpRequestCalls|first  %}
         {% endif %}
         </span>
         <div class="govuk-grid-row">
@@ -90,7 +94,7 @@
                     Number of calls: {{query.HelpRequestCalls|length}} <br />
                     Voicemails left: {{voicemails|length}} <br />
                     Follow up call: 
-                    {%if query.CallbackRequired %}
+                    {%if followup %}
                         Yes
                     {% else %}
                         No
