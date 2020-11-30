@@ -159,7 +159,8 @@ const helpRequestEditValidation = [
           (value) =>
             value.includes("voicemail") ||
             value.includes("no_answer_machine") ||
-            value.includes("wrong_number")
+            value.includes("wrong_number") ||
+            value.includes("close_case")
         ),
         check("CallType", "specify the type of help the call was regarding")
           .trim()

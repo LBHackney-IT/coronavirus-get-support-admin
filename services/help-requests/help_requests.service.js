@@ -138,7 +138,13 @@ class HelpRequestsService {
       }else if(Array.isArray(query.CallOutcome) && query.CallOutcome.length == 2 && query.CallOutcome.includes("follow_up_requested") &&  query.CallOutcome.includes("callback_complete")){
         initialCallBack = true
         callbackRequired = true
-      } 
+      }else if(query.CallOutcome == "refused_to_engage"){
+        initialCallBack = true
+        callbackRequired = false
+      } else if(query.CallOutcome == "close_case"){
+        initialCallBack = true
+        callbackRequired = false
+      }
 
       const updatedFields = {
         InitialCallbackCompleted:initialCallBack,
