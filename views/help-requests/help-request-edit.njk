@@ -73,6 +73,7 @@
 
         <span hidden=true>
         {% set voicemails = [] %}
+        {% set unsuccessfulCalls = [] %}
         {% set followup = false %}
         {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
@@ -81,6 +82,9 @@
                     {% endif %}
                     {%if call.CallOutcome.includes('follow_up_requested') %}
                         {% set followup=true %}
+                    {% endif %}
+                    {%if call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail') %}
+                        {{ unsuccessfulCalls.push(call) }}
                     {% endif %}
                 {% endfor %}
             {% set lastCall = query.HelpRequestCalls|first  %}
@@ -91,7 +95,8 @@
                 <p class="lbh-body-m">
                     <strong>Calls status</strong><br />
                     Requested date: {{query.creation_date}} <br />
-                    Number of calls: {{query.HelpRequestCalls|length}} <br />
+                    Calls with resident: {{query.HelpRequestCalls|length - unsuccessfulCalls|length}} <br />
+                    Unsuccessful call attempts: {{unsuccessfulCalls|length}} <br />
                     Voicemails left: {{voicemails|length}} <br />
                     Follow up call: 
                     {%if followup %}
