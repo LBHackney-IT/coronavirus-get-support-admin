@@ -129,8 +129,9 @@ class HelpRequestsService {
         query.NewCaseNote,
         query.CaseNotes
       );
-      let initialCallBack = false
-      let callbackRequired = true
+      
+      let initialCallBack = query.initialCallBack
+      let callbackRequired = query.callbackRequired
 
       if(query.CallOutcome == "callback_complete"){
         initialCallBack = true
