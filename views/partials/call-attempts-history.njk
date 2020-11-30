@@ -1,0 +1,8 @@
+<h3 class="lbh-heading-h3">Call attempts history:</h3>
+
+{% for call in query.calls %}
+<div class="call-container">
+    <span class="lbh-body-m call-header">{{call.CallDirection.charAt(0).toUpperCase() + call.CallDirection.slice(1) if call.CallDirection}} {{(call.CallType.replace("call","").replace("Call","")) if call.CallType}} call {% if call.CallDirection=="outbound" %} from {% else %} to {% endif %} {{call.CallHandler}}</span> <span class="lbh-body-m call-date">{{call.call_date}}<p class="lbh-body-m">
+    Call outcomes: {{call.callOutcomes}}</p></span>
+</div>
+{% endfor %}

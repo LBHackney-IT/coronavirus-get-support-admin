@@ -26,12 +26,14 @@ app.post("/help-requests", (req, res) => {
   console.log("Saving resident: ", resident.Id);
   res.status(200).send(resident);
 });
-
+app.post("/help-requests/:id/calls", (req, res) => {
+  res.status(200);
+});
 app.get("/help-requests", (req, res) => {
   const postcode = req.query.postcode;
   console.log("Filter resident by Postcode: ", postcode);
   let filterByPostcodeResults = savedResidents.filter(
-    x => x.PostCode == postcode
+    (x) => x.PostCode == postcode
   );
   res.status(200).send(filterByPostcodeResults);
 });
@@ -39,19 +41,19 @@ app.get("/help-requests", (req, res) => {
 app.get("/help-requests/callbacks", (req, res) => {
   console.log("Get callbacks");
   let callbacksToDo = savedResidents.filter(
-    x => x.InitialCallbackCompleted == false || x.CallbackRequired == true
+    (x) => x.InitialCallbackCompleted == false || x.CallbackRequired == true
   );
   res.status(200).send(callbacksToDo);
 });
 
 app.get("/help-requests/:id", (req, res) => {
   console.log("Requesting resident with ID: ", req.params.id);
-  let found = savedResidents.filter(x => x.Id == req.params.id)[0];
+  let found = savedResidents.filter((x) => x.Id == req.params.id)[0];
 
   return res.status(200).send(found);
 });
 app.patch("/help-requests/:id", (req, res) => {
-  let found = savedResidents.filter(x => x.Id == req.params.id)[0];
+  let found = savedResidents.filter((x) => x.Id == req.params.id)[0];
   if (found) {
     let index = savedResidents.indexOf(found);
     console.log("Replacing item at index: " + index);
@@ -75,7 +77,7 @@ app.get("/addresses", (req, res) => {
 
   const filteredObject = JSON.parse(JSON.stringify(addresses));
   filteredObject.data.address = addresses.data.address.filter(
-    address => address.postcode == req.query.postcode
+    (address) => address.postcode == req.query.postcode
   );
 
   return res.status(200).send(filteredObject);

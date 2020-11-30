@@ -13,7 +13,7 @@ const searchValidation = [
   check("id", "Enter a valid Annex ID")
     .if(check("searchby").contains("id"))
     .notEmpty()
-    .isInt()
+    .isInt(),
 ];
 
 const searchResidentValidation = [
@@ -21,10 +21,10 @@ const searchResidentValidation = [
     [
       check("firstName").notEmpty(),
       check("lastName").notEmpty(),
-      check("postcode").notEmpty()
+      check("postcode").notEmpty(),
     ],
     "Enter at least one name or a postcode"
-  )
+  ),
 ];
 
 const addressValidation = [
@@ -46,14 +46,11 @@ const addressValidation = [
     .if(check("lookup_postcode").exists())
     .trim()
     .escape()
-    .notEmpty()
+    .notEmpty(),
 ];
 
 const foodRequestValidation = [
-  check("OngoingFoodNeed", "Choose an option")
-    .trim()
-    .escape()
-    .notEmpty(),
+  check("OngoingFoodNeed", "Choose an option").trim().escape().notEmpty(),
   check("last_confirmed_food_delivery_day", "Enter a day")
     .trim()
     .escape()
@@ -91,7 +88,7 @@ const foodRequestValidation = [
     .if(check("Uprn").exists())
     .trim()
     .escape()
-    .notEmpty()
+    .notEmpty(),
 ];
 
 const deliveryLimitValidation = [
@@ -99,18 +96,10 @@ const deliveryLimitValidation = [
     .trim()
     .escape()
     .notEmpty()
-    .isInt({ min: 1 })
+    .isInt({ min: 1 }),
 ];
 
 const helpRequestCreateValidation = [
-  check(
-    "InitialCallbackCompleted",
-    "Select if the initial callback has been completed."
-  ).notEmpty(),
-  check(
-    "CallbackRequired",
-    "Select if a follow up callback is required."
-  ).notEmpty(),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
   check("address_first_line", "Enter the first line of the address")
@@ -124,18 +113,9 @@ const helpRequestCreateValidation = [
   check("postcode", "Enter a real postcode, like E8 1EA.")
     .if(check("postcode").notEmpty())
     .isPostalCode("GB"),
-  check("DobDay", "Enter a day of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
-  check("DobMonth", "Enter a month of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
-  check("DobYear", "Enter a year of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
+  check("DobDay", "Enter a day of birth").trim().escape().notEmpty(),
+  check("DobMonth", "Enter a month of birth").trim().escape().notEmpty(),
+  check("DobYear", "Enter a year of birth").trim().escape().notEmpty(),
   check(
     "ContactTelephoneNumber",
     "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
@@ -153,7 +133,7 @@ const helpRequestCreateValidation = [
   check("HelpNeeded", "Select what type of help is needed")
     .trim()
     .escape()
-    .notEmpty()
+    .notEmpty(),
 ];
 
 const helpRequestEditValidation = [
@@ -166,29 +146,88 @@ const helpRequestEditValidation = [
       [
         check("what_coronavirus_help").notEmpty(),
         check("CurrentSupport").notEmpty(),
-        check("NumberOfChildrenUnder18")
+        check("NumberOfChildrenUnder18").trim().escape().notEmpty(),
+        check("HelpNeeded").custom(
+          (value) =>
+            value === "Help Needed" ||
+            value === "Welfare Call" ||
+            value === "Shielding"
+        ),
+      ],
+      [
+        check("CallOutcome").custom(
+          (value) =>
+            value.includes("voicemail") ||
+            value.includes("no_answer_machine") ||
+            value.includes("wrong_number")
+        ),
+        check("CallType", "specify the type of help the call was regarding")
           .trim()
           .escape()
-          .notEmpty()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
       ],
-      check("initial_callback_completed").custom(value => value === "no")
+      [
+        check("CallOutcome").custom(
+          (value) =>
+            value === "refused_to_engage" ||
+            value === "call_rescheduled" ||
+            value === "voicemail" ||
+            value === "no_answer_machine" ||
+            value === "wrong_number"
+        ),
+        check("CallType", "specify the type of help the call was regarding")
+          .trim()
+          .escape()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
+      ],
+      [
+        check("CallOutcome").custom(
+          (value) =>
+            value === "callback_complete" ||
+            value === "refused_to_engage" ||
+            value === "follow_up_requested" ||
+            value === "call_rescheduled"
+        ),
+        check("CallType", "specify the type of help the call was regarding")
+          .trim()
+          .escape()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
+      ],
+      [
+        check("CallOutcome").custom(
+          (value) =>
+            value.includes("callback_complete") ||
+            value.includes("follow_up_requested")
+        ),
+        check("CallType", "specify the type of help the call was regarding")
+          .trim()
+          .escape()
+          .notEmpty(),
+        check("CallDirection", "specify who initiated the call")
+          .trim()
+          .escape()
+          .notEmpty(),
+      ],
     ],
-    "Select that the initial callback has not been completed or select what you need help with, who is helping you at the moment and the number of children under 18 in your household."
+    "Select what you need help with, who is helping you at the moment and the number of children under 18 in your household. If you have logged a call, make sure you have completed all the neccessary fields"
   ),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
-  check("DobDay", "Enter a day of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
-  check("DobMonth", "Enter a month of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
-  check("DobYear", "Enter a year of birth")
-    .trim()
-    .escape()
-    .notEmpty(),
+  check("DobDay", "Enter a day of birth").trim().escape().notEmpty(),
+  check("DobMonth", "Enter a month of birth").trim().escape().notEmpty(),
+  check("DobYear", "Enter a year of birth").trim().escape().notEmpty(),
   check(
     "ContactTelephoneNumber",
     "Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192."
@@ -202,14 +241,7 @@ const helpRequestEditValidation = [
   )
     .trim()
     .escape()
-    .notEmpty()
-];
-
-const helpRequestCompleteValidation = [
-  check("callback_required", "Select yes if a follow up call is required.")
-    .trim()
-    .escape()
-    .notEmpty()
+    .notEmpty(),
 ];
 
 module.exports = {
@@ -220,5 +252,4 @@ module.exports = {
   deliveryLimitValidation,
   helpRequestCreateValidation,
   helpRequestEditValidation,
-  helpRequestCompleteValidation
 };

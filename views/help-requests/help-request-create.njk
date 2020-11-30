@@ -130,11 +130,6 @@
         {% include '../partials/address-lookup.njk' %}
 
         <hr>
-        
-        
-        <!-- TODO: These values should not be defaulted but instead should be Optional. It requires API changes. To be fixed -->
-        <input type="hidden" name="InitialCallbackCompleted" value="false">
-        <input type="hidden" name="CallbackRequired" value="true">
 
         {{ lbhRadios({
             "fieldset": {

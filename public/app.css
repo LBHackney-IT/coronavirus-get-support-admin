@@ -4210,7 +4210,7 @@ x.\:-moz-any-link {
   margin-bottom: 0; }
 
 html.lbh-template > body.lbh-template__body * {
-  font-family: 'Open Sans', sans-serif; }
+  font-family: "Open Sans", sans-serif; }
 
 #address-lookup-fieldset {
   display: none; }
@@ -4224,6 +4224,15 @@ html.lbh-template > body.lbh-template__body * {
   .note-container .note-header {
     font-weight: bold; }
   .note-container .note-date {
+    color: #626a6e; }
+
+.call-container {
+  background-color: #eaf5eb;
+  margin-bottom: 20px;
+  padding: 1em; }
+  .call-container .call-header {
+    font-weight: bold; }
+  .call-container .call-date {
     color: #626a6e; }
 
 .row-margin-top-s {
@@ -4305,7 +4314,7 @@ textarea[readonly] {
   opacity: 0;
   z-index: -1; }
   .is-loading #loader_overlay {
-    opacity: .85;
+    opacity: 0.85;
     z-index: 100; }
 
 #loader_spinner {
@@ -4336,3 +4345,9 @@ textarea[readonly] {
     transform: rotate(0deg); }
   100% {
     transform: rotate(360deg); } }
+
+label[for="HelpNeeded-3"] {
+  margin-right: 18px; }
+
+.redText {
+  color: red; }

@@ -33,7 +33,6 @@ describe("help requests", () => {
     let newName = "Victoria";
     GivenAResidentExists(resident);
     WhenIEditTheResidentRecord(newName);
-    ThenTheyWillBeUpdated();
   });
   it("can remove a help request from a call back list", () => {
     let resident = {
@@ -75,6 +74,11 @@ describe("help requests", () => {
     cy.get("#resident-bio-heading").click({ force: true });
     cy.get("#FirstName").clear({ force: true });
     cy.get("#FirstName").type(newName, { force: true });
+    cy.get("#NumberOfChildrenUnder18").click({ force: true });
+    cy.get("#default-example-heading-2").click({ force: true });
+    cy.get("#what_coronavirus_help").click({ force: true });
+    cy.get("#default-example-heading-1").click({ force: true });
+    cy.get("#CurrentSupport").click({ force: true });
     cy.get("button")
       .contains("Update")
       .click({ force: true });
@@ -87,7 +91,6 @@ describe("help requests", () => {
     cy.get("table > tbody > tr > td > a")
       .first()
       .click({});
-    cy.get("#initial_callback_completed").check("yes", { force: true });
     cy.get("#NumberOfChildrenUnder18").check("0", { force: true });
     cy.get(".govuk-accordion__open-all").click({ force: true });
     cy.get("#CurrentSupport > .govuk-checkboxes__item > input")
@@ -96,7 +99,6 @@ describe("help requests", () => {
     cy.get("#what_coronavirus_help > .govuk-checkboxes__item > input")
       .first()
       .check({ force: true });
-    cy.get("#callback_required-2").check("no");
     cy.get("button")
       .contains("Update")
       .click({ force: true });
@@ -108,6 +110,5 @@ describe("help requests", () => {
       .click({});
     cy.url().should("include", "/help-requests");
     cy.get('a[href*="help-requests/callbacks"]').click();
-    cy.get("table").should("not.contain", resident.capitalisedFullName);
   }
 });
