@@ -18,16 +18,13 @@ class HelpRequestCallService {
         : "outbound";
       const CallType = query.CallType ? query.CallType : query.HelpNeeded;
       const date = new Date();
-      const Caller =
-        CallDirection === "outbound"
-          ? userName
-          : `${query.FirstName} ${query.LastName}`;
+      const CallHandler = userName;
       const createFields = {
         CallDirection: CallDirection,
         CallType: CallType,
         CallOutcome: CallOutcome,
         CallDateTime: date,
-        Caller
+        CallHandler
       };
 
       const createData = JSON.stringify(createFields);
