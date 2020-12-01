@@ -22,7 +22,7 @@
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">{{item.HelpNeeded}}</td>
                 <span hidden=true>
-                {% set unsuccessfulCalls = [] %}
+                {% set unsuccessfulCalls = 0 %}
                 {% set stopCount = false %}
                 {% for call in item.calls %}
                     {%if call.CallOutcome.includes('callback_complete') or call.CallOutcome.includes('refused_to_engage') %}
@@ -30,12 +30,12 @@
                     {% endif %}
                     {{call.CallOutcome}}
                     {%if (call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail')) and not stopCount %}
-                        {{ unsuccessfulCalls.push(call) }}
+                        {% set unsuccessfulCalls = unsuccessfulCalls +1 %}
                     {% endif %}
                 {% endfor %}
                 </span>
                 {% set redText = "redText" if unsuccessfulCalls|length>4 %}
-                <td class="govuk-table__cell {{redText}}">{{unsuccessfulCalls|length}}</td>
+                <td class="govuk-table__cell {{redText}}">{{unsuccessfulCalls}}</td>
                 <td class="govuk-table__cell">
                     <a data-testid="view-button"  href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
                 </td>
