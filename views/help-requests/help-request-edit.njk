@@ -79,10 +79,12 @@
         {% set successfulCalls = 0 %}
         {% set followup = false %}        
         {% set stopCount = false %}
+        {% set followupRequestedDates =[] %}
         {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
                     {%if call.CallOutcome.includes('follow_up_requested') %}
                         {% set followup=true %}
+                        {{  followupRequestedDates.push(call.creation_date) }}
                     {% endif %}
                     {%if call.CallOutcome.includes('callback_complete') or call.CallOutcome.includes('refused_to_engage') %}
                         {% set stopCount=true %}
@@ -120,22 +122,15 @@
             <div class="govuk-grid-one-half">
                 <p class="lbh-body-m">
                     <strong>Current call request status</strong><br />
-                    Requested date: {{query.creation_date}} <br />
+                    Initial requested date: {{query.creation_date}} <br />
+                    {%if followup %}
+                        Follow up requested date: {{followupRequestedDates|first}} <br />
+                    {% endif %}
                     Calls with resident: {{successfulCalls}} <br />
                     Unsuccessful call attempts: {{unsuccessfulCalls}} <br />
                     Voicemails left: {{voicemails}} <br />
-                    Follow up call: 
-                    {%if followup %}
-                        Yes
-                    {% else %}
-                        No
-                    {% endif %}
-                    <br />
-                    Rescheduled call:    
                     {%if lastCall and lastCall.CallOutcome.includes('call_rescheduled') %}
-                        Yes
-                    {% else %}
-                        No
+                      Call rescheduled
                     {% endif %}
                     <br />
                 </p>

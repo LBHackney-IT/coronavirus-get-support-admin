@@ -103,6 +103,14 @@ class HelpRequestsService {
         );
 
         data.creation_date = formattedCreationDate.concatenated;
+        if (data.HelpRequestCalls) {
+        data.HelpRequestCalls.forEach(call => {
+          const formattedCreationDate = dateHelper.convertDate(
+            call.CallDateTime
+          );
+
+          call.creation_date = formattedCreationDate.concatenated;
+        })}
       });
 
       return data;
