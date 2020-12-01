@@ -81,24 +81,41 @@
        
         <span hidden=true>
         {% set voicemails = [] %}
+        {% set unsuccessfulCalls = [] %}
+        {% set successfulCalls = [] %}
+        {% set followup = false %}        
+        {% set stopCount = false %}
         {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
-                    {%if call.CallOutcome.includes('voicemail') %}
+                    {%if call.CallOutcome.includes('follow_up_requested') %}
+                        {% set followup=true %}
+                    {% endif %}
+                    {%if call.CallOutcome.includes('callback_complete') or call.CallOutcome.includes('refused_to_engage') %}
+                        {% set stopCount=true %}
+                    {% endif %}
+                    {%if (call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail')) and not stopCount %}
+                        {{ unsuccessfulCalls.push(call) }}
+                    {% endif %}
+                    {%if (not call.CallOutcome.includes('no_answer_machine') and not call.CallOutcome.includes('wrong_number') and not call.CallOutcome.includes('voicemail')) and not stopCount %}
+                        {{ successfulCalls.push(call) }}
+                    {% endif %}
+                    {%if call.CallOutcome.includes('voicemail') and not stopCount %}
                         {{ voicemails.push(call) }}
                     {% endif %}
                 {% endfor %}
-            {% set lastCall = query.HelpRequestCalls|last  %}
+        {% set lastCall = query.HelpRequestCalls|first  %}
         {% endif %}
         </span>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <p class="lbh-body-m">
-                    <strong>Calls status</strong><br />
+                    <strong>Current call request status</strong><br />
                     Requested date: {{query.creation_date}} <br />
-                    Number of calls: {{query.HelpRequestCalls|length}} <br />
+                    Calls with resident: {{successfulCalls|length}} <br />
+                    Unsuccessful call attempts: {{unsuccessfulCalls|length}} <br />
                     Voicemails left: {{voicemails|length}} <br />
                     Follow up call: 
-                    {%if query.CallbackRequired %}
+                    {%if followup %}
                         Yes
                     {% else %}
                         No

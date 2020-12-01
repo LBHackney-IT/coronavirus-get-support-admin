@@ -20,7 +20,9 @@ class HelpRequestsService {
           const formattedCreationDate = dateHelper.convertDate(
             item.DateTimeRecorded
           );
-
+          if (item.HelpRequestCalls) {
+            item.calls = item.HelpRequestCalls.reverse();
+          }
           item.creation_date = formattedCreationDate.concatenated;
         });
       });
