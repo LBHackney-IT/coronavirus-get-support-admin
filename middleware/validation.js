@@ -149,9 +149,10 @@ const helpRequestEditValidation = [
         check("NumberOfChildrenUnder18").trim().escape().notEmpty(),
         check("HelpNeeded").custom(
           (value) =>
-            value === "Help Needed" ||
+            value === "Help Request" ||
             value === "Welfare Call" ||
-            value === "Shielding"
+            value === "Shielding" ||
+            value === "Contact Tracing"
         ),
       ],
       [
