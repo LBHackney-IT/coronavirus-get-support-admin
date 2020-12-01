@@ -21,9 +21,15 @@
                 </td>
                 <td class="govuk-table__cell">{{item.creation_date}}</td>
                 <td class="govuk-table__cell">{{item.HelpNeeded}}</td>
-                <span hidden=true>{% set unsuccessfulCalls = [] %}
-                {% for call in item.HelpRequestCalls %}
-                    {%if call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail') %}
+                <span hidden=true>
+                {% set unsuccessfulCalls = [] %}
+                {% set stopCount = false %}
+                {% for call in item.calls %}
+                    {%if call.CallOutcome.includes('callback_complete') or call.CallOutcome.includes('refused_to_engage') %}
+                        {% set stopCount=true %}
+                    {% endif %}
+                    {{call.CallOutcome}}
+                    {%if (call.CallOutcome.includes('no_answer_machine') or call.CallOutcome.includes('wrong_number') or call.CallOutcome.includes('voicemail')) and not stopCount %}
                         {{ unsuccessfulCalls.push(call) }}
                     {% endif %}
                 {% endfor %}
