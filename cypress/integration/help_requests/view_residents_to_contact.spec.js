@@ -28,8 +28,6 @@ describe("view residents to contact", () => {
       .first()
       .click();
 
-    cy.get("#CallDetail").click({ force: true });
-    cy.get("#CallOutcome").click({ force: true });
     // open accordion
     cy.get("#resident-bio-heading")
       .click({
@@ -47,6 +45,7 @@ describe("view residents to contact", () => {
     cy.get("#default-example-heading-1").click({ force: true });
     cy.get("#CurrentSupport").click({ force: true });
     cy.get("#update-btn").click({ force: true });
+    cy.url().should("include", "/help-requests");
   });
 
   it("allow you to change address", () => {

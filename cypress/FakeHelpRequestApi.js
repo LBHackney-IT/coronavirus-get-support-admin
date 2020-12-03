@@ -26,9 +26,6 @@ app.post("/help-requests", (req, res) => {
   console.log("Saving resident: ", resident.Id);
   res.status(200).send(resident);
 });
-app.post("/help-requests/:id/calls", (req, res) => {
-  res.status(200);
-});
 app.get("/help-requests", (req, res) => {
   const postcode = req.query.postcode;
   console.log("Filter resident by Postcode: ", postcode);
