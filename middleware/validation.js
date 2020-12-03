@@ -144,86 +144,25 @@ const helpRequestEditValidation = [
   oneOf(
     [
       [
-        check("what_coronavirus_help").notEmpty(),
-        check("CurrentSupport").notEmpty(),
-        check("NumberOfChildrenUnder18").trim().escape().notEmpty(),
-        check("HelpNeeded").custom(
-          (value) =>
-            value === "Help Request" ||
-            value === "Welfare Call" ||
-            value === "Shielding" ||
-            value === "Contact Tracing"
-        ),
+        check("CallMade")
+          .trim()
+          .escape()
+          .custom(value => value === "no")
       ],
+      [check("CallMade").isEmpty()],
       [
-        check("CallOutcome").custom(
-          (value) =>
-            value.includes("voicemail") ||
-            value.includes("no_answer_machine") ||
-            value.includes("wrong_number") ||
-            value.includes("close_case")
-        ),
-        check("CallType", "specify the type of help the call was regarding")
+        check("CallOutcome").notEmpty(),
+        check("CallType")
           .trim()
           .escape()
           .notEmpty(),
-        check("CallDirection", "specify who initiated the call")
+        check("CallDirection")
           .trim()
           .escape()
-          .notEmpty(),
-      ],
-      [
-        check("CallOutcome").custom(
-          (value) =>
-            value === "refused_to_engage" ||
-            value === "call_rescheduled" ||
-            value === "voicemail" ||
-            value === "no_answer_machine" ||
-            value === "wrong_number"
-        ),
-        check("CallType", "specify the type of help the call was regarding")
-          .trim()
-          .escape()
-          .notEmpty(),
-        check("CallDirection", "specify who initiated the call")
-          .trim()
-          .escape()
-          .notEmpty(),
-      ],
-      [
-        check("CallOutcome").custom(
-          (value) =>
-            value === "callback_complete" ||
-            value === "refused_to_engage" ||
-            value === "follow_up_requested" ||
-            value === "call_rescheduled"
-        ),
-        check("CallType", "specify the type of help the call was regarding")
-          .trim()
-          .escape()
-          .notEmpty(),
-        check("CallDirection", "specify who initiated the call")
-          .trim()
-          .escape()
-          .notEmpty(),
-      ],
-      [
-        check("CallOutcome").custom(
-          (value) =>
-            value.includes("callback_complete") ||
-            value.includes("follow_up_requested")
-        ),
-        check("CallType", "specify the type of help the call was regarding")
-          .trim()
-          .escape()
-          .notEmpty(),
-        check("CallDirection", "specify who initiated the call")
-          .trim()
-          .escape()
-          .notEmpty(),
-      ],
+          .notEmpty()
+      ]
     ],
-    "Select what you need help with, who is helping you at the moment and the number of children under 18 in your household. If you have logged a call, make sure you have completed all the neccessary fields"
+    "Specify the type of help the call was regarding, who initiated the call and the outcome of the call."
   ),
   check("FirstName", "Enter your first name.").notEmpty(),
   check("LastName", "Enter your last name.").notEmpty(),
