@@ -146,8 +146,7 @@ class HelpRequestsService {
       if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage" || query.CallOutcome == "close_case"){
         initialCallBack = true
         callbackRequired = false
-      }
-      else if(query.CallOutcome.includes("follow_up_requested") || query.CallOutcome.includes("call_rescheduled")){
+      }else if(Array.isArray(query.CallOutcome) && query.CallOutcome.length == 2 && query.CallOutcome.includes("follow_up_requested") &&  query.CallOutcome.includes("callback_complete")){
         initialCallBack = true
         callbackRequired = true
       }
