@@ -151,6 +151,18 @@ class HelpRequestsService {
         initialCallBack = true
         callbackRequired = true
       }
+      else if(query.initialCallBack == "yes"){
+        query.initialCallBack = true
+      }
+      else if(query.initialCallBack == "no"){
+        query.initialCallBack = false
+      }
+      else if(query.callbackRequired == "yes"){
+        query.callbackRequired = true
+      }
+      else if(query.callbackRequired == "no"){
+        query.callbackRequired = false
+      }
       const updatedFields = {
         InitialCallbackCompleted:initialCallBack,
         HelpNeeded: query.HelpNeeded || "",
