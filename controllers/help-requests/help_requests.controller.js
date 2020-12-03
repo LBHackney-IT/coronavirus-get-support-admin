@@ -475,8 +475,8 @@ module.exports = {
             // keep the original record and update only case notes and callback
             let updateRequest = originalRecord;
             updateRequest.NewCaseNote = query.NewCaseNote;
-            updateRequest.callback_required = query.callback_required;
-            updateRequest.initial_callback_completed = "yes";
+            updateRequest.initialCallBack = query.InitialCallbackCompleted == 'true' ? true : false;
+            updateRequest.callbackRequired = query.callback_required == "no" ? false : true;
             handleUpdate(req, res, updateRequest, userName);
           }
         );

@@ -74,8 +74,6 @@ class HelpRequestsService {
         data = result.data;
 
         // Create new keys with yes/no values based on boolean input values
-        data.initial_callback_completed =
-          data.InitialCallbackCompleted === true ? "yes" : "no";
         data.callback_required = data.CallbackRequired === true ? "yes" : "no";
         data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
 
@@ -153,18 +151,8 @@ class HelpRequestsService {
           callbackRequired = true
         }
       }
-      else if(query.initialCallBack == "yes"){
-        query.initialCallBack = true
-      }
-      else if(query.initialCallBack == "no"){
-        query.initialCallBack = false
-      }
-      else if(query.callbackRequired == "yes"){
-        query.callbackRequired = true
-      }
-      else if(query.callbackRequired == "no"){
-        query.callbackRequired = false
-      }
+
+
       const updatedFields = {
         InitialCallbackCompleted:initialCallBack,
         HelpNeeded: query.HelpNeeded || "",
