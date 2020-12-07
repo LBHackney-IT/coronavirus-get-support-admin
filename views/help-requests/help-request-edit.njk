@@ -78,6 +78,17 @@
                 </p>
             </div>
         </div>
+
+        {%if query.HelpNeeded === "Contact Tracing" %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <p class="lbh-body-m">
+                    <strong>Contact tracing ID: </strong> 
+                    {%if query.NhsCtasId %} {{ query.NhsCtasId  }} {%else%} not found {%endif%}
+                </p>
+            </div>
+        </div>
+        {%endif%}
        
         <span hidden=true>
         {% set voicemails = 0 %}
