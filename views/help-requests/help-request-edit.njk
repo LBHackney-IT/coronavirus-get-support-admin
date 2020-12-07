@@ -92,8 +92,6 @@
        
         <span hidden=true>
         {% set voicemails = 0 %}
-        {% set totalVoicemails = 0 %}
-        {% set totalUnsuccessfulCalls = 0 %}
         {% set unsuccessfulCalls = 0 %}
         {% set successfulCalls = 0 %}
         {% set followup = false %}        
@@ -112,7 +110,6 @@
                         {%if not stopCount %}
                             {% set unsuccessfulCalls = unsuccessfulCalls + 1 %}
                         {% endif %}
-                        {% set totalUnsuccessfulCalls = totalUnsuccessfulCalls + 1 %}
                     {% endif %}
                     {%if (not call.CallOutcome.includes('no_answer_machine') and not call.CallOutcome.includes('wrong_number') and not call.CallOutcome.includes('voicemail')) and not stopCount %}
                         {% set successfulCalls = successfulCalls + 1 %}
@@ -121,22 +118,11 @@
                         {%if not stopCount %}
                             {% set voicemails = voicemails + 1 %}
                         {% endif %}
-                        {% set totalVoicemails = totalVoicemails + 1 %}
                     {% endif %}
                 {% endfor %}
         {% set lastCall = query.HelpRequestCalls|first  %}
         {% endif %}
         </span>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-                <p class="lbh-body-m">
-                    <strong>Total call status</strong><br />
-                    Total calls with resident: {{query.HelpRequestCalls|length - totalUnsuccessfulCalls}} <br />
-                    Total unsuccessful call attempts: {{totalUnsuccessfulCalls}} <br />
-                    Total voicemails left: {{totalVoicemails}} 
-                </p>
-            </div>
-        </div>
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
                 <p class="lbh-body-m">
