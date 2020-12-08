@@ -140,13 +140,8 @@ class HelpRequestsService {
       
       let initialCallBack = query.initialCallBack
 
-      if (query.CallOutcome) {
-        if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage"){
+      if (query.CallOutcome) { 
           initialCallBack = true
-        }
-        else if(query.CallOutcome.includes("call_rescheduled")){
-          initialCallBack = true
-        }
       }
 
       const updatedFields = {
@@ -210,11 +205,11 @@ class HelpRequestsService {
       };
       
       const updatedData = JSON.stringify(updatedFields);
-      
+      console.log(updatedFields);
       await HelpRequestModel.updateHelpRequest(id, updatedData).then(result => {
         data = result;
       });
-      
+  
       return data;
     } catch (err) {
       console.log(err);
