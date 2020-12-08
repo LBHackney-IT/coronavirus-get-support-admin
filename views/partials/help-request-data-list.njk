@@ -37,17 +37,8 @@
                 </span>
                 {% set redText = "redText" if unsuccessfulCalls>4 %}
                 <td style="text-align:center" class="govuk-table__cell {{redText}}">{{unsuccessfulCalls}}</td>
-                
 
-                <span hidden=true>
-                {% set followUpRequired = false %}
-                {% for call in item.calls %}
-                    {% if call.CallOutcome.includes('follow_up_requested') %}
-                        {% set followUpRequired = true %}
-                    {% endif %}
-                {% endfor %}
-                </span>
-                <td style="text-align:center" class="govuk-table__cell">{% if followUpRequired %}Y{% endif %}</td>
+                <td style="text-align:center" class="govuk-table__cell">{% if item.CallbackRequired %}Y{% endif %}</td>
                 <td class="govuk-table__cell">
                     <a data-testid="view-button"  href="/help-requests/edit/{{item.Id}}" class="js-cta-btn" id="view-resident-{{item.Id}}">View</a>
                 </td>
