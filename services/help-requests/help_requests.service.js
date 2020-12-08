@@ -205,7 +205,7 @@ class HelpRequestsService {
       };
       
       const updatedData = JSON.stringify(updatedFields);
-      console.log(updatedFields);
+
       await HelpRequestModel.updateHelpRequest(id, updatedData).then(result => {
         data = result;
       });
