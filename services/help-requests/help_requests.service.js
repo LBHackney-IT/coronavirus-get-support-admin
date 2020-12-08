@@ -74,8 +74,6 @@ class HelpRequestsService {
         data = result.data;
 
         // Create new keys with yes/no values based on boolean input values
-        data.initial_callback_completed =
-          data.InitialCallbackCompleted === true ? "yes" : "no";
         data.callback_required = data.CallbackRequired === true ? "yes" : "no";
         data.consent_to_share = data.ConsentToShare === true ? "yes" : "no";
 
@@ -216,7 +214,7 @@ class HelpRequestsService {
       await HelpRequestModel.updateHelpRequest(id, updatedData).then(result => {
         data = result;
       });
-      console.log(updatedFields);
+      
       return data;
     } catch (err) {
       console.log(err);
