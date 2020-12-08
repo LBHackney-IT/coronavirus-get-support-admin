@@ -141,22 +141,20 @@ class HelpRequestsService {
       );
       
       let initialCallBack = query.initialCallBack
-      let callbackRequired = query.callbackRequired
 
       if (query.CallOutcome) {
         if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage" || query.CallOutcome == "close_case"){
           initialCallBack = true
-          callbackRequired = false
         }
         else if(query.CallOutcome.includes("follow_up_requested") || query.CallOutcome.includes("call_rescheduled")){
           initialCallBack = true
-          callbackRequired = true
         }
       }
+
       const updatedFields = {
         InitialCallbackCompleted:initialCallBack,
         HelpNeeded: query.HelpNeeded || "",
-        CallbackRequired: callbackRequired,
+        CallbackRequired: query.callback_required == "yes" ? true : query.callback_required == "no" ? false : undefined,
         FirstName: query.FirstName,
         LastName: query.LastName,
         ContactTelephoneNumber: query.ContactTelephoneNumber || "",
