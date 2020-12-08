@@ -95,16 +95,10 @@
         {% set totalVoicemails = 0 %}
         {% set totalUnsuccessfulCalls = 0 %}
         {% set unsuccessfulCalls = 0 %}
-        {% set successfulCalls = 0 %}
-        {% set followup = false %}        
+        {% set successfulCalls = 0 %}       
         {% set stopCount = false %}
-        {% set followupRequestedDates =[] %}
         {% if query.HelpRequestCalls %}
                 {% for call in query.HelpRequestCalls %}
-                    {%if call.CallOutcome.includes('follow_up_requested') %}
-                        {% set followup=true %}
-                        {{  followupRequestedDates.push(call.creation_date) }}
-                    {% endif %}
                     {%if call.CallOutcome.includes('callback_complete') or call.CallOutcome.includes('refused_to_engage') %}
                         {% set stopCount=true %}
                     {% endif %}
@@ -142,9 +136,6 @@
                 <p class="lbh-body-m">
                     <strong>Current call request status</strong><br />
                     Initial requested date: {{query.creation_date}} <br />
-                    {%if followup %}
-                        Follow up requested date: {{followupRequestedDates|first}} <br />
-                    {% endif %}
                     Calls with resident: {{successfulCalls}} <br />
                     Unsuccessful call attempts: {{unsuccessfulCalls}} <br />
                     Voicemails left: {{voicemails}} <br />

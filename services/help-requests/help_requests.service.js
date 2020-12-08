@@ -143,10 +143,10 @@ class HelpRequestsService {
       let initialCallBack = query.initialCallBack
 
       if (query.CallOutcome) {
-        if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage" || query.CallOutcome == "close_case"){
+        if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage"){
           initialCallBack = true
         }
-        else if(query.CallOutcome.includes("follow_up_requested") || query.CallOutcome.includes("call_rescheduled")){
+        else if(query.CallOutcome.includes("call_rescheduled")){
           initialCallBack = true
         }
       }
@@ -210,13 +210,13 @@ class HelpRequestsService {
         ConsentToShare: (query.consent_to_share && true) || false,
         CaseNotes: updatedCaseNotes
       };
-
+      
       const updatedData = JSON.stringify(updatedFields);
-
+      
       await HelpRequestModel.updateHelpRequest(id, updatedData).then(result => {
         data = result;
       });
-
+      console.log(updatedFields);
       return data;
     } catch (err) {
       console.log(err);
