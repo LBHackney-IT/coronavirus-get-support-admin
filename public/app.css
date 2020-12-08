@@ -4351,3 +4351,7 @@ label[for="HelpNeeded-3"] {
 
 .redText {
   color: red; }
+
+.mandatoryQuestion::after {
+  content: "*";
+  color: red; }
