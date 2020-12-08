@@ -87,7 +87,8 @@
         {{ lbhRadios({
              "fieldset": {
                 "legend": {
-                "text":"Did you speak to the resident?"
+                "text":"Did you speak to the resident?",
+                "classes": "mandatoryQuestion"
                 }
             },
             "idPrefix": "CallDetail",
@@ -118,7 +119,8 @@
         {{ lbhRadios({
              "fieldset": {
                 "legend": {
-                "text":"What was the initial purpose of the call?"}
+                "text":"What was the initial purpose of the call?",
+                "classes": "mandatoryQuestion"}
                 },
             "idPrefix": "CallType",
             "name": "CallType",
@@ -154,7 +156,8 @@
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
-                "text": "Who made the call today?"}
+                "text": "Who made the call today?",
+                "classes": "mandatoryQuestion"}
                 },
             "idPrefix": "CallDirection",
             "name": "CallDirection",
@@ -182,7 +185,8 @@
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
-                "text": "Do you need to log new call details?"
+                "text": "Do you need to log new call details?",
+                "classes": "mandatoryQuestion"
                 }
             },
             "idPrefix": "CallMade",
