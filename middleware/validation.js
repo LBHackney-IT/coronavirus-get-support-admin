@@ -203,6 +203,10 @@ const helpRequestEditValidation = [
   )
     .trim()
     .escape()
+    .notEmpty(),
+  check("callback_required", "Select if a follow up is required")
+    .trim()
+    .escape()
     .notEmpty()
 ];
 
