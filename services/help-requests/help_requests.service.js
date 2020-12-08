@@ -147,7 +147,7 @@ class HelpRequestsService {
       const updatedFields = {
         InitialCallbackCompleted:initialCallBack,
         HelpNeeded: query.HelpNeeded || "",
-        CallbackRequired: query.callback_required == "yes" ? true : query.callback_required == "no" ? false : undefined,
+        CallbackRequired: query.callback_required == "yes" ? true : query.callback_required == "no" ? false : true,
         FirstName: query.FirstName,
         LastName: query.LastName,
         ContactTelephoneNumber: query.ContactTelephoneNumber || "",

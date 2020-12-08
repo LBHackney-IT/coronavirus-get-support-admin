@@ -477,7 +477,7 @@ module.exports = {
             let updateRequest = originalRecord;
             updateRequest.NewCaseNote = query.NewCaseNote;
             updateRequest.initialCallBack = query.InitialCallbackCompleted == 'true' ? true : false;
-            updateRequest.callbackRequired = query.callback_required == "no" ? false : true;
+            updateRequest.callback_required = query.callback_required;
             handleUpdate(req, res, updateRequest, userName);
           }
         );
