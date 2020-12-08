@@ -93,7 +93,6 @@
         <span hidden=true>
         {% set voicemails = 0 %}
         {% set unsuccessfulCalls = 0 %}
-        {% set successfulCalls = 0 %}
         {% set followup = false %}        
         {% set stopCount = false %}
         {% set followupRequestedDates =[] %}
@@ -110,9 +109,6 @@
                         {%if not stopCount %}
                             {% set unsuccessfulCalls = unsuccessfulCalls + 1 %}
                         {% endif %}
-                    {% endif %}
-                    {%if (not call.CallOutcome.includes('no_answer_machine') and not call.CallOutcome.includes('wrong_number') and not call.CallOutcome.includes('voicemail')) and not stopCount %}
-                        {% set successfulCalls = successfulCalls + 1 %}
                     {% endif %}
                     {%if call.CallOutcome.includes('voicemail') %}
                         {%if not stopCount %}
@@ -131,7 +127,6 @@
                     {%if followup %}
                         Follow up requested date: {{followupRequestedDates|first}} <br />
                     {% endif %}
-                    Calls with resident: {{successfulCalls}} <br />
                     Unsuccessful call attempts: {{unsuccessfulCalls}} <br />
                     Voicemails left: {{voicemails}} <br />
                     {%if lastCall and lastCall.CallOutcome.includes('call_rescheduled') %}
