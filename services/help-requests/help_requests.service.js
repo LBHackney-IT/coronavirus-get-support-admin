@@ -137,15 +137,9 @@ class HelpRequestsService {
         query.NewCaseNote,
         query.CaseNotes
       );
-      
-      let initialCallBack = query.initialCallBack
-
-      if (query.CallOutcome) { 
-          initialCallBack = true
-      }
 
       const updatedFields = {
-        InitialCallbackCompleted:initialCallBack,
+        InitialCallbackCompleted: true,
         HelpNeeded: query.HelpNeeded || "",
         CallbackRequired: query.callback_required == "yes" ? true : query.callback_required == "no" ? false : true,
         FirstName: query.FirstName,
