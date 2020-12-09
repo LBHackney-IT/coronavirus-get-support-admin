@@ -4354,3 +4354,7 @@ label[for="HelpNeeded-3"] {
 
 .table-cell-text-centered {
   text-align: center; }
+
+.mandatoryQuestion::after {
+  content: "*";
+  color: red; }

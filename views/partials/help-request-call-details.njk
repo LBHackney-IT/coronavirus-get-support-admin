@@ -87,7 +87,8 @@
         {{ lbhRadios({
              "fieldset": {
                 "legend": {
-                "text":"What was the outcome of the call?"
+                "text":"Did you speak to the resident?",
+                "classes": "mandatoryQuestion"
                 }
             },
             "idPrefix": "CallDetail",
@@ -96,13 +97,13 @@
             "items": [
                 {
                     "value": "spoke_to_resident",
-                    "text": "Spoke to a resident",
+                    "text": "Yes - spoke to a resident",
                     "checked": false,
                     "conditional": { html: spokeToResident}
                 },
                 {
                     "value": "call_attempted",
-                    "text": "Call attempted/no answer",
+                    "text": "No - call attempted",
                     "checked": false,
                     "conditional": { html: callAttempted}
                 }
@@ -118,7 +119,8 @@
         {{ lbhRadios({
              "fieldset": {
                 "legend": {
-                "text":"What type of help was given in the call"}
+                "text":"What was the initial purpose of the call?",
+                "classes": "mandatoryQuestion"}
                 },
             "idPrefix": "CallType",
             "name": "CallType",
@@ -154,19 +156,20 @@
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
-                "text": "Who made the initial contact?"}
+                "text": "Who made the call today?",
+                "classes": "mandatoryQuestion"}
                 },
             "idPrefix": "CallDirection",
             "name": "CallDirection",
             "items": [
                 {
                     "value": "outbound",
-                    "text": "I contacted the resident",
+                    "text": "I called the resident",
                     "checked": false
                 },
                 {
                     "value": "inbound",
-                    "text": "The resident contacted me",
+                    "text": "The resident called me",
                     "checked": false
                 }
             ],
@@ -182,7 +185,8 @@
         {{ lbhRadios({
             "fieldset": {
                 "legend": {
-                "text": "Did you make a call?"
+                "text": "Do you need to log new call details?",
+                "classes": "mandatoryQuestion"
                 }
             },
             "idPrefix": "CallMade",
