@@ -137,26 +137,11 @@ class HelpRequestsService {
         query.NewCaseNote,
         query.CaseNotes
       );
-      
-      let initialCallBack = query.initialCallBack
-      let callbackRequired = query.callbackRequired
-
-      if (query.CallOutcome) {
-        if(query.CallOutcome == "callback_complete" || query.CallOutcome == "refused_to_engage" || query.CallOutcome == "close_case"){
-          initialCallBack = true
-          callbackRequired = false
-        }
-        else if(query.CallOutcome.includes("follow_up_requested") || query.CallOutcome.includes("call_rescheduled")){
-          initialCallBack = true
-          callbackRequired = true
-        }
-      }
-
 
       const updatedFields = {
-        InitialCallbackCompleted:initialCallBack,
+        InitialCallbackCompleted: true,
         HelpNeeded: query.HelpNeeded || "",
-        CallbackRequired: callbackRequired,
+        CallbackRequired: query.callback_required == "yes" ? true : query.callback_required == "no" ? false : true,
         FirstName: query.FirstName,
         LastName: query.LastName,
         ContactTelephoneNumber: query.ContactTelephoneNumber || "",
@@ -212,13 +197,13 @@ class HelpRequestsService {
         ConsentToShare: (query.consent_to_share && true) || false,
         CaseNotes: updatedCaseNotes
       };
-
+      
       const updatedData = JSON.stringify(updatedFields);
 
       await HelpRequestModel.updateHelpRequest(id, updatedData).then(result => {
         data = result;
       });
-
+  
       return data;
     } catch (err) {
       console.log(err);

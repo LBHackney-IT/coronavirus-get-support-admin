@@ -631,6 +631,34 @@
         {% include '../partials/call-attempts-history.njk' %}
         <hr>
 
+         <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                {{lbhRadios({
+                    "fieldset": {
+                        "legend": {
+                        "text": "Follow-up required?",
+                        "classes": "mandatoryQuestion"
+                        }
+                    },
+                    "id": "callback_required",
+                    "name": "callback_required",
+                    "classes": "govuk-radios--inline",
+                    "items": [
+                        {
+                            "value": "yes",
+                            "text": "Yes",
+                            "checked": false
+                        },
+                        {
+                            "value": "no",
+                            "text": "No",
+                            "checked": false
+                        }
+                    ]
+                }) }}
+            </div>
+        </div>
+
         {% include '../partials/help-request-edit-cta-btns.njk' %}
     </form>
     {% else %}

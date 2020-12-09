@@ -253,7 +253,8 @@ module.exports = {
                 .replace("call_rescheduled", " Call rescheduled")
                 .replace("voicemail", " Voicemail left")
                 .replace("wrong_number", " Wrong number")
-                .replace("no_answer_machine", " No answer machine");
+                .replace("no_answer_machine", " No answer machine")
+                .replace("close_case", " Close case");
               x.call_date = dateHelper.convertNoteDate(x.CallDateTime);
             });
             result.calls = result.HelpRequestCalls.reverse();
@@ -476,7 +477,7 @@ module.exports = {
             let updateRequest = originalRecord;
             updateRequest.NewCaseNote = query.NewCaseNote;
             updateRequest.initialCallBack = query.InitialCallbackCompleted == 'true' ? true : false;
-            updateRequest.callbackRequired = query.callback_required == "no" ? false : true;
+            updateRequest.callback_required = query.callback_required;
             handleUpdate(req, res, updateRequest, userName);
           }
         );
