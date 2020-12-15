@@ -3,12 +3,16 @@
 
 {% if query.jsonCaseNotes %}
     {% for item in query.jsonCaseNotes %}
-    <div class="note-container">
-    <span class="lbh-body-m note-header">{{item.author}}</span> <span class="lbh-body-m note-date">{{item.noteDate}}</span>
-    <p class="lbh-body-m">{{item.note}}</p>
-    </div>
+        <div class="note-container">
+            <span class="lbh-body-m note-header">{{item.author}}</span> <span class="lbh-body-m note-date">{{item.noteDate}}</span>
+            <p class="lbh-body-m">{{item.note}}</p>
+        </div>
     {% endfor %}
 {% else %}
-     <p class="wrap-white-space lbh-body-m">{{query.CaseNotes}}</p>
+    {% for item in query.nonJsonCaseNotes %}
+        <div class="note-container">
+            <p class="wrap-white-space lbh-body-m">{{item}}</p>
+        </div>
+    {% endfor %}
 {% endif %}
 
