@@ -4358,3 +4358,6 @@ label[for="HelpNeeded-3"] {
 .mandatoryQuestion::after {
   content: "*";
   color: red; }
+
+.wrap-white-space {
+  white-space: pre-wrap; }
