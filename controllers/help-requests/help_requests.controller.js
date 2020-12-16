@@ -243,7 +243,7 @@ module.exports = {
           res.locals.hasupdated = req.query.hasupdated;
           if (result.CaseNotes && notesHelper.isJSON(result.CaseNotes)) {
             result.jsonCaseNotes = JSON.parse(result.CaseNotes);
-          } else {
+          } else if (result.CaseNotes) {
             var separators = ["------\r\n\r\n\r\n", "------\n\n\n"];
             result.nonJsonCaseNotes = result.CaseNotes.split(
               new RegExp(separators.join("|"), "g")
