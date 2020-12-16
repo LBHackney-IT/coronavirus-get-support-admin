@@ -112,11 +112,13 @@ const handleHelpRequestUpdate = async (query, userName) => {
 };
 const handleCallCreation = async (query, userName) => {
   try {
-    await HelpRequestCallService.createHelpRequestCall(query, userName).then(result => {
-      if (result.isError === true) {
-        return true;
+    await HelpRequestCallService.createHelpRequestCall(query, userName).then(
+      result => {
+        if (result.isError === true) {
+          return true;
+        }
       }
-    });
+    );
   } catch (err) {
     console.log(err);
   }
@@ -241,6 +243,12 @@ module.exports = {
           res.locals.hasupdated = req.query.hasupdated;
           if (result.CaseNotes && notesHelper.isJSON(result.CaseNotes)) {
             result.jsonCaseNotes = JSON.parse(result.CaseNotes);
+          } else {
+            var separators = ["------\r\n\r\n\r\n", "------\n\n\n"];
+            result.nonJsonCaseNotes = result.CaseNotes.split(
+              new RegExp(separators.join("|"), "g")
+            );
+            console.log(result.nonJsonCaseNotes);
           }
           if (result.HelpRequestCalls) {
             result.HelpRequestCalls.forEach(x => {
@@ -476,7 +484,8 @@ module.exports = {
             // keep the original record and update only case notes and callback
             let updateRequest = originalRecord;
             updateRequest.NewCaseNote = query.NewCaseNote;
-            updateRequest.initialCallBack = query.InitialCallbackCompleted == 'true' ? true : false;
+            updateRequest.initialCallBack =
+              query.InitialCallbackCompleted == "true" ? true : false;
             updateRequest.callback_required = query.callback_required;
             handleUpdate(req, res, updateRequest, userName);
           }
