@@ -8,11 +8,10 @@
             <p class="lbh-body-m">{{item.note}}</p>
         </div>
     {% endfor %}
-{% else %}
+{% elseif  query.nonJsonCaseNotes%}
     {% for item in query.nonJsonCaseNotes %}
         <div class="note-container">
             <p class="wrap-white-space lbh-body-m">{{item}}</p>
         </div>
     {% endfor %}
 {% endif %}
-
