@@ -35,16 +35,16 @@
     <div class="govuk-grid-column-full-with row-margin-top-m">
         <h3 class="lbh-heading-h3">Current Address</h3>
         <p class="lbh-body-s">
-            {{query.AddressFirstLine}}, {{query.AddressSecondLine}}, {{query.PostCode}}
+            {{query.AddressFirstLine}}, {{query.AddressSecondLine}}, {{query.Postcode}}
         </p>
     </div>
-    
+
 
     <form action="/help-requests/address/{{query.Id}}" method="post" class="row-margin-top-l">
         <input type="hidden" name="Id" value="{{query.Id}}">
         <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
         <input type="hidden" name="AddressSecondLine" value="{{query.AddressSecondLine}}">
-        <input type="hidden" name="PostCode" value="{{query.PostCode}}">
+        <input type="hidden" name="Postcode" value="{{query.Postcode}}">
 
         {% include '../partials/address-lookup.njk' %}
 
