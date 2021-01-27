@@ -42,7 +42,7 @@
        <input type="hidden" name="id" value="{{query.Id}}">
        <input type="hidden" name="FirstName" value="{{query.FirstName}}">
        <input type="hidden" name="LastName" value="{{query.LastName}}">
-       <input type="hidden" name="postcode" value="{{query.PostCode}}">
+       <input type="hidden" name="postcode" value="{{query.Postcode}}">
        <button type="submit" class="govuk-button lbh-button js-cta-btn" data-module="govuk-button">
            Go to Snapshot
        </button>
@@ -53,7 +53,7 @@
         <input type="hidden" name="AddressFirstLine" value="{{query.AddressFirstLine}}">
         <input type="hidden" name="AddressSecondLine" value="{{query.AddressSecondLine}}">
         <input type="hidden" name="AddressThirdLine" value="{{query.AddressThirdLine}}">
-        <input type="hidden" name="PostCode" value="{{query.PostCode}}">
+        <input type="hidden" name="Postcode" value="{{query.Postcode}}">
         <input type="hidden" name="Uprn" value="{{query.Uprn}}">
         <input type="hidden" name="Ward" value="{{query.Ward}}">
 
@@ -64,8 +64,8 @@
                     {%if query.AddressFirstLine %}{{query.AddressFirstLine}} <br />{%endif%}
                     {%if query.AddressSecondLine %}{{query.AddressSecondLine}} <br />{%endif%}
                     {%if query.AddressThirdLine %}{{query.AddressThirdLine}} <br />{%endif%}
-                    {%if query.PostCode %}{{query.PostCode}} <br />{%endif%}
-                    {%if query.Ward %}{{query.Ward}}{%endif%} 
+                    {%if query.Postcode %}{{query.Postcode}} <br />{%endif%}
+                    {%if query.Ward %}{{query.Ward}}{%endif%}
                     {%if not query.AddressFirstLine and not query.AddressSecondLine and not query.AddressThirdLine and not query.PostCode %}
                      This resident has not provided their address{%endif%}
                 </p>

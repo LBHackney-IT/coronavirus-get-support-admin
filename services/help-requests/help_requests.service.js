@@ -153,7 +153,7 @@ class HelpRequestsService {
         AddressFirstLine: query.address_first_line,
         AddressSecondLine: query.address_second_line,
         AddressThirdLine: query.address_third_line,
-        PostCode: query.postcode,
+        Postcode: query.postcode,
         Uprn: query.uprn,
         Ward: query.ward,
         GettingInTouchReason: query.GettingInTouchReason || "",
