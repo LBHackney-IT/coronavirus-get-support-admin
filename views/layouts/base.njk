@@ -1,6 +1,21 @@
 {% extends "template.njk" %}
 {% from "lbh-back-to-top/macro.njk" import lbhBackToTop %}
 
+
+{# Import gov uk banner, does not work currently #}
+{# {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set html %}
+  <p class="govuk-notification-banner__heading">
+    You have 7 days left to send your application.
+    <a class="govuk-notification-banner__link" href="#">View application</a>.
+  </p>
+{% endset %}
+
+{{ govukNotificationBanner({
+  html: html
+}) }} #}
+
 {% block head %}
   {% if GA_UA %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_UA }}"></script>
@@ -24,6 +39,10 @@
     serviceName: "Support for Hackney residents"
   })}}
 {% endblock %}
+
+
+
+
 
 {% block beforeContent %}
 <div id="loader_overlay" class="">
