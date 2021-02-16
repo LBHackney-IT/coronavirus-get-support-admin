@@ -25,9 +25,30 @@
   })}}
 {% endblock %}
 
+
+
+
+
 {% block beforeContent %}
+
 <div id="loader_overlay" class="">
   <div id="loader_spinner"></div>
+</div>
+<div class="govuk-width-container">
+<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Important
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      Please use the new version of the tool.
+      <br/>
+      <a class="govuk-notification-banner__link" href={{ new_front_end_redirection_url }}>View application</a>.
+    </p>
+  </div>
+</div>
 </div>
 {% endblock %}
 
