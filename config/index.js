@@ -33,6 +33,7 @@ module.exports = {
     authorised_admin_group: process.env.AUTHORISED_ADMIN_GROUP,
     token_name: process.env.TOKEN_NAME,
     hackney_jwt_secret: process.env.HACKNEY_JWT_SECRET,
+    new_front_end_redirection_url: process.env.NEW_FRONT_END_REDIRECTION_URL,
 
     winston: {
         console: {

@@ -65,6 +65,7 @@ module.exports = {
         .addGlobal('addresses_api_url', config.addresses_api_url)
         .addGlobal('addresses_api_key',  config.addresses_api_key)
         .addGlobal('addresses_api_token',  config.addresses_api_token)
+        .addGlobal('new_front_end_redirection_url', config.new_front_end_redirection_url)
         .addGlobal('GA_UA', config.ga_ua);
 
         app.set('views', path.join(__dirname, 'views'));

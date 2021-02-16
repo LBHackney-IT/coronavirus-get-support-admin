@@ -30,6 +30,7 @@
 
 
 {% block beforeContent %}
+
 <div id="loader_overlay" class="">
   <div id="loader_spinner"></div>
 </div>
@@ -44,7 +45,7 @@
     <p class="govuk-notification-banner__heading">
       Please use the new version of the tool.
       <br/>
-      <a class="govuk-notification-banner__link" href="https://here-to-help.hackney.gov.uk/">View application</a>.
+      <a class="govuk-notification-banner__link" href={{ new_front_end_redirection_url }}>View application</a>.
     </p>
   </div>
 </div>
